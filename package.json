@@ -33,7 +33,8 @@
     "serverless": "^1.83.2",
     "serverless-http": "^2.5.0",
     "superagent": "^5.3.1",
-    "validatorjs": "^3.18.1"
+    "validatorjs": "^3.18.1",
+    "dottie": "^2.0.2"
   },
   "devDependencies": {
     "aws-sdk": "^2.686.0",

@@ -5,20 +5,90 @@ const app = express();
 app.use(body_parser.json({ strict: false }));
 app.use(body_parser.urlencoded({ extended: true }));
 
+// Middlewares
+var verifyAdminToken = require('../middlewares/verifyAdminToken');
 
+// Helper declarations
+const API_RESPONSE = require('../helpers/api-response');
+const QUERY_HELPER = require('../helpers/query-helper');
 
-app.use(async function (req, res, next) {
-    // res.header("Access-Control-Allow-Origin", "*");
-    // res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Origin, Access-Control-Allow-Headers, Origin, X-Requested-With, Content-Type, Accept, authorization, X-App-Key");
-    // res.setHeader("Access-Control-Allow-Origin", "*");
-    // res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Origin, Access-Control-Allow-Headers, Origin, X-Requested-With, Content-Type, Accept, authorization, X-App-Key");
-    console.log('Middleware here');
-    next();
+// Model declarations
+const ACCOUNT_MODEL = require("../models/account");
+
+// GET ONE ACCOUNT
+app.get('/accounts/:id', verifyAdminToken, async (req, res, next) => {
+
+    let params = await QUERY_HELPER.prepare(req);
+    console.log('params', params)
+    params.id = req.params.id || null;
+
+    try {
+        let results = await ACCOUNT_MODEL.getOne(params);
+        
+        API_RESPONSE.send(res, {
+            'status': 200,
+            'success': true,
+            'message': 'Data successfully retrieved.',
+            'data': results,
+        });
+
+    }  catch( error ) {
+        API_RESPONSE.send(res, {
+            'status': error.code ? error.code : 500,
+            'success': false,
+            'message': error.message,
+        });
+    }
+});
+
+// UPDATE ACCOUNT
+app.put('/accounts/:id', verifyAdminToken, async (req, res, next) => {
+
+    let params = await QUERY_HELPER.prepare(req);
+    console.log('params', params)
+    params.id = req.params.id || null;
+
+    try {
+        let results = await ACCOUNT_MODEL.update(params);
+        
+        API_RESPONSE.send(res, {
+            'status': 200,
+            'success': true,
+            'message': 'Data successfully retrieved.',
+            'data': results,
+        });
+
+    }  catch( error ) {
+        API_RESPONSE.send(res, {
+            'status': error.code ? error.code : 500,
+            'success': false,
+            'message': error.message,
+        });
+    }
 });
 
 // GET ACCOUNTS
-app.post('/accounts', async (req, res, next) => {
-   res(200).json({})
-})
+app.get('/accounts', verifyAdminToken, async (req, res, next) => {
+
+    let params = await QUERY_HELPER.prepare(req);
+
+    try {
+        let results = await ACCOUNT_MODEL.get(params);
+        
+        API_RESPONSE.send(res, {
+            'status': 200,
+            'success': true,
+            'message': 'Data successfully retrieved.',
+            'data': results,
+        })
+
+    }  catch( error ) {
+        API_RESPONSE.send(res, {
+            'status': error.code ? error.code : 500,
+            'success': false,
+            'message': error.message,
+        });
+    }
+});
 
 module.exports.handler = serverless(app);
