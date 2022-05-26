@@ -1,8 +1,5 @@
 module.exports = {
     send: function( response, params ) {
-
-        console.log(params);
-
         let statusCode = params.status || 200;
         let status = params.status || false;
         let success = params.success || false;
@@ -14,6 +11,6 @@ module.exports = {
             status: statusCode,
             message: message,
             data: data
-        })
+        });
     }
 }
