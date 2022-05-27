@@ -1,6 +1,8 @@
 const DB_API = require("../helpers/db-api");
 const dottie = require("dottie");
 const TEXT_HELPER = require('../helpers/text');
+const moment = require('moment');
+let accountSchema = require('../schemas/account-schema.json');
 module.exports = {
 
     save: async function(params) {
@@ -15,6 +17,8 @@ module.exports = {
         
         let results = null;
         // Let's BEGIN our query builder here.
+        
+
         try {
             let query = `
                 INSERT INTO accounts (${params.insertSql.INSERT}) 
@@ -58,7 +62,7 @@ module.exports = {
             let query = `
                 UPDATE accounts SET 
                 ${params.setSql.SET}
-                WHERE
+                WHERE deleted_at IS NULL AND
                 id = ?
                 `;
 
@@ -93,7 +97,7 @@ module.exports = {
                 SELECT 
                 ${select}
                 FROM accounts
-                WHERE
+                WHERE deleted_at IS NULL AND
                 id = ${id}
                 `;
 
@@ -129,7 +133,7 @@ module.exports = {
                 SELECT 
                 ${select}
                 FROM accounts
-                WHERE deleted_at IS NOT NULL
+                WHERE deleted_at IS NULL
                 `;
 
             let replacements = []
@@ -148,33 +152,124 @@ module.exports = {
         return results;
 	},
 
-    prepareUpdate:  async function(body) {
+    delete: async function(params) {
+        console.log('from delete: ' + this.getModelName(), params )
+
+        // Let's BEGIN our query builder here.
+        try {
+            let query = `
+                UPDATE accounts SET 
+                ${params.deleteSql.SET}
+                WHERE deleted_at IS NULL AND
+                id = ?
+                `;
+            console.log('DELETE QUERY', query, params.deleteSql.replacements)
+
+            results = await DB_API.query(query, params.deleteSql.replacements);
+            if( typeof results.code !== 'undefined') {
+                throw new Error("Unable to perform queries.")
+            }
+
+        } catch( error ) {
+            throw new Error("Unable to perform queries.")
+        }
+         
+        // No results found
+        if ( !results.affectedRows ) {
+            let error =  new Error('No record to update.');
+            error.code = 404;
+            throw error;
+        }
+
+        return results;
+	},
+
+    prepareUpdate:  async function(params) {
         let setSql = {
             SET: '',
             replacements: []
         };
-        let columns = body
-
+        let columns = params.body;
+        let now = new Date();
+        console.log('params.currentUser', params.currentUser)
         for ( colname in columns) {
+            if ( !accountSchema.updateColums.includes(colname) )
+            continue;
+
             setSql.SET += setSql.SET ?  ' ,' + colname + ' = ?': colname + ' = ?'
             setSql.replacements.push(columns[colname]);
+        }
+
+        // Internal updating
+        let forUpdating = {
+            "modified_at": moment(now).format("YYYY-MM-DD HH:mm:ss"),
+            "modified_by": params.currentUser.user_id
+        }
+        
+        for ( colname in forUpdating) {
+            setSql.SET += setSql.SET ?  ' ,' + colname + ' = ?': colname + ' = ?'
+            setSql.replacements.push(forUpdating[colname]);
         }
 
         return setSql; 
     },
 
-    prepareSave:  async function(body) {
+    prepareDelete:  async function(params) {
+        let deleteSql = {
+            SET: '',
+            replacements: []
+        };
+
+        let id = parseInt(params.id);
+        let d = new Date();
+        let now = moment(d).format("YYYY-MM-DD HH:mm:ss")
+         // Internal updating
+        let forUpdating = {
+            "deleted_at": now,
+            "modified_at": now,
+            "modified_by": params.currentUser.user_id,
+        }
+
+        for ( colname in forUpdating) {
+            deleteSql.SET += deleteSql.SET ?  ' ,' + colname + ' = ?': colname + ' = ?'
+            deleteSql.replacements.push(forUpdating[colname]);
+        }
+        deleteSql.replacements.push(id);
+
+        return deleteSql; 
+    },
+
+    prepareSave:  async function(params) {
         let insertSql = {
             INSERT: '',
             VALUES: '',
             replacements: []
         };
-        let columns = body
+        let columns = params.body;
 
         for ( colname in columns) {
+            if ( !accountSchema.createColums.includes(colname) )
+            continue;
+
             insertSql.INSERT += insertSql.INSERT ?  ' ,' + colname + '': colname + ''
             insertSql.VALUES += insertSql.VALUES ?  ' , ?': '?'
             insertSql.replacements.push(columns[colname]);
+        }
+
+        let d = new Date();
+        let now = moment(d).format("YYYY-MM-DD HH:mm:ss")
+         // Internal updating
+        let forUpdating = {
+            "modified_at": now,
+            "modified_by": params.currentUser.user_id,
+            "created_at": now,
+            "created_by": params.currentUser.user_id,
+        }
+
+        for ( colname in forUpdating) {
+            insertSql.INSERT += insertSql.INSERT ?  ' ,' + colname + '': colname + ''
+            insertSql.VALUES += insertSql.VALUES ?  ' , ?': '?'
+            insertSql.replacements.push(forUpdating[colname]);
         }
 
         return insertSql; 

@@ -16,12 +16,17 @@ const TEXT_HELPER = require('../helpers/text');
 // Model declarations
 const ACCOUNT_MODEL = require("../models/account");
 
+// Validator declarations
+const ACCOUNT_VALIDATOR = require("../validators/account-validator");
+
+// Lib declarations
+const moment = require('moment');
+
 // GET ONE RECORD
-app.get('/accounts/:id', verifyAdminToken, async (req, res, next) => {
+app.get('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
 
     let params = await QUERY_HELPER.prepare(req);
-    console.log('params', params)
-    params.id = req.params.id || null;
+    params.id = req.params.id || 0;
 
     try {
         let results = await ACCOUNT_MODEL.getOne(params);
@@ -42,7 +47,7 @@ app.get('/accounts/:id', verifyAdminToken, async (req, res, next) => {
 });
 
 // GET RECORDS
-app.get('/accounts', verifyAdminToken, async (req, res, next) => {
+app.get('/admin/accounts', verifyAdminToken, async (req, res, next) => {
 
     let params = await QUERY_HELPER.prepare(req);
 
@@ -66,15 +71,17 @@ app.get('/accounts', verifyAdminToken, async (req, res, next) => {
 
 
 // UPDATE RECORD
-app.put('/accounts/:id', verifyAdminToken, async (req, res, next) => {
+app.put('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
 
     let params = {};
-    params.id = req.params.id || null;
-    // Validataion here
+    params.body = req.body;
+    params.currentUser = req.currentUser;
+    params.id = req.params.id || 0;
+    // Validataion
     
     try {
         // Preparations
-        params.setSql = await ACCOUNT_MODEL.prepareUpdate(req.body);
+        params.setSql = await ACCOUNT_MODEL.prepareUpdate(params);
         
         // Perform Query
         let results = await ACCOUNT_MODEL.update(params);
@@ -96,21 +103,36 @@ app.put('/accounts/:id', verifyAdminToken, async (req, res, next) => {
 
 
 // CREATE RECORD
-app.post('/accounts', verifyAdminToken, async (req, res, next) => {
+app.post('/admin/accounts', verifyAdminToken, async (req, res, next) => {
 
     let params = {}
+    params.body = req.body;
+    params.currentUser = req.currentUser;
+    // Validataion
     try {
-        // Validataion here
-        if ( TEXT_HELPER.isEmpty(req.body) ) {
-            console.log('Body',req.body)
-            let error =  new Error('Invalid data passed.');
-            error.code = 422;
-            throw error;
-        }
+        let validator = await ACCOUNT_VALIDATOR.validate(req.body);
+        if ( !validator.valid ) {
+            API_RESPONSE.send(res, {
+                'status': 422,
+                'success': false,
+                'errors': validator.errors,
+                'message': 'Invalid data.',
+            });
+            return;
+        } 
+    } catch( error ) {
+        API_RESPONSE.send(res, {
+            'status': error.code ? error.code : 500,
+            'success': false,
+            'message': error.message,
+        });
+        return;
+    }
 
+    // Let's go
+    try {
         // Preparations
-        params.insertSql = await ACCOUNT_MODEL.prepareSave(req.body);
-        console.log('RDB',params)
+        params.insertSql = await ACCOUNT_MODEL.prepareSave(params);
         
         // Perform Query
         let results = await ACCOUNT_MODEL.save(params);
@@ -119,6 +141,37 @@ app.post('/accounts', verifyAdminToken, async (req, res, next) => {
             'status': 201,
             'success': true,
             'message': 'Record successfully created.',
+            'data': results,
+        });
+    }  catch( error ) {
+        API_RESPONSE.send(res, {
+            'status': error.code ? error.code : 500,
+            'success': false,
+            'message': error.message,
+        });
+    }
+});
+
+
+// DELETE RECORD
+app.delete('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
+
+    let params = {};
+    params.currentUser = req.currentUser;
+    params.id = req.params.id || 0;
+    // Validataion
+    
+    try {
+         // Preparations
+         params.deleteSql = await ACCOUNT_MODEL.prepareDelete(params);
+
+        // Perform Query
+        let results = await ACCOUNT_MODEL.delete(params);
+        
+        API_RESPONSE.send(res, {
+            'status': 200,
+            'success': true,
+            'message': 'Record successfully deleted.',
             'data': results,
         });
     }  catch( error ) {
