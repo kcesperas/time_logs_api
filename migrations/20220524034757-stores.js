@@ -17,7 +17,7 @@ exports.setup = function(options, seedLink) {
 exports.up = exports.up = function (db, callback) {
   db.createTable('stores', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
-    brand_id: { type: 'int' },
+    brand_id: { type: 'int' , defaultValue: 0},
     name: 'string',
     description: 'string',
     status: 'string',
@@ -26,7 +26,7 @@ exports.up = exports.up = function (db, callback) {
     latitude: 'string',
     longitude: 'string',
     contact_number: 'string',
-    email_address: 'string',
+    email: 'string',
      
     created_by: 'int',
     created_at: 'datetime',
