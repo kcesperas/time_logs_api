@@ -17,15 +17,15 @@ exports.setup = function(options, seedLink) {
 exports.up = exports.up = function (db, callback) {
   db.createTable('brands', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
-    merchant_group_id: { type: 'int' },
+    merchant_group_id: { type: 'int' , defaultValue: 0},
     code: 'string',
     name: 'string',
     description: 'string',
     status: { type: 'int', defaultValue: 0},
     address: 'string',
-    owner_full_name: 'string',
+    owner_fullname: 'string',
     owner_contact_number: 'string',
-    owner_email_address: 'string',
+    owner_email: 'string',
     
     created_by: 'int',
     created_at: 'datetime',

@@ -1,0 +1,18 @@
+{
+  "id": "/BrandSchema",
+  "type": "object",
+  "properties": {
+    "merchant_group_id": {"type": "integer"},
+    "code": {"type": "string", "minLength": 2, "maxLength": 100},
+    "name": {"type": "string", "minLength": 2, "maxLength": 100},
+    "description": {"type": "string", "minLength": 1, "maxLength": 255},
+    "status": {"type": "integer"},
+    "address": {"type": "string", "minLength": 10, "maxLength": 150},
+    "owner_fullname": {"type": "string", "minLength": 2, "maxLength": 50},
+    "owner_contact_number": {"type": "string", "minLength": 5, "maxLength": 15},
+    "owner_email": {"type": "string", "minLength": 5, "maxLength": 100}
+  },
+  "required": ["code", "name", "status", "owner_fullname", "owner_contact_number","owner_email"],
+  "createColums": ["code", "name", "description", "status", "merchant_group_id", "address", "owner_fullname", "owner_contact_number","owner_email"],
+  "updateColums": ["code", "name", "description", "status", "merchant_group_id", "address", "owner_fullname", "owner_contact_number","owner_email"]
+}
