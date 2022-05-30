@@ -1,0 +1,14 @@
+{
+    "id": "/AccountSchema",
+    "type": "object",
+    "properties": {
+      "name": {"type": "string", "minLength": 2,"maxLength": 100},
+      "description": {"type": "string", "minLength": 1,"maxLength": 255},
+      "secret_key": {"type": "string", "minLength": 100,"maxLength": 255},
+      "public_key": {"type": "string", "minLength": 100,"maxLength": 255},
+      "status": {"type": "integer"}
+    },
+    "required": ["name", "status"],
+    "createColums": ["name", "description", "secret_key", "public_key", "status"],
+    "updateColums": ["name", "description", "secret_key", "public_key", "status"]
+}
