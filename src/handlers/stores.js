@@ -26,7 +26,9 @@ const moment = require('moment');
 app.get('/admin/stores/:id', verifyAdminToken, async (req, res, next) => {
 
     let params = await QUERY_HELPER.prepare(req);
-    params.id = req.params.id || 0;
+    params.conditions = {
+        "id": parseInt(req.params.id || 0)
+    }
 
     try {
         let results = await STORE_MODEL.getOne(params);
@@ -50,7 +52,7 @@ app.get('/admin/stores/:id', verifyAdminToken, async (req, res, next) => {
 app.get('/admin/stores', verifyAdminToken, async (req, res, next) => {
 
     let params = await QUERY_HELPER.prepare(req);
-
+    
     try {
         let results = await STORE_MODEL.get(params);
         

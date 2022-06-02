@@ -26,7 +26,9 @@ const moment = require('moment');
 app.get('/admin/merchant-groups/:id', verifyAdminToken, async (req, res, next) => {
 
     let params = await QUERY_HELPER.prepare(req);
-    params.id = req.params.id || 0;
+    params.conditions = {
+        "id": parseInt(req.params.id || 0)
+    }
 
     try {
         let results = await MERCHANT_GROUP_MODEL.getOne(params);

@@ -1,6 +1,6 @@
 
-async function verifyAdminToken(req, res, next) {
-	const IDMS_MODEL = require('../../src/models/idms')
+async function verifyPublicToken(req, res, next) {
+	const IDMS_MODEL = require('../models/idms')
 	const TEXT_HELPER = require('../helpers/text')
 	const API_RESPONSE = require('../helpers/api-response');
 
@@ -16,19 +16,19 @@ async function verifyAdminToken(req, res, next) {
 		}
 		
 		let token = req.headers['authorization'];
-		let results = await IDMS_MODEL.validate(token, ['SOMS Admin']);
+
+		let results = await IDMS_MODEL.validateApp(token, req );
 		console.log('IDMS validate',results);
-		if ( !TEXT_HELPER.isEmpty(results['status']) && results['status'] === 400 ) {
+		if ( TEXT_HELPER.isEmpty(results) ) {
 			API_RESPONSE.send(res, {
-				'status': 400,
+				'status': 401,
 				'success': false,
-				'message': results['message'],
+				'message': 'You are not authorized.',
 			});
 			return;
 		} else {
 			// Continue to handler
-			req.currentUser = results.body.data;
-			console.log('req.currentUser', req.currentUser)
+			console.log('NEXT NEXT')
 			next();
 		}
 
@@ -48,4 +48,4 @@ async function verifyAdminToken(req, res, next) {
 	}
 }
 
-module.exports = verifyAdminToken;
+module.exports = verifyPublicToken;

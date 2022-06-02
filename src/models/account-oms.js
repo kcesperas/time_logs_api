@@ -2,7 +2,7 @@ const DB_API = require("../helpers/db-api");
 const dottie = require("dottie");
 const TEXT_HELPER = require('../helpers/text');
 const moment = require('moment');
-let storeSchema = require('../schemas/store-schema.json');
+let accountOmsSchema = require('../schemas/account-oms-schema.json');
 module.exports = {
 
     save: async function(params) {
@@ -21,7 +21,7 @@ module.exports = {
 
         try {
             let query = `
-                INSERT INTO stores (${params.insertSql.INSERT}) 
+                INSERT INTO account_oms (${params.insertSql.INSERT}) 
                 VALUES(${params.insertSql.VALUES})
                 `;
 
@@ -60,7 +60,7 @@ module.exports = {
         // Let's BEGIN our query builder here.
         try {
             let query = `
-                UPDATE stores SET 
+                UPDATE account_oms SET 
                 ${params.setSql.SET}
                 WHERE deleted_at IS NULL AND
                 id = ?
@@ -86,7 +86,7 @@ module.exports = {
 	},
 
     getOne: async function(params) {
-        console.log('from getOne: ' + this.getModelName() )
+        console.log('from getOne: ' + this.getModelName(), params )
         let results = null;
 
         let select = params.fields;
@@ -102,20 +102,20 @@ module.exports = {
             }
             conditionsSql = 'AND ' + conditionsSql
         }
+       
 
         // Let's BEGIN our query builder here.
         try {
             let query = `
                 SELECT 
                 ${select}
-                FROM stores
+                FROM account_oms
                 WHERE deleted_at IS NULL
                 ${conditionsSql}
                 LIMIT 1
                 `;
 
-            console.log(query, replacements );
-
+            console.log('RDB query', query);
             results = await DB_API.query(query, replacements);
             if( typeof results.code !== 'undefined') {
                 throw new Error("Unable to perform queries.")
@@ -158,7 +158,7 @@ module.exports = {
             let query = `
                 SELECT 
                 ${select}
-                FROM stores
+                FROM account_oms
                 WHERE deleted_at IS NULL
                 ${conditionsSql}
                 `;
@@ -186,7 +186,7 @@ module.exports = {
         // Let's BEGIN our query builder here.
         try {
             let query = `
-                UPDATE stores SET 
+                UPDATE account_oms SET 
                 ${params.deleteSql.SET}
                 WHERE deleted_at IS NULL AND
                 id = ?
@@ -221,7 +221,7 @@ module.exports = {
         let now = new Date();
         console.log('params.currentUser', params.currentUser)
         for ( colname in columns) {
-            if ( !storeSchema.updateColums.includes(colname) )
+            if ( !accountOmsSchema.updateColums.includes(colname) )
             continue;
 
             setSql.SET += setSql.SET ?  ' ,' + colname + ' = ?': colname + ' = ?'
@@ -276,7 +276,7 @@ module.exports = {
         let columns = params.body;
 
         for ( colname in columns) {
-            if ( !storeSchema.createColums.includes(colname) )
+            if ( !accountOmsSchema.createColums.includes(colname) )
             continue;
 
             insertSql.INSERT += insertSql.INSERT ?  ' ,' + colname + '': colname + ''
@@ -304,7 +304,7 @@ module.exports = {
     },
 
     getModelName: function() {
-        return "store Model"
+        return "Account OMS Model"
     }
 
 

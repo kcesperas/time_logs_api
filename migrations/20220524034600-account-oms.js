@@ -22,9 +22,11 @@ exports.up = exports.up = function (db, callback) {
     description: 'string',
     status: { type: 'int', defaultValue: 0},
     oms_public_key: 'string',
-    oms_private_key: 'string',
+    oms_secret_key: 'string',
     oms_endpoint: 'string',
-    
+    idms_endpoint: 'string',
+    idms_tenant_id: { type: 'int', defaultValue: 0},
+    idms_app_key: 'string',
     created_by: 'int',
     created_at: 'datetime',
     modified_by: 'int',

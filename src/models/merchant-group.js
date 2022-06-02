@@ -90,18 +90,31 @@ module.exports = {
         let results = null;
 
         let select = params.fields;
-        let id = params.id;
+        
+        let conditions = params.conditions || [];
+        let conditionsSql = '';
+        let replacements = [];
+
+        if (  !TEXT_HELPER.isEmpty(conditions) ) {
+            for ( colname in conditions) {
+                conditionsSql += conditionsSql ?  ' AND ' + colname + ' = ?':'' + colname + ' = ?'
+                replacements.push(conditions[colname]);
+            }
+            conditionsSql = 'AND ' + conditionsSql
+        }
+
         // Let's BEGIN our query builder here.
         try {
             let query = `
                 SELECT 
                 ${select}
                 FROM merchant_groups
-                WHERE deleted_at IS NULL AND
-                id = ${id}
+                WHERE deleted_at IS NULL
+                ${conditionsSql}
+                LIMIT 1
                 `;
 
-            let replacements = [id]
+            console.log(query, replacements );
 
             results = await DB_API.query(query, replacements);
             if( typeof results.code !== 'undefined') {
@@ -123,10 +136,23 @@ module.exports = {
 	},
 
 	get: async function(params) {
-        console.log('from: ' + this.getModelName() )
+        console.log('from get: ' + this.getModelName() )
         let results = null;
 
         let select = params.fields;
+        
+        let conditions = params.conditions || [];
+        let conditionsSql = '';
+        let replacements = [];
+
+        if (  !TEXT_HELPER.isEmpty(conditions) ) {
+            for ( colname in conditions) {
+                conditionsSql += conditionsSql ?  ' AND ' + colname + ' = ?':'' + colname + ' = ?'
+                replacements.push(conditions[colname]);
+            }
+            conditionsSql = 'AND ' + conditionsSql
+        }
+        
         // Let's BEGIN our query builder here.
         try {
             let query = `
@@ -134,12 +160,13 @@ module.exports = {
                 ${select}
                 FROM merchant_groups
                 WHERE deleted_at IS NULL
+                ${conditionsSql}
                 `;
-                console.log(query);
+                console.log(query, replacements );
 
-            let replacements = []
-           
             results = await DB_API.query(query, replacements);
+
+            console.log(results);
             if( typeof results.code !== 'undefined') {
                 throw new Error("Unable to perform queries.")
             }
