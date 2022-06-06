@@ -77,8 +77,19 @@ app.put('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
     let params = {};
     params.body = req.body;
     params.currentUser = req.currentUser;
-    params.id = req.params.id || 0;
-    // Validataion
+    let account_id = parseInt( req.params.id || 0);
+    params.conditions = {
+        "id": account_id
+    }
+
+    if ( !params.conditions.id ) {
+        API_RESPONSE.send(res, {
+            'status': 404,
+            'success': false,
+            'message': 'Unable to process request.',
+        });
+        return;
+    }
     
     try {
         // Preparations

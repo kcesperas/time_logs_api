@@ -14,6 +14,6 @@
     "email": {"type": "string", "minLength": 5, "maxLength": 100}
   },
   "required": ["name", "status", "contact_number","email"],
-  "createColums": ["name", "description", "status", "brand_id", "address", "service_area", "latitude", "longitude", "contact_number","email"],
-  "updateColums": ["name", "description", "status", "brand_id", "address", "service_area", "latitude", "longitude", "contact_number","email"]
+  "createColums": ["name", "description", "status", "brand_id", "address", "service_area", "latitude", "longitude", "contact_number","email", "account_oms_id", "account_id", "merchant_group_id", "brand_id"],
+  "updateColums": ["name", "description", "status", "brand_id", "address", "service_area", "latitude", "longitude", "contact_number","email", "account_oms_id", "account_id", "merchant_group_id", "brand_id"]
 }

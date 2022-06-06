@@ -15,6 +15,9 @@ const TEXT_HELPER = require('../helpers/text');
 
 // Model declarations
 const ACCOUNT_OMS_MODEL = require("../models/account-oms");
+const MERCHANT_GROUP_MODEL = require("../models/merchant-group");
+const BRAND_MODEL = require("../models/brand");
+const STORE_MODEL = require("../models/store");
 
 // Validator declarations
 const ACCOUNT_VALIDATOR = require("../validators/account-oms-validator");
@@ -76,18 +79,86 @@ app.get('/admin/account-oms', verifyAdminToken, async (req, res, next) => {
 app.put('/admin/account-oms/:id', verifyAdminToken, async (req, res, next) => {
 
     let params = {};
+    let account_oms_id = parseInt( req.params.id || 0);
     params.body = req.body;
     params.currentUser = req.currentUser;
-    params.id = req.params.id || 0;
-    // Validataion
+
+    params.conditions = {
+        "id": account_oms_id
+    }
+
+    if ( !params.conditions.id ) {
+        API_RESPONSE.send(res, {
+            'status': 404,
+            'success': false,
+            'message': 'Unable to process request.',
+        });
+        return;
+    }
     
+    // Validataion
     try {
         // Preparations
         params.setSql = await ACCOUNT_OMS_MODEL.prepareUpdate(params);
         
         // Perform Query
         let results = await ACCOUNT_OMS_MODEL.update(params);
-        
+
+
+        // Account ID changed?
+        if (  !TEXT_HELPER.isEmpty(req.body.account_id) ) {
+            // MERCHANT: Update Account ID
+            try {
+                // Preparations
+                let updateParams = params;
+                updateParams.body = {};
+                updateParams.body.account_id = req.body.account_id;
+                updateParams.conditions = {
+                    "account_oms_id": account_oms_id
+                }
+                updateParams.setSql = await MERCHANT_GROUP_MODEL.prepareUpdate(updateParams);
+
+                // Perform Query
+                await MERCHANT_GROUP_MODEL.update(updateParams);
+            }  catch( error ) {
+                console.log('MERCHANT_GROUP_MODEL error', error);
+            }
+
+            // BRAND: Update Account ID
+            try {
+                // Preparations
+                let updateParams = params;
+                updateParams.body = {};
+                updateParams.body.account_id = req.body.account_id;
+                updateParams.conditions = {
+                    "account_oms_id": account_oms_id
+                }
+                updateParams.setSql = await BRAND_MODEL.prepareUpdate(updateParams);
+
+                // Perform Query
+                await BRAND_MODEL.update(updateParams);
+            }  catch( error ) {
+                console.log('BRAND_MODEL error', error);
+            }
+
+            // STORE: Update Account ID
+            try {
+                // Preparations
+                let updateParams = params;
+                updateParams.body = {};
+                updateParams.body.account_id = req.body.account_id;
+                updateParams.conditions = {
+                    "account_oms_id": account_oms_id
+                }
+                updateParams.setSql = await STORE_MODEL.prepareUpdate(updateParams);
+
+                // Perform Query
+                await STORE_MODEL.update(updateParams);
+            }  catch( error ) {
+                console.log('STORE_MODEL error', error);
+            }
+        }
+
         API_RESPONSE.send(res, {
             'status': 200,
             'success': true,
@@ -101,6 +172,8 @@ app.put('/admin/account-oms/:id', verifyAdminToken, async (req, res, next) => {
             'message': error.message,
         });
     }
+
+    
 });
 
 

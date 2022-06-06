@@ -50,26 +50,6 @@ app.get('/app/:oms_public_key/merchant-groups/:merchant_group_id/brands/:id', ve
         return;
     }
 
-
-    // Now get one merchant record.
-    let merchant = null;
-    try {
-        params.conditions = {
-            "account_oms_id": accountOms.id,
-            "id": params.merchant_group_id
-        }
-
-        merchant = await MERCHANT_GROUP_MODEL.getOne(params);
-        
-    }  catch( error ) {
-        API_RESPONSE.send(res, {
-            'status': error.code ? error.code : 500,
-            'success': false,
-            'message': error.message,
-        });
-        return;
-    }
-
     // Now one get records based on merchant_group_id.
     try {
         params.conditions = {
@@ -122,26 +102,6 @@ app.get('/app/:oms_public_key/merchant-groups/:merchant_group_id/brands', verify
         });
         return;
     }
-
-    // Now get one merchant record.
-    let merchant = null;
-    try {
-        params.conditions = {
-            "account_oms_id": accountOms.id,
-            "id": params.merchant_group_id
-        }
-
-        merchant = await MERCHANT_GROUP_MODEL.getOne(params);
-        
-    }  catch( error ) {
-        API_RESPONSE.send(res, {
-            'status': error.code ? error.code : 500,
-            'success': false,
-            'message': error.message,
-        });
-        return;
-    }
-
 
     // Now get records based on merchant_group_id.
     try {

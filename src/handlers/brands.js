@@ -15,6 +15,8 @@ const TEXT_HELPER = require('../helpers/text');
 
 // Model declarations
 const BRAND_MODEL = require("../models/brand");
+const MERCHANT_GROUP_MODEL = require("../models/merchant-group");
+const STORE_MODEL = require("../models/store");
 
 // Validator declarations
 const BRAND_VALIDATOR = require("../validators/brand-validator");
@@ -78,8 +80,21 @@ app.put('/admin/brands/:id', verifyAdminToken, async (req, res, next) => {
     let params = {};
     params.body = req.body;
     params.currentUser = req.currentUser;
-    params.id = req.params.id || 0;
+    let brand_id = parseInt( req.params.id || 0);
+
     // Validataion
+    params.conditions = {
+        "id": brand_id
+    }
+
+    if ( !params.conditions.id ) {
+        API_RESPONSE.send(res, {
+            'status': 404,
+            'success': false,
+            'message': 'Unable to process request.',
+        });
+        return;
+    }
     
     try {
         // Preparations
@@ -87,6 +102,27 @@ app.put('/admin/brands/:id', verifyAdminToken, async (req, res, next) => {
         
         // Perform Query
         let results = await BRAND_MODEL.update(params);
+
+        // Account merchant_group_id changed?
+        if (  !TEXT_HELPER.isEmpty(req.body.merchant_group_id) ) {
+            try {
+                // Preparations
+                let updateParams = params;
+                updateParams.body = {};
+                updateParams.body.merchant_group_id = req.body.merchant_group_id;
+                updateParams.conditions = {
+                    "brand_id": brand_id
+                }
+                updateParams.setSql = await STORE_MODEL.prepareUpdate(updateParams);
+
+                console.log('updateParams',updateParams);
+
+                // Perform Query
+                await STORE_MODEL.update(updateParams);
+            }  catch( error ) {
+                console.log('STORE_MODEL error', error);
+            }
+        }
         
         API_RESPONSE.send(res, {
             'status': 200,
@@ -131,9 +167,35 @@ app.post('/admin/brands', verifyAdminToken, async (req, res, next) => {
         return;
     }
 
+
+    // Now, we need to check if merchant exist or not
+    let merchantOmsparams = await QUERY_HELPER.prepare(req);
+
+    // Find soms_acccount
+    merchantOmsparams.conditions = {
+        "id": ( req.body.merchant_group_id || null )
+    }
+    let merchantOms = null;
+
+    try {
+        merchantOms = await MERCHANT_GROUP_MODEL.getOne(merchantOmsparams);
+    }  catch( error ) {
+        API_RESPONSE.send(res, {
+            'status': error.code ? error.code : 500,
+            'success': false,
+            'message': error.message,
+        });
+        return;
+    }
+
+    console.log('merchantOms', merchantOms);
+
     // Let's go
     try {
         // Preparations
+        params.body.account_id = merchantOms.account_id;
+        params.body.account_oms_id = merchantOms.account_oms_id;
+        params.body.merchant_group_id = merchantOms.id;
         params.insertSql = await BRAND_MODEL.prepareSave(params);
         
         // Perform Query

@@ -15,6 +15,7 @@ const TEXT_HELPER = require('../helpers/text');
 
 // Model declarations
 const STORE_MODEL = require("../models/store");
+const BRAND_MODEL = require("../models/brand");
 
 // Validator declarations
 const STORE_VALIDATOR = require("../validators/store-validator");
@@ -78,8 +79,21 @@ app.put('/admin/stores/:id', verifyAdminToken, async (req, res, next) => {
     let params = {};
     params.body = req.body;
     params.currentUser = req.currentUser;
-    params.id = req.params.id || 0;
+    let store_id = parseInt( req.params.id || 0);
+    
     // Validataion
+    params.conditions = {
+        "id": store_id
+    }
+
+    if ( !params.conditions.id ) {
+        API_RESPONSE.send(res, {
+            'status': 404,
+            'success': false,
+            'message': 'Unable to process request.',
+        });
+        return;
+    }
     
     try {
         // Preparations
@@ -131,9 +145,35 @@ app.post('/admin/stores', verifyAdminToken, async (req, res, next) => {
         return;
     }
 
+    // Now, we need to check if brand exist or not
+    let brandOmsparams = await QUERY_HELPER.prepare(req);
+
+    // Find soms_acccount
+    brandOmsparams.conditions = {
+        "id": ( req.body.brand_id || null )
+    }
+    let brandOms = null;
+
+    try {
+        brandOms = await BRAND_MODEL.getOne(brandOmsparams);
+    }  catch( error ) {
+        API_RESPONSE.send(res, {
+            'status': error.code ? error.code : 500,
+            'success': false,
+            'message': error.message,
+        });
+        return;
+    }
+
+    console.log('brandOms', brandOms);
+
     // Let's go
     try {
         // Preparations
+        params.body.account_id = brandOms.account_id;
+        params.body.account_oms_id = brandOms.account_oms_id;
+        params.body.merchant_group_id = brandOms.merchant_group_id;
+        params.body.brand_id = brandOms.id;
         params.insertSql = await STORE_MODEL.prepareSave(params);
         
         // Perform Query

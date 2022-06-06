@@ -8,6 +8,6 @@
       "status": {"type": "integer"}
     },
     "required": ["name", "status"],
-    "createColums": [ "name", "description", "status", "account_oms_id"],
-    "updateColums": [ "name", "description", "status", "account_oms_id"]
+    "createColums": [ "name", "description", "status", "account_oms_id", "account_id"],
+    "updateColums": [ "name", "description", "status", "account_oms_id", "account_id"]
 }

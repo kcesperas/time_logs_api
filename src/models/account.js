@@ -54,23 +54,35 @@ module.exports = {
 
         let results = null;
 
-        let id = parseInt(params.id);
-        params.setSql.replacements.push(id);
+        // let id = parseInt(params.id);
+
+        let conditions = params.conditions || [];
+        let conditionsSql = '';
+        let replacements = params.setSql.replacements;
+
+        if (  !TEXT_HELPER.isEmpty(conditions) ) {
+            for ( colname in conditions) {
+                conditionsSql += conditionsSql ?  ' AND ' + colname + ' = ?':'' + colname + ' = ?'
+                replacements.push(conditions[colname]);
+            }
+            conditionsSql = 'AND ' + conditionsSql
+        } else {
+            throw new Error("Unable to perform queries. No conditions.")
+        }
 
         // Let's BEGIN our query builder here.
         try {
             let query = `
                 UPDATE accounts SET 
                 ${params.setSql.SET}
-                WHERE deleted_at IS NULL AND
-                id = ?
+                WHERE deleted_at IS NULL
+                ${conditionsSql}
                 `;
 
-            results = await DB_API.query(query, params.setSql.replacements);
+            results = await DB_API.query(query, replacements);
             if( typeof results.code !== 'undefined') {
                 throw new Error("Unable to perform queries.")
             }
-
         } catch( error ) {
             throw new Error("Unable to perform queries.")
         }

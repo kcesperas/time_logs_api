@@ -13,6 +13,6 @@
     "owner_email": {"type": "string", "minLength": 5, "maxLength": 100}
   },
   "required": ["code", "name", "status", "owner_fullname", "owner_contact_number","owner_email"],
-  "createColums": ["code", "name", "description", "status", "merchant_group_id", "address", "owner_fullname", "owner_contact_number","owner_email"],
-  "updateColums": ["code", "name", "description", "status", "merchant_group_id", "address", "owner_fullname", "owner_contact_number","owner_email"]
+  "createColums": ["code", "name", "description", "status", "merchant_group_id", "address", "owner_fullname", "owner_contact_number","owner_email", "account_oms_id", "account_id"],
+  "updateColums": ["code", "name", "description", "status", "merchant_group_id", "address", "owner_fullname", "owner_contact_number","owner_email", "account_oms_id", "account_id"]
 }

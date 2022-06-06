@@ -17,6 +17,7 @@ exports.setup = function(options, seedLink) {
 exports.up = exports.up = function (db, callback) {
   db.createTable('merchant_groups', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
+    account_id: { type: 'int' , defaultValue: 0},
     account_oms_id: { type: 'int' , defaultValue: 0},
     name: 'string',
     description: 'string',

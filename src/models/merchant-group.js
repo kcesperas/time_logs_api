@@ -54,25 +54,40 @@ module.exports = {
 
         let results = null;
 
-        let id = parseInt(params.id);
-        params.setSql.replacements.push(id);
+        // let id = parseInt(params.id);
+
+        let conditions = params.conditions || [];
+        let conditionsSql = '';
+        let replacements = params.setSql.replacements;
+
+        if (  !TEXT_HELPER.isEmpty(conditions) ) {
+            for ( colname in conditions) {
+                conditionsSql += conditionsSql ?  ' AND ' + colname + ' = ?':'' + colname + ' = ?'
+                replacements.push(conditions[colname]);
+            }
+            conditionsSql = 'AND ' + conditionsSql
+        } else {
+            throw new Error("Unable to perform queries. No conditions.")
+        }
 
         // Let's BEGIN our query builder here.
         try {
             let query = `
                 UPDATE merchant_groups SET 
                 ${params.setSql.SET}
-                WHERE deleted_at IS NULL AND
-                id = ?
+                WHERE deleted_at IS NULL
+                ${conditionsSql}
                 `;
 
-            results = await DB_API.query(query, params.setSql.replacements);
+            console.log('RDB query merchant udpate', query, replacements);
+            results = await DB_API.query(query, replacements);
+            console.log(results);
             if( typeof results.code !== 'undefined') {
-                throw new Error("Unable to perform queries.")
+                throw new Error("Unable to perform queries.AA")
             }
-
         } catch( error ) {
-            throw new Error("Unable to perform queries.")
+            console.log('RDB Error',error);
+            throw new Error("Unable to perform queries.BB", )
         }
          
         // No results found
@@ -213,13 +228,14 @@ module.exports = {
 	},
 
     prepareUpdate:  async function(params) {
+        console.log('paramsssss', params)
         let setSql = {
             SET: '',
             replacements: []
         };
         let columns = params.body;
         let now = new Date();
-        console.log('params.currentUser', params.currentUser)
+        console.log('params.currentUser2', params.currentUser, columns)
         for ( colname in columns) {
             if ( !merchantGroupSchema.updateColums.includes(colname) )
             continue;
