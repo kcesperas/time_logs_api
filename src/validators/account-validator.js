@@ -4,7 +4,7 @@ module.exports = {
         let Validator = require('jsonschema').Validator;
         let v = new Validator();
         
-        let accountSchema = require('../schemas/account-schema.json');
-        return v.validate(payload, accountSchema);
+        let schema = require('../schemas/account-schema.json');
+        return v.validate(payload, schema);
     },
 }

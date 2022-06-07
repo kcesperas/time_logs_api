@@ -1,0 +1,12 @@
+{
+  "id": "/StoreConfigSchema",
+  "type": "object",
+  "properties": {
+    "store_id": {"type": "integer", "reqiured": true, "min": 1},
+    "name": {"type": "string", "minLength": 2, "maxLength": 50},
+    "value": {"type": "string", "minLength": 2, "maxLength": 255}
+  },
+  "required": ["name", "value", "store_id"],
+  "createColums": ["name", "value", "store_id"],
+  "updateColums": ["name", "value"]
+}
