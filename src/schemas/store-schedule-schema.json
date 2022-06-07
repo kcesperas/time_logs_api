@@ -1,0 +1,13 @@
+{
+  "id": "/StoreScheduleSchema",
+  "type": "object",
+  "properties": {
+    "store_id": {"type": "integer", "reqiured": true, "min": 1},
+    "day": {"type": "string", "minLength": 2, "maxLength": 50},
+    "opening_time": {"type": "string", "minLength": 2, "maxLength": 50},
+    "closing_time": {"type": "string", "minLength": 2, "maxLength": 50}
+  },
+  "required": ["day", "opening_time", "closing_time"],
+  "createColums": ["day", "opening_time", "closing_time", "store_id"],
+  "updateColums": ["day", "opening_time", "closing_time"]
+}
