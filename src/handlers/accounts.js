@@ -12,6 +12,8 @@ var verifyAdminToken = require('../middlewares/verifyAdminToken');
 const API_RESPONSE = require('../helpers/api-response');
 const QUERY_HELPER = require('../helpers/query-helper');
 const TEXT_HELPER = require('../helpers/text');
+const USER_REFERENCE_HELPER = require('../helpers/user-reference');
+
 
 // Model declarations
 const ACCOUNT_MODEL = require("../models/account");
@@ -98,6 +100,9 @@ app.put('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
         // Perform Query
         let results = await ACCOUNT_MODEL.update(params);
         
+        // Insert user references if not yet exist.
+        await USER_REFERENCE_HELPER.save(params);
+
         API_RESPONSE.send(res, {
             'status': 200,
             'success': true,
@@ -149,6 +154,9 @@ app.post('/admin/accounts', verifyAdminToken, async (req, res, next) => {
         // Perform Query
         let results = await ACCOUNT_MODEL.save(params);
         
+        // Insert user references if not yet exist.
+        await USER_REFERENCE_HELPER.save(params);
+
         API_RESPONSE.send(res, {
             'status': 201,
             'success': true,
@@ -180,6 +188,9 @@ app.delete('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
         // Perform Query
         let results = await ACCOUNT_MODEL.delete(params);
         
+        // Insert user references if not yet exist.
+        await USER_REFERENCE_HELPER.save(params);
+
         API_RESPONSE.send(res, {
             'status': 200,
             'success': true,

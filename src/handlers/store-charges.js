@@ -12,6 +12,7 @@ var verifyAdminToken = require('../middlewares/verifyAdminToken');
 const API_RESPONSE = require('../helpers/api-response');
 const QUERY_HELPER = require('../helpers/query-helper');
 const TEXT_HELPER = require('../helpers/text');
+const USER_REFERENCE_HELPER = require('../helpers/user-reference');
 
 // Model declarations
 const STORE_CHARGE_MODEL = require("../models/store-charge");
@@ -101,6 +102,9 @@ app.put('/admin/store-charges/:id', verifyAdminToken, async (req, res, next) => 
         // Perform Query
         let results = await STORE_CHARGE_MODEL.update(params);
         
+        // Insert user references if not yet exist.
+        await USER_REFERENCE_HELPER.save(params);
+
         API_RESPONSE.send(res, {
             'status': 200,
             'success': true,
@@ -172,6 +176,9 @@ console.log('here')
         // Perform Query
         let results = await STORE_CHARGE_MODEL.save(params);
         
+        // Insert user references if not yet exist.
+        await USER_REFERENCE_HELPER.save(params);
+
         API_RESPONSE.send(res, {
             'status': 201,
             'success': true,
@@ -203,6 +210,9 @@ app.delete('/admin/store-charges/:id', verifyAdminToken, async (req, res, next) 
         // Perform Query
         let results = await STORE_CHARGE_MODEL.delete(params);
         
+        // Insert user references if not yet exist.
+        await USER_REFERENCE_HELPER.save(params);
+
         API_RESPONSE.send(res, {
             'status': 200,
             'success': true,

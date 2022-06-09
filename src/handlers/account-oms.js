@@ -12,6 +12,8 @@ var verifyAdminToken = require('../middlewares/verifyAdminToken');
 const API_RESPONSE = require('../helpers/api-response');
 const QUERY_HELPER = require('../helpers/query-helper');
 const TEXT_HELPER = require('../helpers/text');
+const USER_REFERENCE_HELPER = require('../helpers/user-reference');
+
 
 // Model declarations
 const ACCOUNT_OMS_MODEL = require("../models/account-oms");
@@ -159,6 +161,9 @@ app.put('/admin/account-oms/:id', verifyAdminToken, async (req, res, next) => {
             }
         }
 
+        // Insert user references if not yet exist.
+        await USER_REFERENCE_HELPER.save(params);
+
         API_RESPONSE.send(res, {
             'status': 200,
             'success': true,
@@ -212,6 +217,9 @@ app.post('/admin/account-oms', verifyAdminToken, async (req, res, next) => {
         // Perform Query
         let results = await ACCOUNT_OMS_MODEL.save(params);
         
+        // Insert user references if not yet exist.
+        await USER_REFERENCE_HELPER.save(params);
+
         API_RESPONSE.send(res, {
             'status': 201,
             'success': true,
@@ -243,6 +251,9 @@ app.delete('/admin/account-oms/:id', verifyAdminToken, async (req, res, next) =>
         // Perform Query
         let results = await ACCOUNT_OMS_MODEL.delete(params);
         
+        // Insert user references if not yet exist.
+        await USER_REFERENCE_HELPER.save(params);
+
         API_RESPONSE.send(res, {
             'status': 200,
             'success': true,

@@ -12,6 +12,8 @@ var verifyAdminToken = require('../middlewares/verifyAdminToken');
 const API_RESPONSE = require('../helpers/api-response');
 const QUERY_HELPER = require('../helpers/query-helper');
 const TEXT_HELPER = require('../helpers/text');
+const USER_REFERENCE_HELPER = require('../helpers/user-reference');
+
 
 // Model declarations
 const STORE_CONFIG_MODEL = require("../models/store-config");
@@ -101,6 +103,9 @@ app.put('/admin/store-configs/:id', verifyAdminToken, async (req, res, next) => 
         // Perform Query
         let results = await STORE_CONFIG_MODEL.update(params);
         
+        // Insert user references if not yet exist.
+        await USER_REFERENCE_HELPER.save(params);
+
         API_RESPONSE.send(res, {
             'status': 200,
             'success': true,
@@ -172,6 +177,9 @@ app.post('/admin/store-configs', verifyAdminToken, async (req, res, next) => {
         // Perform Query
         let results = await STORE_CONFIG_MODEL.save(params);
         
+        // Insert user references if not yet exist.
+        await USER_REFERENCE_HELPER.save(params);
+
         API_RESPONSE.send(res, {
             'status': 201,
             'success': true,
@@ -203,6 +211,9 @@ app.delete('/admin/store-configs/:id', verifyAdminToken, async (req, res, next) 
         // Perform Query
         let results = await STORE_CONFIG_MODEL.delete(params);
         
+        // Insert user references if not yet exist.
+        await USER_REFERENCE_HELPER.save(params);
+
         API_RESPONSE.send(res, {
             'status': 200,
             'success': true,

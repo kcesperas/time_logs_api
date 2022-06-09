@@ -17,9 +17,9 @@ exports.setup = function(options, seedLink) {
 exports.up = exports.up = function (db, callback) {
   db.createTable('user_references', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
-    user_id: { type: 'int' },
+    user_id: { type: 'int', unique: true },
     type: 'string',
-    username: 'string',
+    username: { type: 'string', unique: true },
     first_name: 'string',
     last_name: 'string',
     reference_1: 'string',
