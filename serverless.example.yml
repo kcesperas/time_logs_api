@@ -1,0 +1,313 @@
+service: SOMS
+
+package:
+  exclude:
+    - node_modules/**/README.*
+    - node_modules/**/test/**
+    - node_modules/**/aws-sdk/**
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  timeout: 60
+  region: ap-southeast-1
+  stage: ${opt:stage, 'qa'}
+
+  environment:
+    RDS_DB_HOST: omrs-rds-proxy.proxy-cuiylgqybm2l.ap-southeast-1.rds.amazonaws.com
+    RDS_DB_HOST_READ: omrs-rds-proxy-read-only.endpoint.proxy-cuiylgqybm2l.ap-southeast-1.rds.amazonaws.com
+    RDS_DB_NAME: soms_dev
+    RDS_DB_USER: omrs-prxyrds-user
+    RDS_DB_PASSWORD: EHh9cCydvqyN3v3Jj3ATqfD8nLVrn8DJVwh4tUVwz
+    DATABASE_API_URL: https://v8unrf4edd.execute-api.ap-southeast-1.amazonaws.com/staging
+
+    #IDMS
+    IDMS_URL: https://yw7yyq22k8.execute-api.ap-southeast-1.amazonaws.com/dev
+    IDMS_APP_KEY: 3
+
+plugins:
+  - serverless-offline
+
+custom:
+  allowed-headers:
+    - Content-Type
+    - X-Amz-Date
+    - Authorization
+    - X-Api-Key
+    - X-Amz-Security-Token
+    - X-Amz-User-Agent
+    - X-App-Key
+
+functions:
+  ADMIN-ACCOUNTS:
+    handler: src/handlers/accounts.handler
+    events:
+      - http:
+          path: /admin/accounts
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /admin/accounts/{proxy+}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+  ADMIN-ACCOUNT-OMS:
+    handler: src/handlers/account-oms.handler
+    events:
+      - http:
+          path: /admin/account-oms
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /admin/account-oms/{proxy+}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+
+  ADMIN-MERCHANT-GROUPS:
+    handler: src/handlers/merchant-groups.handler
+    events:
+      - http:
+          path: /admin/merchant-groups
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /admin/merchant-groups/{proxy+}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+
+  ADMIN-BRANDS:
+    handler: src/handlers/brands.handler
+    events:
+      - http:
+          path: /admin/brands
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /admin/brands/{proxy+}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+
+  ADMIN-STORES:
+    handler: src/handlers/stores.handler
+    events:
+      - http:
+          path: /admin/stores
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /admin/stores/{proxy+}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+  ADMIN-STORE-CONFIGS:
+    handler: src/handlers/store-configs.handler
+    events:
+      - http:
+          path: /admin/store-configs
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /admin/store-configs/{proxy+}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+  ADMIN-STORE-SCHEDULES:
+    handler: src/handlers/store-schedules.handler
+    events:
+      - http:
+          path: /admin/store-schedules
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /admin/store-schedules/{proxy+}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+  ADMIN-STORE-CHARGES:
+    handler: src/handlers/store-charges.handler
+    events:
+      - http:
+          path: /admin/store-charges
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /admin/store-charges/{proxy+}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+  ADMIN-STORE-FULFILMENT-TYPES:
+    handler: src/handlers/store-fulfilment-types.handler
+    events:
+      - http:
+          path: /admin/store-fulfilment-types
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /admin/store-fulfilment-types/{proxy+}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+  PUBLIC-MERCHANT-GROUPS:
+    handler: src/handlers/public/merchant-groups.handler
+    events:
+      - http:
+          path: /public/{oms_public_key}/merchant-groups
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /public/{oms_public_key}/merchant-groups/{id}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+  PUBLIC-BRANDS:
+    handler: src/handlers/public/brands.handler
+    events:
+      - http:
+          path: /public/{oms_public_key}/merchant-groups/{merchant_group_id}/brands
+          method: GET
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /public/{oms_public_key}/merchant-groups/{merchant_group_id}/brands/{id}
+          method: GET
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+  PUBLIC-STORES:
+    handler: src/handlers/public/stores.handler
+    events:
+      - http:
+          path: /public/{oms_public_key}/merchant-groups/{merchant_group_id}/brands/{brand_id}/stores
+          method: GET
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /public/{oms_public_key}/merchant-groups/{merchant_group_id}/brands/{brand_id}/stores/{id}
+          method: GET
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /public/{oms_public_key}/merchant-groups/{merchant_group_id}/brands/serviceable-stores
+          method: GET
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+  APP-MERCHANT-GROUPS:
+    handler: src/handlers/app/merchant-groups.handler
+    events:
+      - http:
+          path: /app/{oms_public_key}/merchant-groups
+          method: GET
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /app/{oms_public_key}/merchant-groups/{id}
+          method: GET
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+  APP-BRANDS:
+    handler: src/handlers/app/brands.handler
+    events:
+      - http:
+          path: /app/{oms_public_key}/merchant-groups/{merchant_group_id}/brands
+          method: GET
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /app/{oms_public_key}/merchant-groups/{merchant_group_id}/brands/{id}
+          method: GET
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+  APP-STORES:
+    handler: src/handlers/app/stores.handler
+    events:
+      - http:
+          path: /app/{oms_public_key}/merchant-groups/{merchant_group_id}/brands/{brand_id}/stores
+          method: GET
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /app/{oms_public_key}/merchant-groups/{merchant_group_id}/brands/{brand_id}/stores/{id}
+          method: GET
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /app/{oms_public_key}/merchant-groups/{merchant_group_id}/brands/serviceable-stores
+          method: GET
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true

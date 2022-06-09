@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "driver": "mysql",
+    "host": "omrs-qa-uat.cluster-cuiylgqybm2l.ap-southeast-1.rds.amazonaws.com",
+    "database": "soms_dev",
+    "user": "omrs_dev_user",
+    "password": "26mB5DrUgfN3eVXUbGJ5RYgc",
+    "multipleStatements": true
+  },
+
+  "qa": {
+    "driver": "sqlite3",
+    "filename": ":memory:"
+  },
+
+  "prod": {
+    "driver": "mysql",
+    "user": "root",
+    "password": "root"
+  },
+
+  "other": "postgres://uname:pw@server.com/dbname"
+}
