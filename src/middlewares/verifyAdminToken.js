@@ -16,7 +16,7 @@ async function verifyAdminToken(req, res, next) {
 		}
 		
 		let token = req.headers['authorization'];
-		let results = await IDMS_MODEL.validate(token, ['SOMS Admin']);
+		let results = await IDMS_MODEL.validate(token, ['MBS Admin']);
 		console.log('IDMS validate',results);
 		if ( !TEXT_HELPER.isEmpty(results['status']) && results['status'] === 400 ) {
 			API_RESPONSE.send(res, {

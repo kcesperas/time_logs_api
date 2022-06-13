@@ -1,15 +1,19 @@
 {
-  "name": "store-ops-management-service",
+  "name": "merchant-business-service",
   "version": "1.0.0",
   "last update": "",
-  "description": "Store Operations Management Service",
+  "description": "Merchant Business Service",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "serverless offline start",
+    "create_migration": "db-migrate create",
+    "migration": "db-migrate up",
+    "undo_migration": "db-migrate down"
   },
   "repository": {
     "type": "git",
-    "url": "http://serino-gitlab.serino.com/omrs/api/store-ops-management-service.git"
+    "url": "http://serino-gitlab.serino.com/omrs/api/merchant-business-service.git"
   },
   "author": "iGen Payments System",
   "license": "ISC",

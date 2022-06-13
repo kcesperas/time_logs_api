@@ -6,7 +6,7 @@ app.use(body_parser.json({ strict: false }));
 app.use(body_parser.urlencoded({ extended: true }));
 
 // Middlewares
-let verifyPublicToken = require('../../middlewares/verifyPublicToken');
+var verifyAppToken = require('../../middlewares/verifyAppToken');
 
 // Helper declarations
 const API_RESPONSE = require('../../helpers/api-response');
@@ -23,12 +23,11 @@ const STORE_MODEL = require("../../models/store");
 const MERCHANT_GROUP_VALIDATOR = require("../../validators/merchant-group-validator");
 
 // Lib declarations
-const moment = require('moment');
 let pointInPolygon = require('point-in-polygon');
 
 
 // GET ONE RECORD
-app.get('/public/:oms_public_key/merchant-groups/:merchant_group_id/brands/:brand_id/stores/:id', verifyPublicToken, async (req, res, next) => {
+app.get('/app/:oms_public_key/merchant-groups/:merchant_group_id/brands/:brand_id/stores/:id', verifyAppToken, async (req, res, next) => {
     let params = await QUERY_HELPER.prepare(req);
     params.merchant_group_id = parseInt(req.params.merchant_group_id || 0);
     params.brand_id = parseInt(req.params.brand_id || 0);
@@ -83,7 +82,7 @@ app.get('/public/:oms_public_key/merchant-groups/:merchant_group_id/brands/:bran
 });
 
 // GET RECORDS
-app.get('/public/:oms_public_key/merchant-groups/:merchant_group_id/brands/:brand_id/stores', verifyPublicToken, async (req, res, next) => {
+app.get('/app/:oms_public_key/merchant-groups/:merchant_group_id/brands/:brand_id/stores', verifyAppToken, async (req, res, next) => {
 
     let params = await QUERY_HELPER.prepare(req);
     params.merchant_group_id = parseInt(req.params.merchant_group_id || 0);
@@ -135,9 +134,8 @@ app.get('/public/:oms_public_key/merchant-groups/:merchant_group_id/brands/:bran
     }
 });
 
-
 // SERVICABLE-STORES
-app.get('/public/:oms_public_key/merchant-groups/:merchant_group_id/brands/serviceable-stores', verifyPublicToken, async (req, res, next) => {
+app.get('/app/:oms_public_key/merchant-groups/:merchant_group_id/brands/serviceable-stores', verifyAppToken, async (req, res, next) => {
 
     let params = await QUERY_HELPER.prepare(req);
     params.merchant_group_id = parseInt(req.params.merchant_group_id || 0);
@@ -219,5 +217,6 @@ app.get('/public/:oms_public_key/merchant-groups/:merchant_group_id/brands/servi
         return;
     }
 });
+
 
 module.exports.handler = serverless(app);

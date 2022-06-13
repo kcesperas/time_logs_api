@@ -2,7 +2,7 @@
   "dev": {
     "driver": "mysql",
     "host": "omrs-qa-uat.cluster-cuiylgqybm2l.ap-southeast-1.rds.amazonaws.com",
-    "database": "soms_dev",
+    "database": "mbs_dev",
     "user": "omrs_dev_user",
     "password": "26mB5DrUgfN3eVXUbGJ5RYgc",
     "multipleStatements": true
