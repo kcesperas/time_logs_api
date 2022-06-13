@@ -1,4 +1,4 @@
-service: SOMS
+service: MBS
 
 package:
   exclude:
