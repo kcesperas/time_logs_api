@@ -1,12 +1,15 @@
 const DB_API = require("../helpers/db-api");
+const uuid = require('uuid');
 const dottie = require("dottie");
 const TEXT_HELPER = require('../helpers/text');
 const moment = require('moment');
 let accountSchema = require('../schemas/account-schema.json');
+
+
 module.exports = {
 
     save: async function(params) {  
-             console.log('from save: ' + this.getModelName(), params )
+            //  console.log('from save: ' + this.getModelName(), params )
         // Check if there's data to save.
         if ( TEXT_HELPER.isEmpty(params.insertSql.replacements) ) {
             let error =  new Error('Invalid data passed.');
@@ -19,18 +22,15 @@ module.exports = {
         
 
         try {
-            let query = `
-                INSERT INTO accounts (${params.insertSql.INSERT}) 
-                VALUES(${params.insertSql.VALUES})
-                `;
+            let query = `INSERT INTO accounts (${params.insertSql.INSERT}) VALUES (${params.insertSql.VALUES})`;
 
              results = await DB_API.query(query, params.insertSql.replacements);
+
 
             if( typeof results.code !== 'undefined') {
                 throw new Error("Unable to perform queries.")
             }
         } catch( error ) {
-            console.log(error)
             throw new Error("Unable to perform queries.")
         }
          
@@ -127,7 +127,6 @@ module.exports = {
                 LIMIT 1
                 `;
 
-            console.log(query, replacements );
 
             results = await DB_API.query(query, replacements);
             if( typeof results.code !== 'undefined') {
@@ -175,11 +174,9 @@ module.exports = {
                 WHERE deleted_at IS NULL
                 ${conditionsSql}
                 `;
-                console.log(query, replacements );
 
             results = await DB_API.query(query, replacements);
 
-            console.log(results);
             if( typeof results.code !== 'undefined') {
                 throw new Error("Unable to perform queries.")
             }
@@ -194,7 +191,6 @@ module.exports = {
 	},
 
     delete: async function(params) {
-        console.log('from delete: ' + this.getModelName(), params )
 
         // Let's BEGIN our query builder here.
         try {
@@ -204,7 +200,6 @@ module.exports = {
                 WHERE deleted_at IS NULL AND
                 id = ?
                 `;
-            console.log('DELETE QUERY', query, params.deleteSql.replacements)
 
             results = await DB_API.query(query, params.deleteSql.replacements);
             if( typeof results.code !== 'undefined') {
@@ -231,7 +226,6 @@ module.exports = {
         };
         let columns = params.body;
         let now = new Date();
-        console.log('params.currentUser', params.currentUser)
         for ( colname in columns) {
             if ( !accountSchema.updateColums.includes(colname) )
             continue;
@@ -263,6 +257,7 @@ module.exports = {
         let id = parseInt(params.id);
         let d = new Date();
         let now = moment(d).format("YYYY-MM-DD HH:mm:ss")
+
          // Internal updating
         let forUpdating = {
             "deleted_at": now,
@@ -291,24 +286,27 @@ module.exports = {
             if ( !accountSchema.createColums.includes(colname) )
             continue;
 
-            insertSql.INSERT += insertSql.INSERT ?  ' ,' + colname + '': colname + ''
-            insertSql.VALUES += insertSql.VALUES ?  ' , ?': '?'
+
+            insertSql.INSERT += insertSql.INSERT ?  ',' + colname + '': colname + ''
+            insertSql.VALUES += insertSql.VALUES ?  ',?': '?'
             insertSql.replacements.push(columns[colname]);
         }
 
-        let d = new Date();
+        let d = new Date;
         let now = moment(d).format("YYYY-MM-DD HH:mm:ss")
          // Internal updating
         let forUpdating = {
-            "modified_at": now,
+            "public_key": `pk-mbs-${uuid.v4()}`,
+            "secret_key": `sk-mbs-${uuid.v4()}`,
+            "modified_at": d,
             "modified_by": params.currentUser.user_id,
-            "created_at": now,
+            "created_at": d,
             "created_by": params.currentUser.user_id,
         }
 
         for ( colname in forUpdating) {
-            insertSql.INSERT += insertSql.INSERT ?  ' ,' + colname + '': colname + ''
-            insertSql.VALUES += insertSql.VALUES ?  ' , ?': '?'
+            insertSql.INSERT += insertSql.INSERT ?  ',' + colname + '': colname + ''
+            insertSql.VALUES += insertSql.VALUES ?  ',?': '?'
             insertSql.replacements.push(forUpdating[colname]);
         }
 

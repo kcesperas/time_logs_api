@@ -1,6 +1,6 @@
 
 async function verifyAdminToken(req, res, next) {
-	const IDMS_MODEL = require('../../src/models/idms')
+	const IDMS_MODEL = require('../models/idms')
 	const TEXT_HELPER = require('../helpers/text')
 	const API_RESPONSE = require('../helpers/api-response');
 
@@ -17,7 +17,7 @@ async function verifyAdminToken(req, res, next) {
 		
 		let token = req.headers['authorization'];
 		let results = await IDMS_MODEL.validate(token, ['MBS Admin']);
-		console.log('IDMS validate',results);
+
 		if ( !TEXT_HELPER.isEmpty(results['status']) && results['status'] === 400 ) {
 			API_RESPONSE.send(res, {
 				'status': 400,
@@ -28,7 +28,6 @@ async function verifyAdminToken(req, res, next) {
 		} else {
 			// Continue to handler
 			req.currentUser = results.body.data;
-			console.log('req.currentUser', req.currentUser)
 			next();
 		}
 

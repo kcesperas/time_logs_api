@@ -5,7 +5,7 @@ const TEXT_HELPER = require('../helpers/text');
 const QUERY_HELPER = require('../helpers/query-helper');
 
 // Model declarations
-const ACCOUNT_OMS_MODEL = require("../models/account-oms");
+// const ACCOUNT_OMS_MODEL = require("../models/account-oms");
 
 module.exports = {
     validate: async function (token, roleNames = [] ) {
@@ -34,9 +34,8 @@ module.exports = {
             
                 let allowed = false;
                 let roles = res.body.data.roles;
-                console.log(roles, res.body.data);
 
-                let roleName = roleNames[0]; // 'SOMS Admin'
+                let roleName = roleNames[0]; // 'MBS Admin'
 
                 if ( roles.length ) {
                     for ( role in roles) {
@@ -74,58 +73,58 @@ module.exports = {
         }
     },
 
-    validateApp: async function (token, req) {
-        try {
-            let _ob = token.split(' ');
-            let requestedToken = _ob[1];
-            console.log('req.params', req.params);
-            // Get public key
-            let publicKey = req.params.oms_public_key;
+    // validateApp: async function (token, req) {
+    //     try {
+    //         let _ob = token.split(' ');
+    //         let requestedToken = _ob[1];
+    //         console.log('req.params', req.params);
+    //         // Get public key
+    //         let publicKey = req.params.oms_public_key;
 
-            // Check from account_oms if public key exists.
-            let params = await QUERY_HELPER.prepare(req);
-            params.conditions = {
-                "oms_public_key": publicKey
-            }
+    //         // Check from account_oms if public key exists.
+    //         let params = await QUERY_HELPER.prepare(req);
+    //         params.conditions = {
+    //             "oms_public_key": publicKey
+    //         }
 
-            try {
-                // Find soms_acccount
-                let accountOms = await ACCOUNT_OMS_MODEL.getOne(params);
+    //         try {
+    //             // Find soms_acccount
+    //             let accountOms = await ACCOUNT_OMS_MODEL.getOne(params);
 
-                let convertToHash = publicKey + ':' + accountOms.oms_secret_key;
+    //             let convertToHash = publicKey + ':' + accountOms.oms_secret_key;
 
-                const crypto = require('crypto');
-                const hash = 
-                    crypto.createHash('sha256')
-                    .update(convertToHash)
-                    .digest('base64');
+    //             const crypto = require('crypto');
+    //             const hash = 
+    //                 crypto.createHash('sha256')
+    //                 .update(convertToHash)
+    //                 .digest('base64');
                 
                 
-                console.log('hash',hash)
-                console.log('requestedToken',requestedToken)
+    //             console.log('hash',hash)
+    //             console.log('requestedToken',requestedToken)
 
-                if ( hash !== requestedToken ) {
-                    let error = new Error("Not authorized");
-                    error.code = 400;
-                    error.message = 'Not authorized.';
-                    throw error;
-                }
+    //             if ( hash !== requestedToken ) {
+    //                 let error = new Error("Not authorized");
+    //                 error.code = 400;
+    //                 error.message = 'Not authorized.';
+    //                 throw error;
+    //             }
 
-                return accountOms;
+    //             return accountOms;
                 
-            }  catch( error ) {
-                error.code = error.status ? error.status : 500;
-                error.message = error.message ? error.message: null;
-                throw error;
-            }
+    //         }  catch( error ) {
+    //             error.code = error.status ? error.status : 500;
+    //             error.message = error.message ? error.message: null;
+    //             throw error;
+    //         }
 
-		    console.log('token', token, _ob);
-        } catch ( error) {
-            error.code = error.status ? error.status : 500;
-            error.message = error.message ? error.message: null;
-            throw error;
-        }
-    },
+	// 	    console.log('token', token, _ob);
+    //     } catch ( error) {
+    //         error.code = error.status ? error.status : 500;
+    //         error.message = error.message ? error.message: null;
+    //         throw error;
+    //     }
+    // },
 
     jwtParsePayload: async function(token, parse = false ) {
         var _ob = jwt.split('.');

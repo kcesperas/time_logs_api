@@ -20,14 +20,7 @@ module.exports = {
         
 
         try {
-            let query = `
-                INSERT INTO user_references (${params.insertSql.INSERT}) 
-                VALUES(${params.insertSql.VALUES})
-
-                ON DUPLICATE KEY UPDATE 
-                ${params.insertSql.SET}
-                `;
-            console.log('insert query', query)
+            let query = `INSERT INTO user_references (${params.insertSql.INSERT}) VALUES (${params.insertSql.VALUES}) ON DUPLICATE KEY UPDATE ${params.insertSql.SET}`;
              results = await DB_API.query(query, params.insertSql.replacements);
             if( typeof results.code !== 'undefined') {
                 throw new Error("Unable to perform queries.1")
@@ -35,13 +28,13 @@ module.exports = {
         } catch( error ) {
             throw new Error("Unable to perform queries.2")
         }
-         
+
         // No results found
-        if ( !results.affectedRows ) {
-            let error =  new Error('No record to update.3');
-            error.code = 404;
-            throw error;
-        }
+        // if ( !results.affectedRows ) {
+        //     let error =  new Error('No record to update.3');
+        //     error.code = 404;
+        //     throw error;
+        // }
 
         return results;
 	},
@@ -61,10 +54,7 @@ module.exports = {
         
 
         try {
-            let query = `
-                INSERT INTO user_references (${params.insertSql.INSERT}) 
-                VALUES(${params.insertSql.VALUES})
-                `;
+            let query = `INSERT INTO user_references (${params.insertSql.INSERT}) VALUES(${params.insertSql.VALUES})`;
 
              results = await DB_API.query(query, params.insertSql.replacements);
             if( typeof results.code !== 'undefined') {
@@ -167,8 +157,6 @@ module.exports = {
                 LIMIT 1
                 `;
 
-            console.log(query, replacements );
-
             results = await DB_API.query(query, replacements);
             if( typeof results.code !== 'undefined') {
                 throw new Error("Unable to perform queries.")
@@ -215,11 +203,9 @@ module.exports = {
                 WHERE deleted_at IS NULL
                 ${conditionsSql}
                 `;
-                console.log(query, replacements );
 
             results = await DB_API.query(query, replacements);
 
-            console.log(results);
             if( typeof results.code !== 'undefined') {
                 throw new Error("Unable to perform queries.")
             }

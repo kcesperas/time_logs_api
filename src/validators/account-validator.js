@@ -6,7 +6,7 @@ module.exports = {
         function preValidateProperty(object, key, schema, options, ctx) {
             let value = object[key];
 
-            if ( typeof value ==='string' )
+            if ( typeof value === 'string' )
             return object[key] = value.trim();
     
             return;

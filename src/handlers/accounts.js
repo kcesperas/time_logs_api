@@ -146,17 +146,19 @@ app.post('/admin/accounts', verifyAdminToken, async (req, res, next) => {
         return;
     }
 
+
     // Let's go
     try {
         // Preparations
         params.insertSql = await ACCOUNT_MODEL.prepareSave(params);
         
+        // console.log(params)
         // Perform Query
         let results = await ACCOUNT_MODEL.save(params);
         
         // Insert user references if not yet exist.
-        await USER_REFERENCE_HELPER.save(params);
-
+        // await USER_REFERENCE_HELPER.save(params);
+        console.log(results)
         API_RESPONSE.send(res, {
             'status': 201,
             'success': true,
