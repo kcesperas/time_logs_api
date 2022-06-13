@@ -1,10 +1,19 @@
-
 module.exports = {
     validate: async function(payload) {
-        let Validator = require('jsonschema').Validator;
+        const Validator = require('jsonschema').Validator;
+
+        function preValidateProperty(object, key, schema, options, ctx) {
+            let value = object[key];
+
+            if ( typeof value ==='string' )
+            return object[key] = value.trim();
+    
+            return;
+        };
+
         let v = new Validator();
         
-        let storeSchema = require('../schemas/store-schema.json');
-        return v.validate(payload, storeSchema);
+        let schema = require('../schemas/store-schema.json');
+        return v.validate(payload, schema, {preValidateProperty});
     },
 }
