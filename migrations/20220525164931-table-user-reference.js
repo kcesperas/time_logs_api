@@ -20,7 +20,7 @@ exports.setup = function(options, seedLink) {
 
 exports.up = function(db, callback) {
   async.series([
-    db.createTable.bind(db, 'user_reference', {
+    db.createTable.bind(db, 'user_references', {
     id: { type:'int', primaryKey: true, autoIncrement: true },
     user_id: 'int',
     type: 'string',
@@ -30,17 +30,16 @@ exports.up = function(db, callback) {
     reference_1: 'string',
     reference_2: 'string',
     reference_3: 'string',
-    deleted_at: { type: 'datetime'},
-    deleted_by: 'int'
+    deleted_at: { type: 'datetime'}
   }),
-  db.addIndex.bind(db, 'user_reference', 'ix_user_id', ['user_id'], []),
+  db.addIndex.bind(db, 'user_references', 'ix_user_id', ['user_id'], []),
 ], callback) 
 };
 
 exports.down = function(db, callback) {
   async.series([
-    db.removeIndex.bind(db, 'user_reference', 'ix_user_id'),
-    db.dropTable.bind(db, 'user_reference')
+    db.removeIndex.bind(db, 'user_references', 'ix_user_id'),
+    db.dropTable.bind(db, 'user_references')
   ], callback)
 };
 

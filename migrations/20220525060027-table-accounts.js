@@ -32,8 +32,7 @@ exports.up = function(db, callback) {
       created_at: { type: 'timestamp' },
       modified_at: { type: 'datetime'},
       modified_by: 'int',
-      deleted_at: { type: 'datetime'},
-      deleted_by: 'int'
+      deleted_at: { type: 'datetime'}
     }),
     db.addIndex.bind(db, 'accounts', 'ix_public_key', ['public_key'], []),
   ], callback)

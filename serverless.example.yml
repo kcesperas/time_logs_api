@@ -14,9 +14,9 @@ provider:
   stage: ${opt:stage, 'dev'}
 
   environment:
-    RDS_DB_HOST: omrs-rds-proxy.proxy-cuiylgqybm2l.ap-southeast-1.rds.amazonaws.com
+    RDS_DB_HOST: omrs-qa-uat.cluster-cuiylgqybm2l.ap-southeast-1.rds.amazonaws.com
     RDS_DB_HOST_READ: omrs-rds-proxy-read-only.endpoint.proxy-cuiylgqybm2l.ap-southeast-1.rds.amazonaws.com
-    RDS_DB_NAME: mbs-dev
+    RDS_DB_NAME: mbs_dev
     RDS_DB_USER: omrs-prxyrds-user
     RDS_DB_PASSWORD: EHh9cCydvqyN3v3Jj3ATqfD8nLVrn8DJVwh4tUVwz
     DATABASE_API_URL: https://v8unrf4edd.execute-api.ap-southeast-1.amazonaws.com/staging
@@ -51,6 +51,23 @@ functions:
             allowCredentials: true
       - http:
           path: /admin/accounts/{proxy+}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+  MBS-WEBHOOKS:
+    handler: src/handlers/app/webhooks.handler
+    events:
+      - http:
+          path: /app
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /app/{proxy+}
           method: ANY
           cors:
             origin: "*"

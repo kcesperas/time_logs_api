@@ -9,7 +9,7 @@ let accountSchema = require('../schemas/account-schema.json');
 module.exports = {
 
     save: async function(params) {  
-            //  console.log('from save: ' + this.getModelName(), params )
+             console.log('from save: ' + this.getModelName(), params )
         // Check if there's data to save.
         if ( TEXT_HELPER.isEmpty(params.insertSql.replacements) ) {
             let error =  new Error('Invalid data passed.');
@@ -118,14 +118,7 @@ module.exports = {
 
         // Let's BEGIN our query builder here.
         try {
-            let query = `
-                SELECT 
-                ${select}
-                FROM accounts
-                WHERE deleted_at IS NULL
-                ${conditionsSql}
-                LIMIT 1
-                `;
+            let query = `SELECT ${select} FROM accounts WHERE deleted_at IS NULL ${conditionsSql} LIMIT 1`;
 
 
             results = await DB_API.query(query, replacements);
@@ -183,7 +176,6 @@ module.exports = {
             
             results = results.length ? dottie.transform(results) : [];
         } catch( error ) {
-            console.log(error)
             throw new Error("Unable to perform queries.")
         }
 
@@ -298,9 +290,9 @@ module.exports = {
         let forUpdating = {
             "public_key": `pk-mbs-${uuid.v4()}`,
             "secret_key": `sk-mbs-${uuid.v4()}`,
-            "modified_at": d,
+            "modified_at": now,
             "modified_by": params.currentUser.user_id,
-            "created_at": d,
+            "created_at": now,
             "created_by": params.currentUser.user_id,
         }
 
@@ -308,7 +300,7 @@ module.exports = {
             insertSql.INSERT += insertSql.INSERT ?  ',' + colname + '': colname + ''
             insertSql.VALUES += insertSql.VALUES ?  ',?': '?'
             insertSql.replacements.push(forUpdating[colname]);
-        }
+        }   
 
         return insertSql; 
     },

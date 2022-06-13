@@ -30,8 +30,7 @@ exports.up = function(db, callback) {
     created_at: 'datetime',
     modified_at: 'datetime',
     modified_by: 'int',
-    deleted_at: { type: 'datetime'},
-    deleted_by: 'int'
+    deleted_at: { type: 'datetime'}
   }),
   db.addIndex.bind(db, 'logics', 'ix_account_id', ['account_id'], []),
   ], callback)  

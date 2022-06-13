@@ -17,8 +17,8 @@ async function verifyPublicToken(req, res, next) {
 		
 		let token = req.headers['authorization'];
 
-		let results = await IDMS_MODEL.validateApp(token, req );
-		console.log('IDMS validate',results);
+		let results = await IDMS_MODEL.validateApp(token, req);
+
 		if ( TEXT_HELPER.isEmpty(results) ) {
 			API_RESPONSE.send(res, {
 				'status': 401,
@@ -28,12 +28,10 @@ async function verifyPublicToken(req, res, next) {
 			return;
 		} else {
 			// Continue to handler
-			console.log('NEXT NEXT')
 			next();
 		}
 
 	} catch( error ) {
-		console.log('IDMS error',error);
 		let send = {
 			'status': error.code ? error.code: 500,
 			'success': false,
@@ -41,9 +39,7 @@ async function verifyPublicToken(req, res, next) {
 		};
 		
 		if ( typeof error.tokenExpired !== 'undefined') send.tokenExpired = error.tokenExpired ? true: false;
-
 		API_RESPONSE.send(res, send );
-
 		return;
 	}
 }

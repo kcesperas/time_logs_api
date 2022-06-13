@@ -45,11 +45,7 @@ module.exports = {
         const user = process.env.RDS_DB_USER
         const password = process.env.RDS_DB_PASSWORD
         const database = process.env.RDS_DB_NAME
-        console.log(host)
-        console.log(host_read)
-        console.log(user)
-        console.log(password)
-        console.log(database)
+
         const encodeBuffer = Buffer.from(JSON.stringify({ host, host_read, user, password, database }))
         const token = encodeBuffer.toString('base64')
 
@@ -58,12 +54,12 @@ module.exports = {
         requestData.url = `${process.env.DATABASE_API_URL}/query`
         requestData.headers['Authorization'] = `Basic ${token}`
 
-        // console.log('Payload: ', JSON.stringify({
-        //     headers: requestData.headers,
-        //     method: requestData.method,
-        //     url: requestData.url,
-        //     data: requestData.data
-        // }))
+        console.log('Payload: ', JSON.stringify({
+            headers: requestData.headers,
+            method: requestData.method,
+            url: requestData.url,
+            data: requestData.data
+        }))
 
         if (! global.HTTPS_AGENT) {
             global.HTTPS_AGENT = new https.Agent({ keepAlive: true })
@@ -91,8 +87,7 @@ module.exports = {
                 console.log("\x1b[0m")
                 break
             } catch (error) {
-                // console.log(error.response)
-                // console.log('Database API Error: ', error)
+                console.log('Database API Error: ', error.response)
                 if (currentTry >= maxRetry) {
                     console.log("\x1b[31m", `Unable to perform datbase API after ${maxRetry} retries.`)
                     console.log("\x1b[0m")

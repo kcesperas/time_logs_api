@@ -1,5 +1,5 @@
 {
-    "id": "/AccountSchema",
+    "id": "/UserReferenceSchema",
     "type": "object",
     "properties": {
       "user_id": {"type": "integer"},

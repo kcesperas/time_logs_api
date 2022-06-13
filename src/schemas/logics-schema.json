@@ -1,0 +1,14 @@
+{
+    "id": "/LogicSchema",
+    "type": "object",
+    "properties": {
+      "account_id": {"type": "integer"},
+      "name": {"type": "string", "minLength": 2,"maxLength": 100},
+      "description": {"type": "string", "minLength": 1,"maxLength": 255},
+      "code_path": {"type": "string", "minLength": 1,"maxLength": 255},
+      "status": {"type": "integer"}
+    },
+    "required": ["name", "status"],
+    "createColums": ["account_id", "name", "description", "code_path", "status"],
+    "updateColums": ["name", "description", "code_path", "status"]
+}
