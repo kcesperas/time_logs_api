@@ -5,9 +5,8 @@ const moment = require('moment');
 let accountSchema = require('../schemas/account-schema.json');
 module.exports = {
 
-    save: async function(params) {
-        console.log('from save: ' + this.getModelName(), params )
-       
+    save: async function(params) {  
+             console.log('from save: ' + this.getModelName(), params )
         // Check if there's data to save.
         if ( TEXT_HELPER.isEmpty(params.insertSql.replacements) ) {
             let error =  new Error('Invalid data passed.');
@@ -26,10 +25,12 @@ module.exports = {
                 `;
 
              results = await DB_API.query(query, params.insertSql.replacements);
+
             if( typeof results.code !== 'undefined') {
                 throw new Error("Unable to perform queries.")
             }
         } catch( error ) {
+            console.log(error)
             throw new Error("Unable to perform queries.")
         }
          
@@ -220,7 +221,6 @@ module.exports = {
             error.code = 404;
             throw error;
         }
-
         return results;
 	},
 
