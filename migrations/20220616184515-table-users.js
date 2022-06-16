@@ -1,5 +1,9 @@
 'use strict';
 
+
+const async = require('async')
+
+
 var dbm;
 var type;
 var seed;
@@ -13,13 +17,42 @@ exports.setup = function(options, seedLink) {
   type = dbm.dataType;
   seed = seedLink;
 };
+`SELECT * FROM businesses WHERE business_id = user_input`
+exports.up = function(db, callback) {
+  async.series([
+    db.createTable.bind(db, 'users', {
+    id: { type:'int', primaryKey: true, autoIncrement: true },
+    firstName: "string",
+    lastName: "string",
+    gender: "string",
+    contact: "string",
+    address: "string",
+    email_address: "string",
+    username: "string",
+    password: "string",
+    status: "string",
+    dp_url: "string",
+    notes: "string",
+    birthDate: "datetime",
+    suspended_at: "datetime",
+    created_at: "datetime",
+    updated_at: "datetime",
+    deleted_at: "datetime",
+    business_id: `SELECT * FROM businesses WHERE business_id = ${input}`
+      
+   
+    
 
-exports.up = function(db) {
-  return null;
+  }),
+
+
+], callback) 
 };
 
-exports.down = function(db) {
-  return null;
+exports.down = function(db, callback) {
+  async.series([
+    db.dropTable.bind(db, 'users')
+  ], callback)
 };
 
 exports._meta = {

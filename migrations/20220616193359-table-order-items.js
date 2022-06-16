@@ -20,24 +20,20 @@ exports.setup = function(options, seedLink) {
 
 exports.up = function(db, callback) {
   async.series([
-    db.createTable.bind(db, 'notifications', {
+    db.createTable.bind(db, 'order_items', {
     id: { type:'int', primaryKey: true, autoIncrement: true },
-    title: "string",
-    content: "string",
-    type: "string",
-    status: "string",
+    qty: "string",
+    subtotal: "string",
     notes: "string",
-    viewed_at: "datetime",
     created_at: "datetime",
-    deletd_at: "datetime"
-
+    deleted_at: "datetime"
   }),
 ], callback) 
 };
 
 exports.down = function(db, callback) {
   async.series([
-    db.dropTable.bind(db, 'notifications')
+    db.dropTable.bind(db, 'order_items')
   ], callback)
 };
 

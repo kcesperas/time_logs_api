@@ -20,16 +20,18 @@ exports.setup = function(options, seedLink) {
 
 exports.up = function(db, callback) {
   async.series([
-    db.createTable.bind(db, 'notifications', {
+    db.createTable.bind(db, 'customers', {
     id: { type:'int', primaryKey: true, autoIncrement: true },
-    title: "string",
-    content: "string",
-    type: "string",
-    status: "string",
+    firstName: "string",
+    lastName: "string",
+    gender: "string",
+    contact: "string",
+    address: "string",
+    position: "string",
+    limit: "string",
     notes: "string",
-    viewed_at: "datetime",
-    created_at: "datetime",
-    deletd_at: "datetime"
+    birthDate: "datetime",
+    deleted_at: "datetime"
 
   }),
 ], callback) 
@@ -37,7 +39,7 @@ exports.up = function(db, callback) {
 
 exports.down = function(db, callback) {
   async.series([
-    db.dropTable.bind(db, 'notifications')
+    db.dropTable.bind(db, 'customers')
   ], callback)
 };
 

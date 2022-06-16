@@ -1,5 +1,9 @@
 'use strict';
 
+
+const async = require('async')
+
+
 var dbm;
 var type;
 var seed;
@@ -14,12 +18,26 @@ exports.setup = function(options, seedLink) {
   seed = seedLink;
 };
 
-exports.up = function(db) {
-  return null;
+exports.up = function(db, callback) {
+  async.series([
+    db.createTable.bind(db, 'purchases', {
+    id: { type:'int', primaryKey: true, autoIncrement: true },
+    qty: "string",
+    price: "string",
+    total: "string",
+    type: "string",
+    purchaseBy: "string",
+    notes: "string",
+    created_at: "datetime",
+    deleted_at: "datetime"
+  }),
+], callback) 
 };
 
-exports.down = function(db) {
-  return null;
+exports.down = function(db, callback) {
+  async.series([
+    db.dropTable.bind(db, 'purchases')
+  ], callback)
 };
 
 exports._meta = {
