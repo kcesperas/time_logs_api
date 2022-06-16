@@ -1,0 +1,14 @@
+{
+    "id": "/Role",
+    "type": "object",
+    "properties": {
+      "title": "string",
+      "notes": "string",
+      "deleted_at": "datetime",
+      "created_at": "datetime"
+
+    },
+    "required": ["title"],
+    "createColums": ["title", "notes"],
+    "updateColums": ["title", "notes", "deleted_at"]
+}

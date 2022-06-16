@@ -24,7 +24,8 @@ exports.up = function(db, callback) {
     id: { type:'int', primaryKey: true, autoIncrement: true },
     title: {type: "string", defaultValue: "user"},
     notes: "string",
-    deleted_at: "datetime"
+    deleted_at: "datetime",
+    created_at: "datetime"
   }),
 ], callback) 
 };

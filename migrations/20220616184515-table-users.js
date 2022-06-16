@@ -38,11 +38,8 @@ exports.up = function(db, callback) {
     created_at: "datetime",
     updated_at: "datetime",
     deleted_at: "datetime",
-    business_id: `SELECT * FROM businesses WHERE business_id = ${input}`
-      
    
-    
-
+      
   }),
 
 
