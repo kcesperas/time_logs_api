@@ -1,8 +1,8 @@
 {
-  "name": "merchant-business-service",
+  "name": "aja-pos",
   "version": "1.0.0",
   "last update": "",
-  "description": "Merchant Business Service",
+  "description": "Aja POS",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,9 +13,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://serino-gitlab.serino.com/omrs/api/merchant-business-service.git"
+    "url": ""
   },
-  "author": "iGen Payments System",
+  "author": "Bugtech POS",
   "license": "ISC",
   "dependencies": {
     "async": "^3.2.0",
