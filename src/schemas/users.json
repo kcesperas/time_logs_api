@@ -1,0 +1,25 @@
+{
+    "id": "/User",
+    "type": "object",
+    "properties": {
+      "firstName": "string",
+      "lastName": "string",
+      "birthDate": "string",
+      "gender": "string",
+      "contact": "string",
+      "address": "string",
+      "email_address": "string",
+      "username": "string",
+      "password": "string",
+      "status": "string",
+      "dpUrl": "string",
+      "notes": "string",
+      "suspended_at": "datetime",
+      "deleted_at": "datetime",
+      "created_at": "datetime"
+
+    },
+    "required": ["firstName", "lastName", "email_address", "username", "password", "contact", "birthDate", "gender"],
+    "createColums": ["title", "notes"],
+    "updateColums": ["title", "notes", "deleted_at"]
+}

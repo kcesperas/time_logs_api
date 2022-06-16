@@ -12,27 +12,27 @@ var verifyAdminToken = require('../middlewares/verifyAdminToken');
 const API_RESPONSE = require('../helpers/api-response');
 const QUERY_HELPER = require('../helpers/query-helper');
 const TEXT_HELPER = require('../helpers/text');
-const ROLE_HELPER = require('../helpers/roles');
+const USER_REFERENCE_HELPER = require('../helpers/user-reference');
 
 
 // Model declarations
-const ROLE_MODEL = require("../models/roles.model");
+const ACCOUNT_MODEL = require("../models/account");
 
 // Validator declarations
-const ROLE_VALIDATOR = require("../validators/roles-validator");
+const ACCOUNT_VALIDATOR = require("../validators/account-validator");
 
 // Lib declarations
 const moment = require('moment');
 
 // GET ONE RECORD
-app.get('/admin/role/:id', verifyAdminToken, async (req, res, next) => {
+app.get('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
 
     let params = await QUERY_HELPER.prepare(req);
     params.conditions = {
         "id": parseInt(req.params.id || 0)
     }
     try {
-        let results = await ROLE_MODEL.getOne(params);
+        let results = await ACCOUNT_MODEL.getOne(params);
         
         API_RESPONSE.send(res, {
             'status': 200,
@@ -50,12 +50,12 @@ app.get('/admin/role/:id', verifyAdminToken, async (req, res, next) => {
 });
 
 // GET RECORDS
-app.get('/admin/roles', verifyAdminToken, async (req, res, next) => {
+app.get('/admin/accounts', verifyAdminToken, async (req, res, next) => {
 
     let params = await QUERY_HELPER.prepare(req);
 
     try {
-        let results = await ROLE_MODEL.get(params);
+        let results = await ACCOUNT_MODEL.get(params);
         
         API_RESPONSE.send(res, {
             'status': 200,
@@ -74,14 +74,14 @@ app.get('/admin/roles', verifyAdminToken, async (req, res, next) => {
 
 
 // UPDATE RECORD
-app.put('/admin/roles/:id', verifyAdminToken, async (req, res, next) => {
+app.put('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
 
     let params = {};
     params.body = req.body;
-    params.currentRole = req.currenRole;
-    let role_id = parseInt( req.params.id || 0);
+    params.currentUser = req.currentUser;
+    let account_id = parseInt( req.params.id || 0);
     params.conditions = {
-        "id": role_id
+        "id": account_id
     }
 
     if ( !params.conditions.id ) {
@@ -95,13 +95,13 @@ app.put('/admin/roles/:id', verifyAdminToken, async (req, res, next) => {
     
     try {
         // Preparations
-        params.setSql = await ROLE_MODEL.prepareUpdate(params);
+        params.setSql = await ACCOUNT_MODEL.prepareUpdate(params);
         
         // Perform Query
-        let results = await ROLE_MODEL.update(params);
+        let results = await ACCOUNT_MODEL.update(params);
         
         // Insert user references if not yet exist.
-        await ROLE_HELPER.save(params);
+        await USER_REFERENCE_HELPER.save(params);
 
         API_RESPONSE.send(res, {
             'status': 200,
@@ -120,14 +120,14 @@ app.put('/admin/roles/:id', verifyAdminToken, async (req, res, next) => {
 
 
 // CREATE RECORD
-app.post('/admin/roles', verifyAdminToken, async (req, res, next) => {
+app.post('/admin/accounts', verifyAdminToken, async (req, res, next) => {
 
     let params = {}
     params.body = req.body;
-    params.currentRole = req.currentRole ;
+    params.currentUser = req.currentUser;
     // Validataion
     try {
-        let validator = await ROLE_VALIDATOR.validate(req.body);
+        let validator = await ACCOUNT_VALIDATOR.validate(req.body);
         if ( !validator.valid ) {
             API_RESPONSE.send(res, {
                 'status': 422,
@@ -150,13 +150,13 @@ app.post('/admin/roles', verifyAdminToken, async (req, res, next) => {
     // Let's go
     try {
         // Preparations
-        params.insertSql = await ROLE_MODEL.prepareSave(params);
+        params.insertSql = await ACCOUNT_MODEL.prepareSave(params);
         
         // Perform Query
-        let results = await ROLE_MODEL.save(params);
+        let results = await ACCOUNT_MODEL.save(params);
         
         // Insert user references if not yet exist.
-        await ROLE_HELPER.save(params);
+        await USER_REFERENCE_HELPER.save(params);
         API_RESPONSE.send(res, {
             'status': 201,
             'success': true,
@@ -174,7 +174,7 @@ app.post('/admin/roles', verifyAdminToken, async (req, res, next) => {
 
 
 // DELETE RECORD
-app.delete('/admin/roles/:id', verifyAdminToken, async (req, res, next) => {
+app.delete('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
 
     let params = {};
     params.currentUser = req.currentUser;
@@ -183,13 +183,13 @@ app.delete('/admin/roles/:id', verifyAdminToken, async (req, res, next) => {
     
     try {
          // Preparations
-         params.deleteSql = await ROLE_MODEL.prepareDelete(params);
+         params.deleteSql = await ACCOUNT_MODEL.prepareDelete(params);
 
         // Perform Query
-        let results = await ROLE_MODEL.delete(params);
+        let results = await ACCOUNT_MODEL.delete(params);
         
         // Insert user references if not yet exist.
-        await ROLE_HELPER.save(params);
+        await USER_REFERENCE_HELPER.save(params);
 
         API_RESPONSE.send(res, {
             'status': 200,
