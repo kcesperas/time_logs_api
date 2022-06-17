@@ -1,0 +1,68 @@
+service: MBS
+
+package:
+  exclude:
+    - node_modules/**/README.*
+    - node_modules/**/test/**
+    - node_modules/**/aws-sdk/**
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  timeout: 60
+  region: ap-southeast-1
+  stage: ${opt:stage, 'dev'}
+
+  environment:
+    RDS_DB_HOST: localhost
+    RDS_DB_HOST_READ: localhost
+    RDS_DB_NAME: aja_pos
+    RDS_DB_USER: root
+    RDS_DB_PASSWORD: 
+    DATABASE_API_URL: http://localhost/phpmyadmin/index.php?route=/database/structure&db=aja_pos
+
+
+
+plugins:
+  - serverless-offline
+
+custom:
+  allowed-headers:
+    - X-Api-Key
+
+
+functions:
+  ROLES:
+    handler: src/handlers/roles
+    events:
+      - http:
+          path: /api/roles
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+      - http:
+          path: /api/roles/{proxy+}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}       
+  USERS:
+    handler: src/handlers/users
+    events:
+      - http:
+          path: /api/users
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+      - http:
+          path: /api/users/{proxy+}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}
+            allowCredentials: true
+ 
+ 
