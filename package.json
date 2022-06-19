@@ -1,7 +1,6 @@
 {
   "name": "aja-pos",
   "version": "1.0.0",
-  "last update": "",
   "description": "Aja POS",
   "main": "index.js",
   "scripts": {
@@ -37,6 +36,7 @@
     "mysql2": "^2.1.0",
     "node-rsa": "^1.0.8",
     "point-in-polygon": "^1.1.0",
+    "sequelize": "^6.21.0",
     "serverless": "^1.83.2",
     "serverless-http": "^2.5.0",
     "superagent": "^5.3.1",

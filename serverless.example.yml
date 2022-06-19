@@ -1,27 +1,18 @@
-service: MBS
-
-package:
-  exclude:
-    - node_modules/**/README.*
-    - node_modules/**/test/**
-    - node_modules/**/aws-sdk/**
+service: aja-pos
 
 provider:
   name: aws
   runtime: nodejs12.x
   timeout: 60
   region: ap-southeast-1
-  stage: ${opt:stage, 'dev'}
+  stage: ${opt:stage, 'local'}
 
   environment:
-    RDS_DB_HOST: localhost
-    RDS_DB_HOST_READ: localhost
-    RDS_DB_NAME: aja_pos
-    RDS_DB_USER: root
-    RDS_DB_PASSWORD: 
-    DATABASE_API_URL: http://localhost/phpmyadmin/index.php?route=/database/structure&db=aja_pos
-
-
+    DB_HOST: localhost
+    DB_NAME: aja_pos
+    DB_USER: root
+    DB_PASSWORD: 
+    DB_PORT: 3306 
 
 plugins:
   - serverless-offline
@@ -33,36 +24,47 @@ custom:
 
 functions:
   ROLES:
-    handler: src/handlers/roles
+    handler: src/handlers/roles.handler
     events:
       - http:
-          path: /api/roles
+          path: /admin/roles
           method: ANY
           cors:
             origin: "*"
             headers: ${self:custom.allowed-headers}
       - http:
-          path: /api/roles/{proxy+}
+          path: /admin/roles/{proxy+}
           method: ANY
           cors:
             origin: "*"
-            headers: ${self:custom.allowed-headers}       
+            headers: ${self:custom.allowed-headers}      
   USERS:
-    handler: src/handlers/users
+    handler: src/handlers/users.handler
     events:
       - http:
-          path: /api/users
+          path: /admin/users
           method: ANY
           cors:
             origin: "*"
             headers: ${self:custom.allowed-headers}
-            allowCredentials: true
       - http:
-          path: /api/users/{proxy+}
+          path: /admin/users/{proxy+}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}    
+  USER_ROLES:
+    handler: src/handlers/user_roles.handler
+    events:
+      - http:
+          path: /admin/user_roles
           method: ANY
           cors:
             origin: "*"
             headers: ${self:custom.allowed-headers}
-            allowCredentials: true
- 
- 
+      - http:
+          path: /admin/user_roles/{proxy+}
+          method: ANY
+          cors:
+            origin: "*"
+            headers: ${self:custom.allowed-headers}    

@@ -1,6 +1,5 @@
 'use strict';
 
-
 const async = require('async')
 
 
@@ -19,22 +18,22 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db, callback) {
-  async.series([
-    db.createTable.bind(db, 'order_items', {
-    id: { type:'int', primaryKey: true, autoIncrement: true },
-    qty: "string",
-    subtotal: "string",
-    notes: "string",
-    created_at: "datetime",
-    deleted_at: "datetime"
-  }),
-], callback) 
+  // async.series([
+  //   db.addForeignKey.bind(db, 'users', 'businesses', 'users_businesses_id_foreign',
+  //   {
+  //     'business_id': 'id'
+  //   },
+  //   {
+  //     onDelete: 'CASCADE',
+  //     onUpdate: 'RESTRICT'
+  //   }),
+  // ], callback)
 };
 
 exports.down = function(db, callback) {
-  async.series([
-    db.dropTable.bind(db, 'order_items')
-  ], callback)
+  // async.series([
+  //   db.removeForeignKey.bind(db, 'users', 'users_businesses_id_foreign')
+  // ], callback)
 };
 
 exports._meta = {

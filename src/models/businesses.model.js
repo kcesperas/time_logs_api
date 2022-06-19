@@ -1,11 +1,11 @@
     const CoreModel = require("../../core/model");
     const TEXT_HELPER = require('../helpers/text');
     const moment = require('moment');
-    let roleSchema = require('../schemas/roles-schema.json');
+    let businessSchema = require('../schemas/businesses-schema.json');
 
 
 
-class RoleModel extends CoreModel {
+class BusinessesModel extends CoreModel {
     
         static async save(params) {
             console.log('from save: ' + this.getModelName(), params )
@@ -21,7 +21,7 @@ class RoleModel extends CoreModel {
             // Let's BEGIN our query builder here.
     
             try {
-                let query = `INSERT INTO roles (${params.insertSql.INSERT}) VALUES(${params.insertSql.VALUES})`;
+                let query = `INSERT INTO businesses (${params.insertSql.INSERT}) VALUES(${params.insertSql.VALUES})`;
     
                  results = await this.dbExecute(query, params.insertSql.replacements);
                  
@@ -33,8 +33,6 @@ class RoleModel extends CoreModel {
                 console.log(error)
                 throw new Error("Unable to perform queries.")
             }
-             
-          
         }
     
         static async update(params) {
@@ -67,7 +65,7 @@ class RoleModel extends CoreModel {
             // Let's BEGIN our query builder here.
             try {
                 let query = `
-                    UPDATE roles SET 
+                    UPDATE businesses SET 
                     ${params.setSql.SET}
                     WHERE deleted_at IS NULL
                     ${conditionsSql}
@@ -105,7 +103,7 @@ class RoleModel extends CoreModel {
                 let query = `
                     SELECT 
                     ${select}
-                    FROM roles
+                    FROM businesses
                     WHERE deleted_at IS NULL
                     ${conditionsSql}
                     LIMIT 1
@@ -144,7 +142,7 @@ class RoleModel extends CoreModel {
                 let query = `
                     SELECT 
                     ${select}
-                    FROM roles
+                    FROM businesses
                     WHERE deleted_at IS NULL
                     ${conditionsSql}
                     `;
@@ -168,7 +166,7 @@ class RoleModel extends CoreModel {
             // Let's BEGIN our query builder here.
             try {
                 let query = `
-                    UPDATE roles SET 
+                    UPDATE businesses SET 
                     ${params.deleteSql.SET}
                     WHERE deleted_at IS NULL AND
                     id = ?
@@ -194,7 +192,7 @@ class RoleModel extends CoreModel {
             let columns = params.body;
             console.log('params.currentUser', params.currentUser)
             for (let colname in columns) {
-                if ( !roleSchema.updateColums.includes(colname) )
+                if ( !businessSchema.updateColums.includes(colname) )
                 continue;
     
                 setSql.SET += setSql.SET ?  ' ,' + colname + ' = ?': colname + ' = ?'
@@ -238,7 +236,7 @@ class RoleModel extends CoreModel {
             let columns = params.body;
     
             for (let colname in columns) {
-                if ( !roleSchema.createColums.includes(colname) )
+                if ( !businessSchema.createColums.includes(colname) )
                 continue;
     
     
@@ -270,4 +268,4 @@ class RoleModel extends CoreModel {
     
     }
 
-module.exports = RoleModel
+module.exports = BusinessesModel

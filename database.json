@@ -6,6 +6,18 @@
     "user": "root",
     "password": "",
     "multipleStatements": true
-  }
+  },
+  "qa": {
+    "driver": "sqlite3",
+    "filename": ":memory:"
+  },
+
+  "prod": {
+    "driver": "mysql",
+    "user": "root",
+    "password": "root"
+  },
+
+  "other": "postgres://uname:pw@server.com/dbname"
 
 }

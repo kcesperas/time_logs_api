@@ -1,0 +1,11 @@
+{
+    "id": "/Roles",
+    "type": "object",
+    "properties": {
+      "title":  {"type": "string",  "minLength": 1, "maxLength": 100},
+      "notes":  {"type": "string",  "minLength": 1, "maxLength": 100}
+    },
+    "required": ["title"],
+    "createColums": ["title", "notes"],
+    "updateColums": ["title", "notes"]
+}

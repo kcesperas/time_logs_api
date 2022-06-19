@@ -1,210 +1,276 @@
-const serverless = require('serverless-http');
-const body_parser = require('body-parser');
-const express = require('express');
-const app = express();
-app.use(body_parser.json({ strict: false }));
-app.use(body_parser.urlencoded({ extended: true }));
-
-// Middlewares
-var verifyAdminToken = require('../middlewares/verifyAdminToken');
-
-// Helper declarations
-const API_RESPONSE = require('../helpers/api-response');
-const QUERY_HELPER = require('../helpers/query-helper');
+const { uniq, isUndefined } = require("lodash");
+const CoreModel = require("../../core/model");
 const TEXT_HELPER = require('../helpers/text');
-const USER_HELPER = require('../helpers/users');
-
-
-// Model declarations
-const USER_MODEL = require("../models/users.model");
-
-// Validator declarations
-const USER_VALIDATOR = require("../validators/user-validator");
-
-// Lib declarations
 const moment = require('moment');
+let userSchema = require('../schemas/users-schema.json');
 
-// GET ONE RECORD
-app.get('/api/users/:id', verifyAdminToken, async (req, res, next) => {
 
-    let params = await QUERY_HELPER.prepare(req);
-    params.conditions = {
-        "id": parseInt(req.params.id || 0)
-    }
-    try {
-        let results = await USER_MODEL.getOne(params);
+
+class RoleModel extends CoreModel {
+
+    static async save(params) {
+        console.log('from save: ' + this.getModelName(), params )
+
+        // Check if there's data to save.
+        if ( TEXT_HELPER.isEmpty(params.insertSql.replacements) ) {
+            let error =  new Error('Invalid data passed.');
+            error.code = 422;
+            throw error;
+        }
         
-        API_RESPONSE.send(res, {
-            'status': 200,
-            'success': true,
-            'message': 'Data successfully retrieved.',
-            'data': results,
-        });
-    }  catch( error ) {
-        API_RESPONSE.send(res, {
-            'status': error.code ? error.code : 500,
-            'success': false,
-            'message': error.message,
-        });
+        let results = null;
+        // Let's BEGIN our query builder here.
+
+        try {
+            let query = `INSERT INTO users (${params.insertSql.INSERT}) VALUES(${params.insertSql.VALUES})`;
+
+             results = await this.dbExecute(query, params.insertSql.replacements);
+             
+             params.conditions = {
+                "id": parseInt(results || 0)
+            }
+        return await this.getOne(params);
+        } catch( error ) {
+            console.log(error)
+            throw new Error("Unable to perform queries.")
+        }
+         
+      
     }
-});
 
-// GET RECORDS
-app.get('/api/users', verifyAdminToken, async (req, res, next) => {
+    static async update(params) {
+        console.log('from update: ' + this.getModelName(), params )
+        // Check if there's data to update.
+        if ( !params.setSql.replacements.length ) {
+            let error =  new Error('Invalid data passed.');
+            error.code = 400;
+            throw error;
+        }
 
-    let params = await QUERY_HELPER.prepare(req);
+        let results = null;
 
-    try {
-        let results = await USER_MODEL.get(params);
+        // let id = parseInt(params.id);
+
+        let conditions = params.conditions || [];
+        let conditionsSql = '';
+        let replacements = params.setSql.replacements;
+
+        if (  !TEXT_HELPER.isEmpty(conditions) ) {
+            for (let colname in conditions) {
+                conditionsSql += conditionsSql ?  ' AND ' + colname + ' = ?':'' + colname + ' = ?'
+                replacements.push(conditions[colname]);
+            }
+            conditionsSql = 'AND ' + conditionsSql
+        } else {
+            throw new Error("Unable to perform queries. No conditions.")
+        }
+
+        // Let's BEGIN our query builder here.
+        try {
+            let query = `
+                UPDATE users SET 
+                ${params.setSql.SET}
+                WHERE deleted_at IS NULL
+                ${conditionsSql}
+                `;
+
+            results = await this.dbExecute(query, replacements);
+          
+            return await this.getOne(params);
+        } catch( error ) {
+            throw new Error("Unable to perform queries.")
+        }
+    }
+
+    static async getOne(params) {
+        console.log('from getOne: ' + this.getModelName() )
+        let results = null;
+
+        let select = params.fields || '*';
         
-        API_RESPONSE.send(res, {
-            'status': 200,
-            'success': true,
-            'message': 'Data successfully retrieved.',
-            'data': results,
-        })
-    }  catch( error ) {
-        API_RESPONSE.send(res, {
-            'status': error.code ? error.code : 500,
-            'success': false,
-            'message': error.message,
-        });
+        let conditions = params.conditions || [];
+        let conditionsSql = '';
+        let replacements = [];
+
+        if (  !TEXT_HELPER.isEmpty(conditions) ) {
+            for (let colname in conditions) {
+                conditionsSql += conditionsSql ?  ' AND ' + colname + ' = ?':'' + colname + ' = ?'
+                replacements.push(conditions[colname]);
+            }
+            conditionsSql = 'AND ' + conditionsSql
+        }
+
+        // Let's BEGIN our query builder here.
+        try {
+            let query = `
+                SELECT 
+                ${select}
+                FROM users
+                WHERE deleted_at IS NULL
+                ${conditionsSql}
+                LIMIT 1
+                `;
+
+            results = await this.dbExecute(query, replacements);
+            return results;
+
+            } catch( error ) {
+                console.log(error)
+            throw new Error("Unable to perform queries.")
+        }
+        // No results found
     }
-});
+
+    static async get(params) {
+        console.log('from get: ' + this.getModelName() )
+        let results = null;
+        let clause = {
+            table: 'users',
+            select: params.fields || '*',
+            join: '',
+            where: 'deleted_at IS NULL'
+
+        }
+        
+        let conditions = params.conditions || [];
+        let conditionsSql = '';
+        let replacements = [];
+
+        if (  !TEXT_HELPER.isEmpty(conditions) ) {
+            for (let colname in conditions) {
+                conditionsSql += conditionsSql ?  ' AND ' + colname + ' = ?':'' + colname + ' = ?'
+                replacements.push(conditions[colname]);
+            }
+            conditionsSql = 'AND ' + conditionsSql
+        }
+        
+        // Let's BEGIN our query builder here.
+        try {
+            let query = `
+                SELECT 
+                ${clause.select}
+                FROM ${clause.table}
+                ${clause.join}
+                WHERE ${clause.where}
+                ${conditionsSql}
+                `;
+
+            results = await this.dbExecute(query, replacements);
 
 
-// UPDATE RECORD
-app.put('/api/users/:id', verifyAdminToken, async (req, res, next) => {
+        return results;
 
-    let params = {};
-    params.body = req.body;
-    params.currentUser = req.currentUser;
-    let user_id = parseInt( req.params.id || 0);
-    params.conditions = {
-        "id": role_id
+        } catch( error ) {
+            console.log(error)
+            throw new Error("Unable to perform queries.")
+        }
+
     }
 
-    if ( !params.conditions.id ) {
-        API_RESPONSE.send(res, {
-            'status': 404,
-            'success': false,
-            'message': 'Unable to process request.',
-        });
-        return;
+    static async delete(params) {
+        console.log('from delete: ' + this.getModelName(), params )
+        let results = null;
+
+        // Let's BEGIN our query builder here.
+        try {
+            let query = `
+                UPDATE users SET 
+                ${params.deleteSql.SET}
+                WHERE deleted_at IS NULL AND
+                id = ?
+                `;
+            console.log('DELETE QUERY', query, params.deleteSql.replacements)
+
+         results = await this.dbExecute(query, params.deleteSql.replacements);
+
+            return { affectedRows: results.affectedRows};
+        } catch( error ) {
+            console.log(results)
+            throw new Error("Unable to perform queries.")
+        }
     }
+
+
     
-    try {
-        // Preparations
-        params.setSql = await USER_MODEL.prepareUpdate(params);
-        
-        // Perform Query
-        let results = await USER_MODEL.update(params);
-        
-        // Insert user references if not yet exist.
-        await USER_HELPER.save(params);
-
-        API_RESPONSE.send(res, {
-            'status': 200,
-            'success': true,
-            'message': 'Record successfully updated.',
-            'data': results,
-        });
-    }  catch( error ) {
-        API_RESPONSE.send(res, {
-            'status': error.code ? error.code : 500,
-            'success': false,
-            'message': error.message,
-        });
-    }
-});
-
-
-// CREATE RECORD
-app.post('/api/users', verifyAdminToken, async (req, res, next) => {
-
-    let params = {}
-    params.body = req.body;
-    params.currentUser = req.currentUser ;
-    // Validataion
-    try {
-        let validator = await USER_VALIDATOR.validate(req.body);
-        if ( !validator.valid ) {
-            API_RESPONSE.send(res, {
-                'status': 422,
-                'success': false,
-                'errors': validator.errors,
-                'message': 'Invalid data.',
-            });
-            return;
-        } 
-    } catch( error ) {
-        API_RESPONSE.send(res, {
-            'status': error.code ? error.code : 500,
-            'success': false,
-            'message': error.message,
-        });
-        return;
+    static async prepareUpdate(params) {
+        let setSql = {
+            SET: '',
+            replacements: []
+        };
+        let columns = params.body;
+        console.log('params.currentUser', params.currentUser)
+        for (let colname in columns) {
+            if ( !userSchema.updateColums.includes(colname) )
+            continue;
+            setSql.SET += setSql.SET ?  ' ,' + colname + ' = ?': colname + ' = ?'
+            setSql.replacements.push(columns[colname]);
+        }
+        return setSql; 
     }
 
+    static async prepareDelete(params) {
+        let deleteSql = {
+            SET: '',
+            replacements: []
+        };
 
-    // Let's go
-    try {
-        // Preparations
-        params.insertSql = await USER_MODEL.prepareSave(params);
-        
-        // Perform Query
-        let results = await USER_MODEL.save(params);
-        
-        // Insert user references if not yet exist.
-        await USER_HELPER.save(params);
-        API_RESPONSE.send(res, {
-            'status': 201,
-            'success': true,
-            'message': 'Record successfully created.',
-            'data': results,
-        });
-    }  catch( error ) {
-        API_RESPONSE.send(res, {
-            'status': error.code ? error.code : 500,
-            'success': false,
-            'message': error.message,
-        });
-    }
-});
-
-
-// DELETE RECORD
-app.delete('/api/users/:id', verifyAdminToken, async (req, res, next) => {
-
-    let params = {};
-    params.currentUser = req.currentUser;
-    params.id = req.params.id || 0;
-    // Validataion
+        let id = parseInt(params.id);
+        let d = new Date();
+        let now = moment(d).format("YYYY-MM-DD HH:mm:ss")
     
-    try {
-         // Preparations
-         params.deleteSql = await USER_MODEL.prepareDelete(params);
+        // Internal updating
+        let forUpdating = {
+            "deleted_at": now,
+        }
 
-        // Perform Query
-        let results = await USER_MODEL.delete(params);
-        
-        // Insert user references if not yet exist.
-        await USER_HELPER.save(params);
+        for (let colname in forUpdating) {
+            deleteSql.SET += deleteSql.SET ?  ' ,' + colname + ' = ?': colname + ' = ?'
+            deleteSql.replacements.push(forUpdating[colname]);
+        }
+        deleteSql.replacements.push(id);
 
-        API_RESPONSE.send(res, {
-            'status': 200,
-            'success': true,
-            'message': 'Record successfully deleted.',
-            'data': results,
-        });
-    }  catch( error ) {
-        API_RESPONSE.send(res, {
-            'status': error.code ? error.code : 500,
-            'success': false,
-            'message': error.message,
-        });
+        return deleteSql; 
     }
-});
+
+    static async prepareSave(params) {
+        let insertSql = {
+            INSERT: '',
+            VALUES: '',
+            replacements: []
+        };
+        let columns = params.body;
+
+        for (let colname in columns) {
+            if ( !userSchema.createColums.includes(colname) )
+            continue;
 
 
-module.exports.handler = serverless(app);
+            insertSql.INSERT += insertSql.INSERT ?  ',' + colname + '': colname + ''
+            insertSql.VALUES += insertSql.VALUES ?  ',?': '?'
+            insertSql.replacements.push(columns[colname]);
+        }
+
+        let d = new Date;
+        let now = moment(d).format("YYYY-MM-DD HH:mm:ss")
+         // Internal updating
+        let forUpdating = {
+            "created_at": now,
+        }
+
+        for (let colname in forUpdating) {
+            insertSql.INSERT += insertSql.INSERT ?  ',' + colname + '': colname + ''
+            insertSql.VALUES += insertSql.VALUES ?  ',?': '?'
+            insertSql.replacements.push(forUpdating[colname]);
+        }   
+
+        return insertSql; 
+    }
+
+    static async getModelName() {
+        return "Users Model"
+    }
+
+
+}
+
+module.exports = RoleModel

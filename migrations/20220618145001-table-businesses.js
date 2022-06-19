@@ -1,6 +1,5 @@
 'use strict';
 
-
 const async = require('async')
 
 
@@ -21,19 +20,24 @@ exports.setup = function(options, seedLink) {
 exports.up = function(db, callback) {
   async.series([
     db.createTable.bind(db, 'businesses', {
-    id: { type:'int', primaryKey: true, autoIncrement: true },
-    name: "string",
-    address: "string",
-    contact: "string",
-    email_address: "string",
-    type: "string",
-    notes: "string",
-    verified_at: "datetime",
-    banned_at: "datetime",
-    created_at: "datetime",
-    deleted_at: "datetime"
-  }),
-], callback) 
+      id: {      
+          type: 'int',
+          unsigned: true,
+          notNull: true,
+          primaryKey: true,
+          autoIncrement: true,
+          length: 10 
+      },
+      name: 'string',
+      description: 'string',
+      phone: 'string',
+      address: 'string',
+      email_address: 'string',
+      notes: 'string',
+      created_at: { type: 'timestamp' },
+      deleted_at: { type: 'datetime'}
+    }),
+  ], callback)
 };
 
 exports.down = function(db, callback) {

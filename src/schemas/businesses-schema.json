@@ -1,0 +1,15 @@
+{
+    "id": "/Businesses",
+    "type": "object",
+    "properties": {
+      "name":  {"type": "string",  "minLength": 1, "maxLength": 100},
+      "description":  {"type": "string",  "minLength": 1, "maxLength": 100},
+      "address":  {"type": "string",  "minLength": 1, "maxLength": 100},
+      "phone":  {"type": "string",  "minLength": 8, "maxLength": 15},
+      "email_address":  {"type": "string",  "minLength": 1, "maxLength": 100},
+      "notes":  {"type": "string",  "minLength": 1, "maxLength": 100}
+    },
+    "required": ["name"],
+    "createColums": ["name", "description", "address", "phone", "email_address", "notes"],
+    "updateColums": ["name", "description", "address", "phone", "email_address", "notes"]
+}

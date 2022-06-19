@@ -10,30 +10,98 @@ var verifyAdminToken = require('../middlewares/verifyAdminToken');
 
 // Helper declarations
 const API_RESPONSE = require('../helpers/api-response');
-const QUERY_HELPER = require('../helpers/query-helper');
 const TEXT_HELPER = require('../helpers/text');
-const USER_REFERENCE_HELPER = require('../helpers/user-reference');
+const QUERY_HELPER = require('../helpers/query-helper');
+
 
 
 // Model declarations
-const ACCOUNT_MODEL = require("../models/account");
+const BUSINESSES_MODEL = require("../models/businesses.model");
 
 // Validator declarations
-const ACCOUNT_VALIDATOR = require("../validators/account-validator");
+const BUSINESSES_VALIDATOR = require("../validators/businesses-validator");
 
-// Lib declarations
-const moment = require('moment');
+// CREATE RECORD
+app.post('/admin/businesses', async (req, res, next) => {
+    let params = {}
+    params.body = req.body;
+    params.currentUser = req.currentUser;
+
+    // Validataion
+    try {
+        let validator = await BUSINESSES_VALIDATOR.validate(req.body);
+        if ( !validator.valid ) {
+            API_RESPONSE.send(res, {
+                'status': 422,
+                'success': false,
+                'errors': validator.errors,
+                'message': 'Invalid data.',
+            });
+            return;
+        } 
+    } catch( error ) {
+        console.log('validation Error')
+        console.log(error)
+        API_RESPONSE.send(res, {
+            'status': error.code ? error.code : 500,
+            'success': false,
+            'message': error.message,
+        });
+        return;
+    }
+
+
+    // Let's go
+    try {
+        
+
+        // Preparations
+        params.insertSql = await BUSINESSES_MODEL.prepareSave(params);
+
+        // Perform Query
+        let results = await BUSINESSES_MODEL.save(params);
+        
+        API_RESPONSE.send(res, {
+            'status': 201,
+            'success': true,
+            'message': 'Record successfully created.',
+            'data': results,
+        });
+    }  catch( error ) {
+        console.log('Saving Error')
+        console.log(error)
+        API_RESPONSE.send(res, {
+            'status': error.code ? error.code : 500,
+            'success': false,
+            'message': error.message,
+        });
+    }
+});
+
 
 // GET ONE RECORD
-app.get('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
+app.get('/admin/businesses/:id',
+//  verifyAdminToken, 
+ async (req, res, next) => {
+    
 
     let params = await QUERY_HELPER.prepare(req);
     params.conditions = {
         "id": parseInt(req.params.id || 0)
     }
+
     try {
-        let results = await ACCOUNT_MODEL.getOne(params);
-        
+        let results = await BUSINESSES_MODEL.getOne(params);
+            if(results.length == 0){
+               return API_RESPONSE.send(res, {
+                    'status': 400,
+                    'success': true,
+                    'message': "Can't Find Record.",
+                    'data': [],
+                });
+            } 
+
+
         API_RESPONSE.send(res, {
             'status': 200,
             'success': true,
@@ -50,12 +118,14 @@ app.get('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
 });
 
 // GET RECORDS
-app.get('/admin/accounts', verifyAdminToken, async (req, res, next) => {
+app.get('/admin/businesses', 
+// verifyAdminToken, 
+async (req, res, next) => {
 
     let params = await QUERY_HELPER.prepare(req);
 
     try {
-        let results = await ACCOUNT_MODEL.get(params);
+        let results = await BUSINESSES_MODEL.get(params);
         
         API_RESPONSE.send(res, {
             'status': 200,
@@ -74,14 +144,16 @@ app.get('/admin/accounts', verifyAdminToken, async (req, res, next) => {
 
 
 // UPDATE RECORD
-app.put('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
+app.put('/admin/businesses/:id', 
+// verifyAdminToken, 
+async (req, res, next) => {
 
     let params = {};
     params.body = req.body;
-    params.currentUser = req.currentUser;
-    let account_id = parseInt( req.params.id || 0);
+    params.currentRole = req.currentRole;
+    let role_id = parseInt( req.params.id || 0);
     params.conditions = {
-        "id": account_id
+        "id": role_id
     }
 
     if ( !params.conditions.id ) {
@@ -95,14 +167,11 @@ app.put('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
     
     try {
         // Preparations
-        params.setSql = await ACCOUNT_MODEL.prepareUpdate(params);
+        params.setSql = await BUSINESSES_MODEL.prepareUpdate(params);
         
         // Perform Query
-        let results = await ACCOUNT_MODEL.update(params);
+        let results = await BUSINESSES_MODEL.update(params);
         
-        // Insert user references if not yet exist.
-        await USER_REFERENCE_HELPER.save(params);
-
         API_RESPONSE.send(res, {
             'status': 200,
             'success': true,
@@ -119,62 +188,13 @@ app.put('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
 });
 
 
-// CREATE RECORD
-app.post('/admin/accounts', verifyAdminToken, async (req, res, next) => {
 
-    let params = {}
-    params.body = req.body;
-    params.currentUser = req.currentUser;
-    // Validataion
-    try {
-        let validator = await ACCOUNT_VALIDATOR.validate(req.body);
-        if ( !validator.valid ) {
-            API_RESPONSE.send(res, {
-                'status': 422,
-                'success': false,
-                'errors': validator.errors,
-                'message': 'Invalid data.',
-            });
-            return;
-        } 
-    } catch( error ) {
-        API_RESPONSE.send(res, {
-            'status': error.code ? error.code : 500,
-            'success': false,
-            'message': error.message,
-        });
-        return;
-    }
-
-
-    // Let's go
-    try {
-        // Preparations
-        params.insertSql = await ACCOUNT_MODEL.prepareSave(params);
-        
-        // Perform Query
-        let results = await ACCOUNT_MODEL.save(params);
-        
-        // Insert user references if not yet exist.
-        await USER_REFERENCE_HELPER.save(params);
-        API_RESPONSE.send(res, {
-            'status': 201,
-            'success': true,
-            'message': 'Record successfully created.',
-            'data': results,
-        });
-    }  catch( error ) {
-        API_RESPONSE.send(res, {
-            'status': error.code ? error.code : 500,
-            'success': false,
-            'message': error.message,
-        });
-    }
-});
 
 
 // DELETE RECORD
-app.delete('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
+app.delete('/admin/businesses/:id', 
+// verifyAdminToken, 
+async (req, res, next) => {
 
     let params = {};
     params.currentUser = req.currentUser;
@@ -183,14 +203,12 @@ app.delete('/admin/accounts/:id', verifyAdminToken, async (req, res, next) => {
     
     try {
          // Preparations
-         params.deleteSql = await ACCOUNT_MODEL.prepareDelete(params);
+         params.deleteSql = await BUSINESSES_MODEL.prepareDelete(params);
+
 
         // Perform Query
-        let results = await ACCOUNT_MODEL.delete(params);
-        
-        // Insert user references if not yet exist.
-        await USER_REFERENCE_HELPER.save(params);
-
+        let results = await BUSINESSES_MODEL.delete(params);
+            console.log(results)
         API_RESPONSE.send(res, {
             'status': 200,
             'success': true,
