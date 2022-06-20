@@ -19,7 +19,7 @@ exports.setup = function(options, seedLink) {
 
 exports.up = function(db, callback) {
   async.series([
-    db.createTable.bind(db, 'tags', {
+    db.createTable.bind(db, 'customers', {
       id: {      
           type: 'int',
           unsigned: true,
@@ -29,22 +29,19 @@ exports.up = function(db, callback) {
           length: 10 
       },
       name: 'string',
-      description: 'string',
-      type: 'string',
-      notes: 'string',
-      created_at: { type: 'timestamp' },
+      email_address: 'string',
+      address: 'string',
+      limit: 'string',
+      paid_at: { type: 'datetime'},
       deleted_at: { type: 'datetime'},
-      business_id: {      
-        type: 'int',
-        unsigned: true,
-      length: 10   }
+      notes: 'string'
     }),
   ], callback)
 };
 
 exports.down = function(db, callback) {
   async.series([
-    db.dropTable.bind(db, 'tags')
+    db.dropTable.bind(db, 'customers')
   ], callback)
 };
 

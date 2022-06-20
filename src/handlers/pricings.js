@@ -25,7 +25,6 @@ const PRICING_VALIDATOR = require("../validators/pricing-validator");
 app.post('/admin/pricings', async (req, res, next) => {
     let params = {}
     params.body = req.body;
-    params.currentPricing = req.currentPricing;
 
     // Validataion
     try {
