@@ -16,20 +16,20 @@ const QUERY_HELPER = require('../helpers/query-helper');
 
 
 // Model declarations
-const USER_ROLES_MODEL = require("../models/user_roles.model");
+const PRICING_MODEL = require("../models/pricings.model");
 
 // Validator declarations
-const USER_ROLES_VALIDATOR = require("../validators/user-roles-validator");
+const PRICING_VALIDATOR = require("../validators/pricing-validator");
 
 // CREATE RECORD
-app.post('/admin/user_roles', async (req, res, next) => {
+app.post('/admin/pricings', async (req, res, next) => {
     let params = {}
     params.body = req.body;
-    params.currentUser = req.currentUser;
+    params.currentPricing = req.currentPricing;
 
     // Validataion
     try {
-        let validator = await USER_ROLES_VALIDATOR.validate(req.body);
+        let validator = await PRICING_VALIDATOR.validate(req.body);
         if ( !validator.valid ) {
             API_RESPONSE.send(res, {
                 'status': 422,
@@ -56,10 +56,10 @@ app.post('/admin/user_roles', async (req, res, next) => {
         
 
         // Preparations
-        params.insertSql = await USER_ROLES_MODEL.prepareSave(params);
+        params.insertSql = await PRICING_MODEL.prepareSave(params);
 
         // Perform Query
-        let results = await USER_ROLES_MODEL.save(params);
+        let results = await PRICING_MODEL.save(params);
         
         API_RESPONSE.send(res, {
             'status': 201,
@@ -80,7 +80,7 @@ app.post('/admin/user_roles', async (req, res, next) => {
 
 
 // GET ONE RECORD
-app.get('/admin/user_roles/:id',
+app.get('/admin/pricings/:id',
 //  verifyAdminToken, 
  async (req, res, next) => {
     
@@ -91,7 +91,7 @@ app.get('/admin/user_roles/:id',
     }
 
     try {
-        let results = await USER_ROLES_MODEL.getOne(params);
+        let results = await PRICING_MODEL.getOne(params);
             if(results.length == 0){
                return API_RESPONSE.send(res, {
                     'status': 400,
@@ -118,14 +118,14 @@ app.get('/admin/user_roles/:id',
 });
 
 // GET RECORDS
-app.get('/admin/user_roles', 
+app.get('/admin/pricings', 
 // verifyAdminToken, 
 async (req, res, next) => {
 
     let params = await QUERY_HELPER.prepare(req);
 
     try {
-        let results = await USER_ROLES_MODEL.get(params);
+        let results = await PRICING_MODEL.get(params);
         
         API_RESPONSE.send(res, {
             'status': 200,
@@ -144,16 +144,16 @@ async (req, res, next) => {
 
 
 // UPDATE RECORD
-app.put('/admin/user_roles/:id', 
+app.put('/admin/pricings/:id', 
 // verifyAdminToken, 
 async (req, res, next) => {
 
     let params = {};
     params.body = req.body;
-    params.currentRole = req.currentRole;
-    let role_id = parseInt( req.params.id || 0);
+    params.currentPricing = req.currentPricing;
+    let pricings_id = parseInt( req.params.id || 0);
     params.conditions = {
-        "id": role_id
+        "id": pricings_id
     }
 
     if ( !params.conditions.id ) {
@@ -167,10 +167,10 @@ async (req, res, next) => {
     
     try {
         // Preparations
-        params.setSql = await USER_ROLES_MODEL.prepareUpdate(params);
+        params.setSql = await PRICING_MODEL.prepareUpdate(params);
         
         // Perform Query
-        let results = await USER_ROLES_MODEL.update(params);
+        let results = await PRICING_MODEL.update(params);
         
         API_RESPONSE.send(res, {
             'status': 200,
@@ -192,7 +192,7 @@ async (req, res, next) => {
 
 
 // DELETE RECORD
-app.delete('/admin/user_roles/:id', 
+app.delete('/admin/pricings/:id', 
 // verifyAdminToken, 
 async (req, res, next) => {
 
@@ -203,11 +203,10 @@ async (req, res, next) => {
     
     try {
          // Preparations
-         params.deleteSql = await USER_ROLES_MODEL.prepareDelete(params);
-
+         params.deleteSql = await PRICING_MODEL.prepareDelete(params);
 
         // Perform Query
-        let results = await USER_ROLES_MODEL.delete(params);
+        let results = await PRICING_MODEL.delete(params);
             console.log(results)
         API_RESPONSE.send(res, {
             'status': 200,

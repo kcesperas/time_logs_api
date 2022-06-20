@@ -18,22 +18,28 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db, callback) {
-  // async.series([
-  //   db.addForeignKey.bind(db, 'users', 'businesses', 'users_businesses_id_foreign',
-  //   {
-  //     'business_id': 'id'
-  //   },
-  //   {
-  //     onDelete: 'CASCADE',
-  //     onUpdate: 'RESTRICT'
-  //   }),
-  // ], callback)
+  async.series([
+    db.createTable.bind(db, 'contacts', {
+      id: {      
+          type: 'int',
+          unsigned: true,
+          notNull: true,
+          primaryKey: true,
+          autoIncrement: true,
+          length: 10 
+      },
+      phone: 'string',
+      label: 'string',
+      notes: 'string',
+      deleted_at: { type: 'datetime'},
+    }),
+  ], callback)
 };
 
 exports.down = function(db, callback) {
-  // async.series([
-  //   db.removeForeignKey.bind(db, 'users', 'users_businesses_id_foreign')
-  // ], callback)
+  async.series([
+    db.dropTable.bind(db, 'contacts')
+  ], callback)
 };
 
 exports._meta = {
