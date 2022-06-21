@@ -38,7 +38,7 @@ exports.up = function(db, callback) {
 
 exports.down = function(db, callback) {
   async.series([
-    db.dropTable.bind(db, 'contacts')
+    db.dropTable.bind(db, 'phones')
   ], callback)
 };
 
