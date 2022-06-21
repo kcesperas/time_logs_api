@@ -1,7 +1,7 @@
 const CoreModel = require("../../core/model");
 const TEXT_HELPER = require('../helpers/text');
 const moment = require('moment');
-let businessSchema = require('../schemas/customer-schema.json');
+let customerSchema = require('../schemas/customer-schema.json');
 
 
 
@@ -190,9 +190,9 @@ class CustomerModel extends CoreModel {
             replacements: []
         };
         let columns = params.body;
-        console.log('params.currentUser', params.currentUser)
+        console.log('params.currentCustomer', params.currentCustomer)
         for (let colname in columns) {
-            if ( !businessSchema.updateColums.includes(colname) )
+            if ( !customerSchema.updateColums.includes(colname) )
             continue;
 
             setSql.SET += setSql.SET ?  ' ,' + colname + ' = ?': colname + ' = ?'
@@ -236,7 +236,7 @@ class CustomerModel extends CoreModel {
         let columns = params.body;
 
         for (let colname in columns) {
-            if ( !businessSchema.createColums.includes(colname) )
+            if ( !customerSchema.createColums.includes(colname) )
             continue;
 
 
@@ -262,7 +262,7 @@ class CustomerModel extends CoreModel {
     }
 
     static async getModelName() {
-        return "Role Model"
+        return "Customer Model"
     }
 
 

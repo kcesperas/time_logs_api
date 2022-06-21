@@ -8,7 +8,7 @@
       "phone":  {"type": "string",  "minLength": 8, "maxLength": 15},
       "notes":  {"type": "string",  "minLength": 1, "maxLength": 100}
     },
-    "required": ["name"],
+    "required": ["name", "email_address"],
     "createColums": ["name", "email_address", "address", "phone", "notes"],
     "updateColums": ["name", "description", "address", "phone", "notes"]
 }
