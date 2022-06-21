@@ -1,0 +1,17 @@
+{
+    "id": "/Payments",
+    "type": "object",
+    "properties": {
+      "qty": {"type": "string",  "minLength": 1, "maxLength": 100},
+      "price": {"type": "int",  "minLength": 1, "maxLength": 100},
+      "subtotal": {"type": "string",  "minLength": 1, "maxLength": 100},
+      "notes": {"type": "string",  "minLength": 1, "maxLength": 250},
+      "inventory_id": {"type": "int",  "minLength": 1, "maxLength": 100},
+      "order_id": {"type": "int",  "minLength": 1, "maxLength": 100},
+      "product_id": {"type": "int",  "minLength": 1, "maxLength": 100}
+
+    },
+    "required": ["qty", "price", "subtotal"],
+    "createColums": ["qty", "price", "subtotal", "notes", "inventory_id", "order_id", "product_id"],
+    "updateColums": ["qty", "price", "subtotal", "notes", "inventory_id", "order_id", "product_id"]
+}

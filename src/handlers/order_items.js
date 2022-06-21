@@ -16,19 +16,19 @@ const QUERY_HELPER = require('../helpers/query-helper');
 
 
 // Model declarations
-const PAYMENT_MODEL = require("../models/payments.model");
+const ORDER_ITEM_MODEL = require("../models/order_items.model");
 
 // Validator declarations
-const PAYMENT_VALIDATOR = require("../validators/payment-validator");
+const ORDER_ITEM_VALIDATOR = require("../validators/order_item-validator");
 
 // CREATE RECORD
-app.post('/admin/payments', async (req, res, next) => {
+app.post('/admin/order_items', async (req, res, next) => {
     let params = {}
     params.body = req.body;
 
     // Validataion
     try {
-        let validator = await PAYMENT_VALIDATOR.validate(req.body);
+        let validator = await ORDER_ITEM_VALIDATOR.validate(req.body);
         if ( !validator.valid ) {
             API_RESPONSE.send(res, {
                 'status': 422,
@@ -55,10 +55,10 @@ app.post('/admin/payments', async (req, res, next) => {
         
 
         // Preparations
-        params.insertSql = await PAYMENT_MODEL.prepareSave(params);
+        params.insertSql = await ORDER_ITEM_MODEL.prepareSave(params);
 
         // Perform Query
-        let results = await PAYMENT_MODEL.save(params);
+        let results = await ORDER_ITEM_MODEL.save(params);
         
         API_RESPONSE.send(res, {
             'status': 201,
@@ -79,7 +79,7 @@ app.post('/admin/payments', async (req, res, next) => {
 
 
 // GET ONE RECORD
-app.get('/admin/payments/:id',
+app.get('/admin/order_items/:id',
 //  verifyAdminToken, 
  async (req, res, next) => {
     
@@ -90,7 +90,7 @@ app.get('/admin/payments/:id',
     }
 
     try {
-        let results = await PAYMENT_MODEL.getOne(params);
+        let results = await ORDER_ITEM_MODEL.getOne(params);
             if(results.length == 0){
                return API_RESPONSE.send(res, {
                     'status': 400,
@@ -117,14 +117,14 @@ app.get('/admin/payments/:id',
 });
 
 // GET RECORDS
-app.get('/admin/payments ', 
+app.get('/admin/order_items ', 
 // verifyAdminToken, 
 async (req, res, next) => {
 
     let params = await QUERY_HELPER.prepare(req);
 
     try {
-        let results = await PAYMENT_MODEL.get(params);
+        let results = await ORDER_ITEM_MODEL.get(params);
         
         API_RESPONSE.send(res, {
             'status': 200,
@@ -143,15 +143,15 @@ async (req, res, next) => {
 
 
 // UPDATE RECORD
-app.put('/admin/payments/:id', 
+app.put('/admin/order_items/:id', 
 // verifyAdminToken, 
 async (req, res, next) => {
 
     let params = {};
     params.body = req.body;
-    let payments_id = parseInt( req.params.id || 0);
+    let order_items_id = parseInt( req.params.id || 0);
     params.conditions = {
-        "id": payments_id
+        "id": order_items_id
     }
 
     if ( !params.conditions.id ) {
@@ -165,10 +165,10 @@ async (req, res, next) => {
     
     try {
         // Preparations
-        params.setSql = await PAYMENT_MODEL.prepareUpdate(params);
+        params.setSql = await ORDER_ITEM_MODEL.prepareUpdate(params);
         
         // Perform Query
-        let results = await PAYMENT_MODEL.update(params);
+        let results = await ORDER_ITEM_MODEL.update(params);
         
         API_RESPONSE.send(res, {
             'status': 200,
@@ -190,7 +190,7 @@ async (req, res, next) => {
 
 
 // DELETE RECORD
-app.delete('/admin/payments/:id', 
+app.delete('/admin/order_items/:id', 
 // verifyAdminToken, 
 async (req, res, next) => {
 
@@ -200,10 +200,10 @@ async (req, res, next) => {
     
     try {
          // Preparations
-         params.deleteSql = await PAYMENT_MODEL.prepareDelete(params);
+         params.deleteSql = await ORDER_ITEM_MODEL.prepareDelete(params);
 
         // Perform Query
-        let results = await PAYMENT_MODEL.delete(params);
+        let results = await ORDER_ITEM_MODEL.delete(params);
             console.log(results)
         API_RESPONSE.send(res, {
             'status': 200,
