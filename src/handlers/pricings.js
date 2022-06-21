@@ -149,7 +149,6 @@ async (req, res, next) => {
 
     let params = {};
     params.body = req.body;
-    params.currentPricing = req.currentPricing;
     let pricings_id = parseInt( req.params.id || 0);
     params.conditions = {
         "id": pricings_id
@@ -196,7 +195,6 @@ app.delete('/admin/pricings/:id',
 async (req, res, next) => {
 
     let params = {};
-    params.currentUser = req.currentUser;
     params.id = req.params.id || 0;
     // Validataion
     
@@ -214,6 +212,7 @@ async (req, res, next) => {
             'data': results,
         });
     }  catch( error ) {
+        console.log(error)
         API_RESPONSE.send(res, {
             'status': error.code ? error.code : 500,
             'success': false,

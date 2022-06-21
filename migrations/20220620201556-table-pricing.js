@@ -30,7 +30,7 @@ exports.up = function(db, callback) {
       },
       name: 'string',
       description: 'string',
-      price: 'string',
+      amount: {type: 'int'},
       notes: 'string',
       created_at: { type: 'timestamp' },
       deleted_at: { type: 'datetime'}

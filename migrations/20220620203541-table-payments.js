@@ -29,7 +29,7 @@ exports.up = function(db, callback) {
           length: 10 
       },
       description: 'string',
-      amount: 'string',
+      amount: {type: 'int'},
       type: 'string',
       notes: 'string',
       created_by: 'string',

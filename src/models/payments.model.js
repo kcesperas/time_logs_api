@@ -2,11 +2,11 @@ const { uniq, isUndefined } = require("lodash");
 const CoreModel = require("../../core/model");
 const TEXT_HELPER = require('../helpers/text');
 const moment = require('moment');
-let pricingschema = require('../schemas/pricing-schema.json');
+let paymentschema = require('../schemas/payment-schema.json');
 
 
 
-class PricingModel extends CoreModel {
+class PaymentModel extends CoreModel {
 
     static async save(params) {
         console.log('from save: ' + this.getModelName(), params )
@@ -22,7 +22,7 @@ class PricingModel extends CoreModel {
         // Let's BEGIN our query builder here.
 
         try {
-            let query = `INSERT INTO pricings (${params.insertSql.INSERT}) VALUES(${params.insertSql.VALUES})`;
+            let query = `INSERT INTO payments (${params.insertSql.INSERT}) VALUES(${params.insertSql.VALUES})`;
 
              results = await this.dbExecute(query, params.insertSql.replacements);
              
@@ -68,7 +68,7 @@ class PricingModel extends CoreModel {
         // Let's BEGIN our query builder here.
         try {
             let query = `
-                UPDATE pricings SET 
+                UPDATE payments SET 
                 ${params.setSql.SET}
                 WHERE deleted_at IS NULL
                 ${conditionsSql}
@@ -105,7 +105,7 @@ class PricingModel extends CoreModel {
             let query = `
                 SELECT 
                 ${select}
-                FROM pricings
+                FROM payments
                 WHERE deleted_at IS NULL
                 ${conditionsSql}
                 LIMIT 1
@@ -125,7 +125,7 @@ class PricingModel extends CoreModel {
         console.log('from get: ' + this.getModelName() )
         let results = null;
         let clause = {
-            table: 'pricings',
+            table: 'payments',
             select: params.fields || '*',
             join: '',
             where: 'deleted_at IS NULL'
@@ -174,7 +174,7 @@ class PricingModel extends CoreModel {
         // Let's BEGIN our query builder here.
         try {
             let query = `
-                UPDATE pricings SET 
+                UPDATE payments SET 
                 ${params.deleteSql.SET}
                 WHERE deleted_at IS NULL AND
                 id = ?
@@ -198,9 +198,9 @@ class PricingModel extends CoreModel {
             replacements: []
         };
         let columns = params.body;
-        console.log('params.currentPricing', params.currentPricing)
+        console.log('params.currentPayment', params.currentPayment)
         for (let colname in columns) {
-            if ( !pricingschema.updateColums.includes(colname) )
+            if ( !paymentschema.updateColums.includes(colname) )
             continue;
             setSql.SET += setSql.SET ?  ' ,' + colname + ' = ?': colname + ' = ?'
             setSql.replacements.push(columns[colname]);
@@ -241,7 +241,7 @@ class PricingModel extends CoreModel {
         let columns = params.body;
 
         for (let colname in columns) {
-            if ( !pricingschema.createColums.includes(colname) )
+            if ( !paymentschema.createColums.includes(colname) )
             continue;
 
 
@@ -267,10 +267,10 @@ class PricingModel extends CoreModel {
     }
 
     static async getModelName() {
-        return "Pricings Model"
+        return "Payments Model"
     }
 
 
 }
 
-module.exports = PricingModel
+module.exports = PaymentModel
