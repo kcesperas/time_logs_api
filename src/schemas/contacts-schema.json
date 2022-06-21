@@ -1,0 +1,14 @@
+{
+    "id": "/Contacts",
+    "type": "object",
+    "properties": {
+      "phone": {"type": "string",  "minLength": 1, "maxLength": 100},
+      "label": {"type": "string",  "minLength": 1, "maxLength": 100},
+      "notes": {"type": "string",  "minLength": 1, "maxLength": 250}
+   
+
+    },
+    "required": ["phone", "label"],
+    "createColums": ["phone", "label", "notes"],
+    "updateColums": ["phone", "label", "notes"]
+}
