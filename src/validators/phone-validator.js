@@ -13,7 +13,7 @@ module.exports = {
 
         let v = new Validator();
         
-        let schema = require('../schemas/orders-schema.json');
+        let schema = require('../schemas/phones-schema.json');
         return v.validate(payload, schema, {preValidateProperty});
     },
 }

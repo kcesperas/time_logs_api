@@ -19,7 +19,7 @@ exports.setup = function(options, seedLink) {
 
 exports.up = function(db, callback) {
   async.series([
-    db.createTable.bind(db, 'contacts', {
+    db.createTable.bind(db, 'phones', {
       id: {      
           type: 'int',
           unsigned: true,

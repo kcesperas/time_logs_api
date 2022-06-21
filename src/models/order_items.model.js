@@ -2,7 +2,7 @@ const { uniq, isUndefined } = require("lodash");
 const CoreModel = require("../../core/model");
 const TEXT_HELPER = require('../helpers/text');
 const moment = require('moment');
-let order_itemsschema = require('../schemas/order_items-schema.json');
+let order_itemschema = require('../schemas/order_items-schema.json');
 
 
 
@@ -198,9 +198,9 @@ class Order_itemModel extends CoreModel {
             replacements: []
         };
         let columns = params.body;
-        console.log('params.currentOrder_items', params.currentOrder_items)
+        console.log('params.currentOrder_item', params.currentOrder_item)
         for (let colname in columns) {
-            if ( !order_itemsschema.updateColums.includes(colname) )
+            if ( !order_itemschema.updateColums.includes(colname) )
             continue;
             setSql.SET += setSql.SET ?  ' ,' + colname + ' = ?': colname + ' = ?'
             setSql.replacements.push(columns[colname]);
@@ -241,7 +241,7 @@ class Order_itemModel extends CoreModel {
         let columns = params.body;
 
         for (let colname in columns) {
-            if ( !order_itemsschema.createColums.includes(colname) )
+            if ( !order_itemschema.createColums.includes(colname) )
             continue;
 
 

@@ -1,5 +1,5 @@
 {
-    "id": "/Payments",
+    "id": "/Order_items",
     "type": "object",
     "properties": {
       "qty": {"type": "string",  "minLength": 1, "maxLength": 100},

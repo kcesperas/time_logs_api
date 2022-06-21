@@ -10,7 +10,7 @@
       "business_id": {"type": "int",  "minLength": 1, "maxLength": 100}
 
     },
-    "required": ["type", "amount", "description", "created_by", "business_id"],
+    "required": ["type", "amount", "description", "created_by"],
     "createColums": ["description", "amount", "type", "created_by", "notes", "business_id"],
     "updateColums": ["description", "amount", "type", "created_by", "notes", "business_id"]
 }

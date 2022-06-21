@@ -2,7 +2,7 @@ const { uniq, isUndefined } = require("lodash");
 const CoreModel = require("../../core/model");
 const TEXT_HELPER = require('../helpers/text');
 const moment = require('moment');
-let paymentschema = require('../schemas/payment-schema.json');
+let paymentSchema = require('../schemas/payment-schema.json');
 
 
 
@@ -198,9 +198,8 @@ class PaymentModel extends CoreModel {
             replacements: []
         };
         let columns = params.body;
-        console.log('params.currentPayment', params.currentPayment)
         for (let colname in columns) {
-            if ( !paymentschema.updateColums.includes(colname) )
+            if ( !paymentSchema.updateColums.includes(colname) )
             continue;
             setSql.SET += setSql.SET ?  ' ,' + colname + ' = ?': colname + ' = ?'
             setSql.replacements.push(columns[colname]);
@@ -241,7 +240,7 @@ class PaymentModel extends CoreModel {
         let columns = params.body;
 
         for (let colname in columns) {
-            if ( !paymentschema.createColums.includes(colname) )
+            if ( !paymentSchema.createColums.includes(colname) )
             continue;
 
 

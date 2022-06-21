@@ -2,11 +2,11 @@ const { uniq, isUndefined } = require("lodash");
 const CoreModel = require("../../core/model");
 const TEXT_HELPER = require('../helpers/text');
 const moment = require('moment');
-let userSchema = require('../schemas/users-schema.json');
+let phoneschema = require('../schemas/phone-schema.json');
 
 
 
-class UserModel extends CoreModel {
+class PhoneModel extends CoreModel {
 
     static async save(params) {
         console.log('from save: ' + this.getModelName(), params )
@@ -22,7 +22,7 @@ class UserModel extends CoreModel {
         // Let's BEGIN our query builder here.
 
         try {
-            let query = `INSERT INTO users (${params.insertSql.INSERT}) VALUES(${params.insertSql.VALUES})`;
+            let query = `INSERT INTO phones (${params.insertSql.INSERT}) VALUES(${params.insertSql.VALUES})`;
 
              results = await this.dbExecute(query, params.insertSql.replacements);
              
@@ -68,7 +68,7 @@ class UserModel extends CoreModel {
         // Let's BEGIN our query builder here.
         try {
             let query = `
-                UPDATE users SET 
+                UPDATE phones SET 
                 ${params.setSql.SET}
                 WHERE deleted_at IS NULL
                 ${conditionsSql}
@@ -105,7 +105,7 @@ class UserModel extends CoreModel {
             let query = `
                 SELECT 
                 ${select}
-                FROM users
+                FROM phones
                 WHERE deleted_at IS NULL
                 ${conditionsSql}
                 LIMIT 1
@@ -125,7 +125,7 @@ class UserModel extends CoreModel {
         console.log('from get: ' + this.getModelName() )
         let results = null;
         let clause = {
-            table: 'users',
+            table: 'phones',
             select: params.fields || '*',
             join: '',
             where: 'deleted_at IS NULL'
@@ -174,7 +174,7 @@ class UserModel extends CoreModel {
         // Let's BEGIN our query builder here.
         try {
             let query = `
-                UPDATE users SET 
+                UPDATE phones SET 
                 ${params.deleteSql.SET}
                 WHERE deleted_at IS NULL AND
                 id = ?
@@ -185,7 +185,7 @@ class UserModel extends CoreModel {
 
             return { affectedRows: results.affectedRows};
         } catch( error ) {
-            console.log(results)
+            console.log(error)
             throw new Error("Unable to perform queries.")
         }
     }
@@ -198,9 +198,9 @@ class UserModel extends CoreModel {
             replacements: []
         };
         let columns = params.body;
-        console.log('params.currentUser', params.currentUser)
+        console.log('params.currentPhone', params.currentPhone)
         for (let colname in columns) {
-            if ( !userSchema.updateColums.includes(colname) )
+            if ( !phoneschema.updateColums.includes(colname) )
             continue;
             setSql.SET += setSql.SET ?  ' ,' + colname + ' = ?': colname + ' = ?'
             setSql.replacements.push(columns[colname]);
@@ -241,7 +241,7 @@ class UserModel extends CoreModel {
         let columns = params.body;
 
         for (let colname in columns) {
-            if ( !userSchema.createColums.includes(colname) )
+            if ( !phoneschema.createColums.includes(colname) )
             continue;
 
 
@@ -267,10 +267,10 @@ class UserModel extends CoreModel {
     }
 
     static async getModelName() {
-        return "Users Model"
+        return "phones Model"
     }
 
 
 }
 
-module.exports = UserModel
+module.exports = PhoneModel
