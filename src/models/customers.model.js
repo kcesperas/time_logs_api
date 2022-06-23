@@ -1,3 +1,4 @@
+const { uniq, isUndefined } = require("lodash");
 const CoreModel = require("../../core/model");
 const TEXT_HELPER = require('../helpers/text');
 const moment = require('moment');
@@ -33,6 +34,8 @@ class CustomerModel extends CoreModel {
             console.log(error)
             throw new Error("Unable to perform queries.")
         }
+         
+      
     }
 
     static async update(params) {
@@ -77,7 +80,6 @@ class CustomerModel extends CoreModel {
         } catch( error ) {
             throw new Error("Unable to perform queries.")
         }
-
     }
 
     static async getOne(params) {
@@ -122,8 +124,13 @@ class CustomerModel extends CoreModel {
     static async get(params) {
         console.log('from get: ' + this.getModelName() )
         let results = null;
+        let clause = {
+            table: 'customers',
+            select: params.fields || '*',
+            join: '',
+            where: 'deleted_at IS NULL'
 
-        let select = params.fields || '*';
+        }
         
         let conditions = params.conditions || [];
         let conditionsSql = '';
@@ -141,15 +148,16 @@ class CustomerModel extends CoreModel {
         try {
             let query = `
                 SELECT 
-                ${select}
-                FROM customers
-                WHERE deleted_at IS NULL
+                ${clause.select}
+                FROM ${clause.table}
+                ${clause.join}
+                WHERE ${clause.where}
                 ${conditionsSql}
                 `;
 
             results = await this.dbExecute(query, replacements);
-            console.log(results)
-            
+
+
         return results;
 
         } catch( error ) {
@@ -177,7 +185,7 @@ class CustomerModel extends CoreModel {
 
             return { affectedRows: results.affectedRows};
         } catch( error ) {
-            console.log(results)
+            console.log(error)
             throw new Error("Unable to perform queries.")
         }
     }
@@ -190,16 +198,13 @@ class CustomerModel extends CoreModel {
             replacements: []
         };
         let columns = params.body;
-        console.log('params.currentCustomer', params.currentCustomer)
+        console.log('params.currentcustomers', params.currentcustomers)
         for (let colname in columns) {
             if ( !customerSchema.updateColums.includes(colname) )
             continue;
-
             setSql.SET += setSql.SET ?  ' ,' + colname + ' = ?': colname + ' = ?'
             setSql.replacements.push(columns[colname]);
         }
-
-
         return setSql; 
     }
 
@@ -262,7 +267,7 @@ class CustomerModel extends CoreModel {
     }
 
     static async getModelName() {
-        return "Customer Model"
+        return "customers Model"
     }
 
 

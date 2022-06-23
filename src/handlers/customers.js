@@ -117,7 +117,7 @@ app.get('/admin/customers/:id',
 });
 
 // GET RECORDS
-app.get('/admin/customers ', 
+app.get('/admin/customers', 
 // verifyAdminToken, 
 async (req, res, next) => {
 
