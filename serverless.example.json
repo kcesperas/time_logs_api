@@ -1,0 +1,167 @@
+{
+    "service": "invoice-management-system",
+    "provider": {
+        "name": "aws",
+        "runtime": "nodejs12.x",
+        "versionFunctions": false,
+        "timeout": 30,
+        "stage": "dev",
+        "profile": "default",
+        "region": "ap-southeast-1",
+        "environment": {
+            "NODE_ENV": "development",
+            "API_PORT": "23000",
+            "DB_HOST": "localhost",
+            "DB_NAME": "aja_pos",
+            "DB_USER": "root",
+            "DB_PASSWORD": "",
+            "DB_PORT": 3306
+        }
+    },
+    "functions": {
+        "NOTIFY_INVOICE_DUES": {
+            "handler": "handler.exec_notifyInvoiceDues",
+            "events": [
+                {
+                    "schedule": {
+                        "rate": "cron(31 0 * * ? *)",
+                        "enabled": true
+                    }
+                }
+            ]
+        },
+        "CREATE_RECURRING_INVOICE": {
+            "handler": "handler.exec_createRecurringInvoice",
+            "events": [
+                {
+                    "schedule": {
+                        "rate": "cron(1 0 * * ? *)",
+                        "enabled": true
+                    }
+                }
+            ]
+        },
+        "HTTPSERVICE": {
+            "handler": "handler.httpService",
+            "events": [
+                {
+                    "http": {
+                        "path": "/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "docs/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "docs/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "auth/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "auth/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    "plugins": [
+        "serverless-offline"
+    ]
+}

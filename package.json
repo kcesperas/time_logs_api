@@ -5,10 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "serverless offline start",
-    "create_migration": "db-migrate create",
-    "migration": "db-migrate up",
-    "undo_migration": "db-migrate down"
+    "dev1": "serverless offline start",
+    "dev": "nodemon --exec \"serverless offline --httpPort 23000\"",
+    "create_migration": "sequelize-cli migration:generate",
+    "migration": "sequelize-cli db:migrate",
+    "undo_migration": "sequelize-cli db:migrate:undo",
+    "create_seeder": "sequelize-cli seed:generate --name",
+    "seeder": "sequelize-cli db:seed:all",
+    "undo_seeder": "sequelize-cli db:seed:undo"
   },
   "repository": {
     "type": "git",
@@ -22,9 +26,9 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cognito-express": "^2.0.18",
+    "cors": "^2.8.5",
     "csvtojson": "^2.0.10",
-    "db-migrate": "^0.11.13",
-    "db-migrate-mysql": "^2.2.0",
+    "dotenv": "^16.0.1",
     "dottie": "^2.0.2",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.7-alpha.3",
@@ -44,6 +48,8 @@
   },
   "devDependencies": {
     "aws-sdk": "^2.686.0",
-    "serverless-offline": "^6.9.0"
+    "sequelize-cli": "^6.2.0",
+    "serverless-offline": "^8.1.0",
+    "serverless-offline-scheduler": "^0.5.0"
   }
 }
