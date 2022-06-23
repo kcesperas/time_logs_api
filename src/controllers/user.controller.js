@@ -29,3 +29,77 @@ exports.createRecord = async (req, res) => {
     });
 };
 
+exports.updateRecordById = async (req, res) => {
+    const { username, email_address, password } = req.body;
+
+
+    User.create({
+    ...req.body,
+    password: bcrypt.hashSync(password, 8)
+  })
+    .then(user => {
+        console.log(user)
+      res.send({ message: "User was registered successfully!" });
+ 
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send({ message: err.message });
+    });
+};
+
+
+exports.getAllRecords = async (req, res) => {
+
+
+    User.findAll()
+    .then(doc => {
+        console.log(doc)
+      res.send(doc);
+ 
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send({ message: err.message });
+    });
+};
+
+
+
+exports.getRecordById = async (req, res) => {
+    const { username, email_address, password } = req.body;
+
+
+    User.create({
+    ...req.body,
+    password: bcrypt.hashSync(password, 8)
+  })
+    .then(user => {
+        console.log(user)
+      res.send({ message: "User was registered successfully!" });
+ 
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send({ message: err.message });
+    });
+};
+
+exports.deleteRecordById = async (req, res) => {
+    const { username, email_address, password } = req.body;
+
+
+    User.create({
+    ...req.body,
+    password: bcrypt.hashSync(password, 8)
+  })
+    .then(user => {
+        console.log(user)
+      res.send({ message: "User was registered successfully!" });
+ 
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send({ message: err.message });
+    });
+};
