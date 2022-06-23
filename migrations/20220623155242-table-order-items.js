@@ -28,7 +28,10 @@ exports.up = function(db, callback) {
           autoIncrement: true,
           length: 10 
       },
-      qty: 'string',
+      qty: {      
+        type: 'int',
+        unsigned: true,
+        length: 10   },
       price: 'string',
       subtotal: 'string',
       notes: 'string',
