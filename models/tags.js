@@ -16,7 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   tags.init({
     name: DataTypes.STRING,
     description: DataTypes.STRING,
+<<<<<<< HEAD
     notes: DataTypes.STRING,
+=======
+    note: DataTypes.STRING,
+>>>>>>> d08519757952821f54c584b6a9cef8bacf3229b0
     deletedAt: DataTypes.DATE
   }, {
     sequelize,

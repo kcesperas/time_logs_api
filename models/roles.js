@@ -14,7 +14,7 @@ module.exports = (sequelize, Sequelize) => {
     }
   }
   roles.init({
-    title: Sequelize.STRING,
+    name: Sequelize.STRING,
     note: Sequelize.STRING,
     deletedAt: Sequelize.DATE
   }, {

@@ -11,16 +11,14 @@ var bcrypt = require("bcryptjs");
 
 
 exports.createRecord = async (req, res) => {
-    const { description, amount, type, createdBy, notes } = req.body;
+    const { description, amount, type, createdBy, notes } = req.params;
 
 
     Payments.create({
     ...req.body,
-    password: bcrypt.hashSync(password, 8)
   })
     .then(user => {
-        console.log(user)
-      res.send({ message: "Payment saved successfully!" });
+        console.log('from save: ' + this.getModelName(), params )
  jh
     })
     .catch(err => {
@@ -35,7 +33,6 @@ exports.updateRecordById = async (req, res) => {
 
     Payments.create({
     ...req.body,
-    password: bcrypt.hashSync(password, 8)
   })
     .then(user => {
         console.log(user)
@@ -74,7 +71,6 @@ exports.getRecordById = async (req, res) => {
 
     Payments.create({
     ...req.body,
-    password: bcrypt.hashSync(password, 8)
   })
     .then(user => {
         console.log(user)
@@ -93,7 +89,6 @@ exports.deleteRecordById = async (req, res) => {
 
     Payments.create({
     ...req.body,
-    password: bcrypt.hashSync(password, 8)
   })
     .then(user => {
         console.log(user)

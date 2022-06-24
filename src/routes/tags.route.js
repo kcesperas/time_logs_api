@@ -1,5 +1,5 @@
 // const { verifySignUp, authJwt } = require("../middleware");
-const controller = require("../controllers/payment.controller");
+const controller = require("../controllers/tags.controller");
 
 
 module.exports = function(app) {
@@ -12,28 +12,28 @@ module.exports = function(app) {
   });
 
   app.post(
-    "/admin/payments",
+    "/admin/tags",
     controller.createRecord
   );
 
   app.put(
-    "/admin/payments/:id",
+    "/admin/tags/:id",
     controller.updateRecordById
   );
 
 
   app.get(
-    "/admin/payments",
+    "/admin/tags",
     controller.getAllRecords
   );
 
   app.get(
-    "/admin/payments/:id",
+    "/admin/tags/:id",
     controller.getRecordById
   );
 
   app.delete(
-    "/admin/payments/:id",
+    "/admin/tags/:id",
     controller.deleteRecordById
   );
 };
