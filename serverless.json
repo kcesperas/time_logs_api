@@ -1,5 +1,5 @@
 {
-    "service": "invoice-management-system",
+    "service": "aja-pos",
     "provider": {
         "name": "aws",
         "runtime": "nodejs12.x",
@@ -179,7 +179,45 @@
                 },
                 {
                     "http": {
-                        "path": "/admin/users/{proxy+}",
+                        "path": "admin/users/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/tags/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/tags/{proxy+}",
                         "method": "ANY",
                         "cors": {
                             "origin": "*",

@@ -19,6 +19,7 @@ app.use(EXPRESS.urlencoded({ extended: false }))
 // Register all routes
 require('./src/routes/auth.route')(app);
 require('./src/routes/user.route')(app);
+require('./src/routes/tags.route')(app);
 
 
 
