@@ -17,7 +17,7 @@ module.exports = {
       address: {
         type: Sequelize.TEXT
       },
-      note: {
+      notes: {
         type: Sequelize.STRING
       },
       phones: {
