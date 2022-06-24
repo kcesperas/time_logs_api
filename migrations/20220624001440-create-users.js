@@ -26,13 +26,30 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
+      suspendedBy: { 
+        type: Sequelize.STRING
+      },
+      suspendedAt: { 
+        type: Sequelize.DATE
+      },
+      dpUrl: { 
+        type: Sequelize.STRING
+      },
+      lastLoginAt: { 
+        type: Sequelize.DATE
+      },
+      deletedAt: { 
+        type: Sequelize.DATE
+      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: new Date()
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: new Date()
       }
     });
   },

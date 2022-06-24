@@ -1,5 +1,5 @@
 const db = require("../../models");
-const User = db.user;
+const Users = db.users;
 
 const Op = db.Sequelize.Op;
 
@@ -14,13 +14,13 @@ exports.createRecord = async (req, res) => {
     const { username, email_address, password } = req.body;
 
 
-    User.create({
+    Users.create({
     ...req.body,
     password: bcrypt.hashSync(password, 8)
   })
     .then(user => {
         console.log(user)
-      res.send({ message: "User was registered successfully!" });
+      res.send({ message: "Users was registered successfully!" });
  
     })
     .catch(err => {
@@ -33,13 +33,13 @@ exports.updateRecordById = async (req, res) => {
     const { username, email_address, password } = req.body;
 
 
-    User.create({
+    Users.create({
     ...req.body,
     password: bcrypt.hashSync(password, 8)
   })
     .then(user => {
         console.log(user)
-      res.send({ message: "User was registered successfully!" });
+      res.send({ message: "Users was registered successfully!" });
  
     })
     .catch(err => {
@@ -52,7 +52,9 @@ exports.updateRecordById = async (req, res) => {
 exports.getAllRecords = async (req, res) => {
 
 
-    User.findAll()
+    Users.findAll({
+        include: ['business']
+    })
     .then(doc => {
         console.log(doc)
       res.send(doc);
@@ -70,13 +72,13 @@ exports.getRecordById = async (req, res) => {
     const { username, email_address, password } = req.body;
 
 
-    User.create({
+    Users.create({
     ...req.body,
     password: bcrypt.hashSync(password, 8)
   })
     .then(user => {
         console.log(user)
-      res.send({ message: "User was registered successfully!" });
+      res.send({ message: "Users was registered successfully!" });
  
     })
     .catch(err => {
@@ -89,13 +91,13 @@ exports.deleteRecordById = async (req, res) => {
     const { username, email_address, password } = req.body;
 
 
-    User.create({
+    Users.create({
     ...req.body,
     password: bcrypt.hashSync(password, 8)
   })
     .then(user => {
         console.log(user)
-      res.send({ message: "User was registered successfully!" });
+      res.send({ message: "Users was registered successfully!" });
  
     })
     .catch(err => {

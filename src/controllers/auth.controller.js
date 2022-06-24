@@ -1,5 +1,5 @@
 const db = require("../../models");
-const User = db.user;
+const Users = db.users;
 
 const Op = db.Sequelize.Op;
 
@@ -12,7 +12,7 @@ var bcrypt = require("bcryptjs");
 
 exports.signup = async (req, res) => {
     const { username, email_address, password } = req.body;
-  // Save User to Database
+  // Save Users to Database
 //   const { valid, errors } = validateSignupData(req.body);
 //   if (!valid) return res.status(400).json(errors);
 //   let { email, password, username, areaCode, supporterId, roles, level } = req.body;
@@ -21,13 +21,13 @@ exports.signup = async (req, res) => {
 //     level
 //   });
   
-  User.create({
+  Users.create({
     email_address, username,
     password: bcrypt.hashSync(password, 8)
   })
     .then(user => {
         console.log(user)
-                    res.send({ message: "User was registered successfully!" });
+                    res.send({ message: "Users was registered successfully!" });
 
     //   if (roles) {
     //     Role.findOne({
@@ -36,13 +36,13 @@ exports.signup = async (req, res) => {
     //         }
     //     }).then(role => {
     //       user.setRoles([role]).then(() => {
-    //         res.send({ message: "User was registered successfully!" });
+    //         res.send({ message: "Users was registered successfully!" });
     //       });
     //     });
     //   } else {
     //     // user role = 1
     //     user.setRoles([2]).then(() => {
-    //       res.send({ message: "User was registered successfully!" });
+    //       res.send({ message: "Users was registered successfully!" });
     //     });
     //   }
     })

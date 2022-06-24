@@ -12,6 +12,7 @@ module.exports = {
             username: "jbp",
             email_address: "jb@yahoo.com",
             address: "Tacloban City",
+            businessId: 1,
             password: "$2a$08$NDLw0iM5y7MQVIQpACz7oubxBQFCUXEQ1nDtvWDdqyFtaQRMXZ.LK"
         },{
           id: 2,
@@ -20,6 +21,7 @@ module.exports = {
           username: "kurt",
           email_address: "kurt@yahoo.com",
           address: "Tacloban City",
+          businessId: 2,
           password: "$2a$08$NDLw0iM5y7MQVIQpACz7oubxBQFCUXEQ1nDtvWDdqyFtaQRMXZ.LK"
       },
       ])
