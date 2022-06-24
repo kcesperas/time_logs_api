@@ -160,11 +160,7 @@
                 },
                 {
                     "http": {
-<<<<<<< HEAD
-                        "path": "/admin/payments",
-=======
                         "path": "admin/users/",
->>>>>>> d6af7e3797399b077b10c58bf6fcf7be413f19de
                         "method": "ANY",
                         "cors": {
                             "origin": "*",
@@ -183,11 +179,45 @@
                 },
                 {
                     "http": {
-<<<<<<< HEAD
-                        "path": "/admin/payments/{proxy+}",
-=======
-                        "path": "/admin/users/{proxy+}",
->>>>>>> d6af7e3797399b077b10c58bf6fcf7be413f19de
+                        "path": "admin/users/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/payments/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/payments/{proxy+}",
                         "method": "ANY",
                         "cors": {
                             "origin": "*",

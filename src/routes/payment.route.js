@@ -1,7 +1,5 @@
 // const { verifySignUp, authJwt } = require("../middleware");
-
 const controller = require("../controllers/payment.controller");
-
 
 
 module.exports = function(app) {
@@ -11,15 +9,31 @@ module.exports = function(app) {
       "x-access-token, Origin, Content-Type, Accept"
     );
     next();
-    app.post('/admin/payments', controller.createRecord);
-    app.get('/admin/payments', controller.findAll);
-    app.get('/admin/payments/:id', controller.getById);
-    app.put('/admin/payments/:id', controller.updateById);
-    app.delete('/admin/payments/:id', controller.deleteById);
-
-
-
-
   });
 
-}
+  app.post(
+    "/admin/payments",
+    controller.createRecord
+  );
+
+  // app.put(
+  //   "/admin/payments/:id",
+  //   controller.updateRecordById
+  // );
+
+
+  // app.get(
+  //   "/admin/payments",
+  //   controller.getAllRecords
+  // );
+
+  // app.get(
+  //   "/admin/payments/:id",
+  //   controller.getRecordById
+  // );
+
+  // app.delete(
+  //   "/admin/payments/:id",
+  //   controller.deleteRecordById
+  // );
+};

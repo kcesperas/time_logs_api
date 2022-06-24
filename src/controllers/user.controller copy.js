@@ -1,5 +1,5 @@
 const db = require("../../models");
-const Payments = db.payments;
+const Users = db.users;
 
 const Op = db.Sequelize.Op;
 
@@ -11,17 +11,17 @@ var bcrypt = require("bcryptjs");
 
 
 exports.createRecord = async (req, res) => {
-    const { description, amount, type, createdBy, notes } = req.body;
+    const { username, email_address, password } = req.body;
 
 
-    Payments.create({
+    Users.create({
     ...req.body,
     password: bcrypt.hashSync(password, 8)
   })
     .then(user => {
         console.log(user)
       res.send({ message: "Payment saved successfully!" });
- jh
+ 
     })
     .catch(err => {
       console.log(err)
@@ -30,10 +30,10 @@ exports.createRecord = async (req, res) => {
 };
 
 exports.updateRecordById = async (req, res) => {
-    const { description, amount, type, createdBy, notes } = req.body;
+    const { username, email_address, password } = req.body;
 
 
-    Payments.create({
+    Users.create({
     ...req.body,
     password: bcrypt.hashSync(password, 8)
   })
@@ -52,8 +52,8 @@ exports.updateRecordById = async (req, res) => {
 exports.getAllRecords = async (req, res) => {
 
 
-    Payments.findAll({
-      params
+    Users.findAll({
+        include: ['business']
     })
     .then(doc => {
         console.log(doc)
@@ -69,16 +69,16 @@ exports.getAllRecords = async (req, res) => {
 
 
 exports.getRecordById = async (req, res) => {
-    const { description, amount, type, createdBy, notes } = req.body;
+    const { username, email_address, password } = req.body;
 
 
-    Payments.create({
+    Users.create({
     ...req.body,
     password: bcrypt.hashSync(password, 8)
   })
     .then(user => {
         console.log(user)
-      res.send({ message: "Payments was registered successfully!" });
+      res.send({ message: "Users was registered successfully!" });
  
     })
     .catch(err => {
@@ -88,16 +88,16 @@ exports.getRecordById = async (req, res) => {
 };
 
 exports.deleteRecordById = async (req, res) => {
-    const { description, amount, type, createdBy, notes } = req.body;
+    const { username, email_address, password } = req.body;
 
 
-    Payments.create({
+    Users.create({
     ...req.body,
     password: bcrypt.hashSync(password, 8)
   })
     .then(user => {
         console.log(user)
-      res.send({ message: "Payments was registered successfully!" });
+      res.send({ message: "Users was registered successfully!" });
  
     })
     .catch(err => {

@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
   class payments extends Model {
     /**
      * Helper method for defining associations.
@@ -14,22 +14,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   payments.init({
-    description: DataTypes.STRING,
-    type: DataTypes.STRING,
-    amount: DataTypes.INTEGER,
-    notes: DataTypes.STRING
-      // sequelize.define('BusinessModel', {
-      // business_id: {
-      //   type: Sequelize.INTEGER,
-      //   references: {
-      //     model: BusinessModel,
-      //     key: 'id',
-      //  deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE/
-      // },
-      // },
+    description: Sequelize.STRING,
+    type: Sequelize.STRING,
+    amount: Sequelize.INTEGER,
+    notes: Sequelize.STRING,
+    deletedAt: {
+      allowNull: true,
+      type: Sequelize.DATE}
+ 
   }, {
     sequelize,
     modelName: 'payments',
   });
+
   return payments;
 };
