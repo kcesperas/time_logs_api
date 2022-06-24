@@ -12,21 +12,28 @@ module.exports = function(app) {
   });
 
   app.post(
-    "/auth/signup",
-    // [
-    //   verifySignUp.checkDuplicateUsernameOrEmail,
-    //   verifySignUp.checkRolesExisted
-    // ],
-    controller.signup
+    "/admin/users",
+    controller.createRecord
   );
 
-  // app.post("/api/auth/signin", controller.signin);
-  // app.post("/api/auth/signup", controller.signup);
-  // app.post("/api/auth/mVerify", controller.verifyMobile);  
+  app.put(
+    "/admin/users/:id",
+    controller.updateRecordById
+  );
 
 
-    //GET
-  // app.post("/api/auth/verify", controller.verifyMobile);
-  // app.get("/api/auth", [authJwt.verifyToken], controller.getAuthUser);
+  app.get(
+    "/admin/users",
+    controller.getAllRecords
+  );
 
+  app.get(
+    "/admin/users/:id",
+    controller.getRecordById
+  );
+
+  app.delete(
+    "/admin/users/:id",
+    controller.deleteRecordById
+  );
 };

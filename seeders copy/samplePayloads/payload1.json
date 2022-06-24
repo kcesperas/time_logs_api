@@ -1,0 +1,50 @@
+{
+    "report_type": "PAYMENTHISTORY",
+    "export_type": "PDF",
+      "customer": {
+          "customer_id": "#9820123",
+          "fullname": "Annette Black",
+          "contact_no": "09292342302",
+          "home_address": "343, 1556 Ortigas Ave, Mandaluyong, Metro Manila",	
+          "billing_address": "1128 Enriquez, Invoice Create",
+          "email_address": "A.Black@email.com",
+          "tin": "123-456-789-000"
+      },
+      "inv_no": "INV000000001",
+      "paytxn_no": null,
+      "inv_date": "2022-04-01",
+      "due_date": "February 15, 2022",
+      "inv_total_amount": "₱ 12,000.00", 
+      "inv_status": "PAID",
+      "transaction": {
+          "payment": [
+              {
+                    "date": "January 17, 2022",
+                  "payment_trans_no": "RV0000000006",
+                  "payment_method": "Credit Card",
+                  "payment_type": "Regular",
+                  "payment_status": "Posted",
+                  "amount_paid": "₱ 2,000.00"
+              },
+              {
+                    "date": "January 15, 2022",
+                  "payment_trans_no": "RV0000000005",
+                  "payment_method": "Credit Card",
+                  "payment_type": "Regular",
+                  "payment_status": "Posted",
+                  "amount_paid": "₱ 2,000.00"
+              },
+              {
+                      "date": "January 8, 2022",
+                    "payment_trans_no": "RV0000000003",
+                    "payment_method": "Cash",
+                    "payment_type": "Regular",
+                    "payment_status": "Posted",
+                    "amount_paid": "₱ 2,000.00"
+                }
+          ],
+          "total_amount_paid": "₱ 12,000.00"
+      },
+      "tblHeaders":["Payment Date", "Payment Transaction No.", "Payment Method", "Payment Type", "Payment Status", "Amount Paid"],
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMDgzLCJhcHBzIjoiMTIiLCJ0ZW5hbnRfaWQiOiIxMCIsInRva2VuIjoiZXlKcmFXUWlPaUpZWEM5bWEwcDFiRmhMYTI1NlFUY3hVMUJJTkhObFNYWlNSbWQ0WVhkSGVHbEphRk53YkZCMlYxSm5iejBpTENKaGJHY2lPaUpTVXpJMU5pSjkuZXlKdmNtbG5hVzVmYW5ScElqb2lNVEZoTXpjd05tSXRZVEE0TlMwME5HRXpMV0ZoT0dZdE5UUXpOV0kzWXpreU9UZ3lJaXdpYzNWaUlqb2laREk1TURKaFl6a3ROelZtWmkwME5EUTBMVGd5WldZdFlqUTJPRE0zWkdKaE16aGpJaXdpWlhabGJuUmZhV1FpT2lKbU9HRTRaakExTUMwMk1qQXdMVFEwTkdZdE9USTFOUzB5TkRNM1pHSTVaV1poWVdVaUxDSjBiMnRsYmw5MWMyVWlPaUpoWTJObGMzTWlMQ0p6WTI5d1pTSTZJbUYzY3k1amIyZHVhWFJ2TG5OcFoyNXBiaTUxYzJWeUxtRmtiV2x1SWl3aVlYVjBhRjkwYVcxbElqb3hOalE0TVRnek5ERTNMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WVhBdGMyOTFkR2hsWVhOMExURXVZVzFoZW05dVlYZHpMbU52YlZ3dllYQXRjMjkxZEdobFlYTjBMVEZmVVdsSWVVSndTbFY0SWl3aVpYaHdJam94TmpRNE1UZzNNREUzTENKcFlYUWlPakUyTkRneE9ETTBNVGNzSW1wMGFTSTZJamhsWWpVMVpETmpMVEU0TWpjdE5HUTVNUzFoWW1ObExURTFZamswTmpCa016Wm1NeUlzSW1Oc2FXVnVkRjlwWkNJNkltVm1jMlE1Wm1FNVlYRmpjMmRwTm10clpYWjBZVEExTjJNaUxDSjFjMlZ5Ym1GdFpTSTZJbVJsZGw5c2MyZG9JbjAuTDc0WUduSkIyUFZpYk54N0hSQm4tTWs0Vm5iYXp3VkllVXduSzY2RTJvOUpadFF5ZU5yUVlzbGlSaTByb0pnY1BodGtFRERNYzFMbmF1aTFDTEdOc1MzLWNjbklmc3lqRDRHQk1rSHdzRUNuUHBfZUVSNXV5T0JudVlVcUYyOE1qV0RITU9YT21ZQXJsc0s5RzFpSTBZZWlaXy12YXRnS1k1bFZzcnZMZkJfN1c1V05sZ0c5N1VtNWRseDRIaDJ0aHRpeWs3WVVLbndUdXl5RS0yX1g4ZEFudTVQNXNqX1A4amJGdEp3T2lxY0lDX280UzZwdDJtWGZpUDdWSF9RWTZuZWFRczZWLVVOZFdEbnc1Z3dfb2QtODFoZkl6WkU3ZS11NTBTem52Y3RoSDRfU3BxWDVweFQydWVKNFBlZFNsRmFHYjlqN0hnX0JDMmxGTmFTVUF3Iiwic2VydmljZXMiOlt7ImlkIjoxMiwibmFtZSI6IkxTR0giLCJhbGlhcyI6ImlkbXMifSx7ImlkIjoxMiwibmFtZSI6IkxTR0giLCJhbGlhcyI6ImNhcnQifV0sInJvbGUiOiJBZG1pbiIsIkNsaWVudElkIjoiZWZzZDlmYTlhcWNzZ2k2a2tldnRhMDU3YyIsIlVzZXJQb29sSWQiOiJhcC1zb3V0aGVhc3QtMV9RaUh5QnBKVXgiLCJpYXQiOjE2NDgxODM0MTd9.3P0Ffe9cmdNjvV_LkcFA8spz1hhXqs1kq0gRUDGegMc"
+  }

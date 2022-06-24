@@ -1,5 +1,5 @@
 const db = require("../../models");
-const User = db.user;
+const Users = db.users;
 
 const Op = db.Sequelize.Op;
 
@@ -14,13 +14,13 @@ exports.createRecord = async (req, res) => {
     const { username, email_address, password } = req.body;
 
 
-    User.create({
+    Users.create({
     ...req.body,
     password: bcrypt.hashSync(password, 8)
   })
     .then(user => {
         console.log(user)
-      res.send({ message: "User was registered successfully!" });
+      res.send({ message: "Users was registered successfully!" });
  
     })
     .catch(err => {
@@ -29,3 +29,79 @@ exports.createRecord = async (req, res) => {
     });
 };
 
+exports.updateRecordById = async (req, res) => {
+    const { username, email_address, password } = req.body;
+
+
+    Users.create({
+    ...req.body,
+    password: bcrypt.hashSync(password, 8)
+  })
+    .then(user => {
+        console.log(user)
+      res.send({ message: "Users was registered successfully!" });
+ 
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send({ message: err.message });
+    });
+};
+
+
+exports.getAllRecords = async (req, res) => {
+
+
+    Users.findAll({
+        include: ['business']
+    })
+    .then(doc => {
+        console.log(doc)
+      res.send(doc);
+ 
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send({ message: err.message });
+    });
+};
+
+
+
+exports.getRecordById = async (req, res) => {
+    const { username, email_address, password } = req.body;
+
+
+    Users.create({
+    ...req.body,
+    password: bcrypt.hashSync(password, 8)
+  })
+    .then(user => {
+        console.log(user)
+      res.send({ message: "Users was registered successfully!" });
+ 
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send({ message: err.message });
+    });
+};
+
+exports.deleteRecordById = async (req, res) => {
+    const { username, email_address, password } = req.body;
+
+
+    Users.create({
+    ...req.body,
+    password: bcrypt.hashSync(password, 8)
+  })
+    .then(user => {
+        console.log(user)
+      res.send({ message: "Users was registered successfully!" });
+ 
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send({ message: err.message });
+    });
+};

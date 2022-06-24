@@ -5,11 +5,20 @@
 
 <hr />
 
-## Migration
-### Creating Migration File
-`npm run create_migration -- --name <sequelize arguments>`
+## Sequelize
 
-example: `npm run create_migration -- --name create-sample-table`
+### Setup Sequelize Cli
+`npm install sequelize-cli -g`
+
+
+example: `npm install sequelize-cli -g`
+
+## Migration
+
+### Creating Migration and Model File
+`sequelize model:create --name <Name of Model> --attributes note:string`
+
+example: `sequelize model:create --name user --attributes note:string`
 
 ### Running Migration
 `npm run migration`
