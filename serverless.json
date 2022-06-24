@@ -236,44 +236,6 @@
                 },
                 {
                     "http": {
-                        "path": "admin/tags/",
-                        "method": "ANY",
-                        "cors": {
-                            "origin": "*",
-                            "allowCredentials": false,
-                            "headers": [
-                                "Content-Type",
-                                "X-Amz-Date",
-                                "Authorization",
-                                "X-Api-Key",
-                                "X-Amz-Security-Token",
-                                "X-Amz-User-Agent",
-                                "X-APP-KEY"
-                            ]
-                        }
-                    }
-                },
-                {
-                    "http": {
-                        "path": "admin/tags/{proxy+}",
-                        "method": "ANY",
-                        "cors": {
-                            "origin": "*",
-                            "allowCredentials": false,
-                            "headers": [
-                                "Content-Type",
-                                "X-Amz-Date",
-                                "Authorization",
-                                "X-Api-Key",
-                                "X-Amz-Security-Token",
-                                "X-Amz-User-Agent",
-                                "X-APP-KEY"
-                            ]
-                        }
-                    }
-                },
-                {
-                    "http": {
                         "path": "admin/payments/",
                         "method": "ANY",
                         "cors": {
@@ -294,6 +256,44 @@
                 {
                     "http": {
                         "path": "admin/payments/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/pricings/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/pricings/{proxy+}",
                         "method": "ANY",
                         "cors": {
                             "origin": "*",

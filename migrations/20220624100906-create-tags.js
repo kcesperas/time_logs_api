@@ -14,7 +14,7 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
-      note: {
+      notes: {
         type: Sequelize.STRING
       },
       createdAt: {
