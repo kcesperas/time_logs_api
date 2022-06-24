@@ -40,8 +40,8 @@ app.get("/", (req, res) => {
 
 
 // Register all routes
-require('./src/routes/auth.route')(app);
-
+app.require('./src/routes/auth.route')(app);
+app.require('./src/routes/payment.route')(app);
 
 // app.use(require('@middlewares/error-handler'))
 
