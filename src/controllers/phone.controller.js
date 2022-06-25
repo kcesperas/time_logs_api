@@ -38,7 +38,7 @@ exports.updateRecordById = async (req, res) => {
     });
 };
 exports.getAllRecords = async (req, res) => {
-    Phones.findAll(req.body, {where: { deletedAt: {
+    Phones.findAll({where: { deletedAt: {
         [Op.is] : null
     }}})
     .then(doc => {
@@ -47,7 +47,7 @@ exports.getAllRecords = async (req, res) => {
     })
     .catch(err => {
         console.log(err)
-        res.status(500).send({message:"Succesfully fetched all phones data"})
+        res.status(500).send({message: err.message})
     });
 };
 
@@ -55,7 +55,7 @@ exports.getAllRecords = async (req, res) => {
 exports.getRecordById = async (req, res) => {
     let {id} = req.params;
     Phones.findByPk(id, {where: { deletedAt: {
-        [Op.ne] : null
+        [Op.ne]: null
     } }})
     .then(phone => {
         console.log(phone)
@@ -71,7 +71,8 @@ exports.getRecordById = async (req, res) => {
 
 exports.deleteRecordById = async (req, res) => {
     let { id } = req.params;
-    Phones.update({deletedAt: new Date()}, {where: {id}})
+    Phones.update({deletedAt: new Date()}, {where: {id}}
+    )
     .then(phone => {
         console.log(phone)
         res.send({message: "succesfully deleted phone data"})

@@ -32,8 +32,8 @@ module.exports = function(app) {
     controller.getRecordById
   );
 
-//   app.delete(
-//     "/admin/phones/:id",
-//     controller.deleteRecordById
-//   );
+  app.delete(
+    "/admin/phones/:id",
+    controller.deleteRecordById
+  );
 };
