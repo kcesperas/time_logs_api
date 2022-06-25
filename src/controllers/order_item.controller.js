@@ -58,7 +58,7 @@ exports.getAllRecords = async (req, res) => {
 
 exports.getRecordById = async (req, res) => {
     let {id} = req.params;
-    Order_items.FindByPk(id, {where: { deletedAt: {
+    Order_items.findByPk(id, {where: { deletedAt: {
         [Op.ne]: null
     }}})
     .then(order_item => {

@@ -347,6 +347,82 @@
                             ]
                         }
                     }
+                },
+                {
+                    "http": {
+                        "path": "admin/orders/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/orders/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/customers/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/customers/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
                 }
             ]
         }

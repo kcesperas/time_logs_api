@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
   class orders extends Model {
     /**
      * Helper method for defining associations.
@@ -14,12 +14,16 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   orders.init({
-    description: DataTypes.STRING,
-    order_no: DataTypes.STRING,
-    total_amount: DataTypes.INTEGER,
-    paidAt: DataTypes.DATE,
-    createdBy: DataTypes.STRING,
-    notes: DataTypes.STRING
+    description: Sequelize.STRING,
+    order_no: Sequelize.STRING,
+    total_amount: Sequelize.INTEGER,
+    paidAt: Sequelize.DATE,
+    createdBy: Sequelize.STRING,
+    notes: Sequelize.STRING,
+    deletedAt: {
+      allowNull: true,
+      type: Sequelize.DATE}
+ 
   }, {
     sequelize,
     modelName: 'orders',

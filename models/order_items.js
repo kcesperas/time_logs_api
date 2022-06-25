@@ -18,7 +18,10 @@ module.exports = (sequelize, Sequelize) => {
     price: Sequelize.INTEGER,
     subtotal: Sequelize.INTEGER,
     notes: Sequelize.STRING,
-    deletedAt: Sequelize.DATE
+    deletedAt: {
+      allowNull: true,
+      type: Sequelize.DATE}
+ 
  
   }, {
     sequelize,
