@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     deletedAt: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'pricing',
+    modelName: 'pricings'
   });
   return pricing;
 };
