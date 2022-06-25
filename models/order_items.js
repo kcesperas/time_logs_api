@@ -17,7 +17,9 @@ module.exports = (sequelize, Sequelize) => {
     qty: Sequelize.INTEGER,
     price: Sequelize.INTEGER,
     subtotal: Sequelize.INTEGER,
-    notes: Sequelize.STRING
+    notes: Sequelize.STRING,
+    deletedAt: Sequelize.DATE
+ 
   }, {
     sequelize,
     modelName: 'order_items',

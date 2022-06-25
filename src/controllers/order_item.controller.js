@@ -10,20 +10,22 @@ var bcrypt = require("bcryptjs");
 // const { validateSignupData } = require('../utils/validators')
 
 
-Exports.createRecord = async (req, res) => {
+exports.createRecord = async (req, res) => {
     Order_items.create(req.body)
-    .then(order_item => {
-        console.log(order_item)
-        res.send({message: "Order item created succesfully"})
+    .then
+    (order_item => {
+    console.log(order_item)
+    res.send({message : "order_item created succesfully"});
     })
-    .catch(err => {
-        console.log(err)
-        res.status(500).send({message: err.message})
-    })
-    }
+    .catch
+    (err => {
+    console.log(err);
+    res.status(500).send ({message: err.message});
+    });
+  };
 
 
-Exports.updateRecordById = async (req, res) => {
+exports.updateRecordById = async (req, res) => {
     let {id} = req.params;
     Order_items.update(req.body, {where: {id}})
     .then(order_item => {
@@ -33,28 +35,30 @@ Exports.updateRecordById = async (req, res) => {
     .catch(err => {
         console.log(err)
         res.status(500).send({message: err.message})
-    })
-}
+    });
+};
 
 
-Exports.getAllRecords = async (req, res) => {
-    Order_items.findAll({where: {deletedAt: {
-        [Op.is]: null
+exports.getAllRecords = async (req, res) => {
+    Order_items.findAll({ where: {deletedAt: {
+      [Op.is] : null  
     } }})
     .then(doc => {
         console.log(doc)
-        res.send(doc)
+      res.send(doc);
+ 
     })
     .catch(err => {
-        console.log(err)
-        res.status(500).send({message: err.message})
-    })
-}
+      console.log(err)
+      res.status(500).send({ message: err.message });
+    });
+};
 
 
-Exports.getRecordById = async (req, res) => {
+
+exports.getRecordById = async (req, res) => {
     let {id} = req.params;
-    Order_items.FindByPk(id, {where: {deletedAt: {
+    Order_items.FindByPk(id, {where: { deletedAt: {
         [Op.ne]: null
     }}})
     .then(order_item => {
@@ -64,19 +68,19 @@ Exports.getRecordById = async (req, res) => {
     .catch(err => {
         console.log(err)
         res.status(500).send({message: err.message})
-    })
-}
+    });
+};
 
 
-Exports.deleteRecordById = async (req, res) => {
+exports.deleteRecordById = async (req, res) => {
     let {id} = req.params;
     Order_items.update({deletedAt: new Date ()}, {where: {id}})
 
     .then(order_item => {
       console.log(order_item)
       res.send({message: "order_item data deleted succesfully"})
-    })
+    });
 
     
-  }
+  };
   

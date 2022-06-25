@@ -36,7 +36,7 @@ exports.updateRecordById = async (req, res) => {
 
 exports.getAllRecords = async (req, res) => {
     Tags.findAll({ where: { deletedAt: {
-      [Op.is]: null  
+      [Op.is] : null  
     } }})
     .then(doc => {
         console.log(doc)
