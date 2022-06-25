@@ -22,6 +22,7 @@ require('./src/routes/user.route')(app);
 require('./src/routes/tags.route')(app);
 require('./src/routes/payment.route')(app);
 require('./src/routes/pricing.route')(app);
+require('./src/routes/order_item.route')(app);
 
 
 

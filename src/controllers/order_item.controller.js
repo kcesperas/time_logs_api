@@ -11,22 +11,21 @@ var bcrypt = require("bcryptjs");
 
 
 Exports.createRecord = async (req, res) => {
-
-Order_items.create(req.body)
-.then(order_item => {
-    console.log(order_item)
-    res.send({message: "Order item created succesfully"})
-})
-.catch(err => {
-    console.log(err)
-    res.status(500).send({message: err.message})
-})
-}
+    Order_items.create(req.body)
+    .then(order_item => {
+        console.log(order_item)
+        res.send({message: "Order item created succesfully"})
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).send({message: err.message})
+    })
+    }
 
 
 Exports.updateRecordById = async (req, res) => {
     let {id} = req.params;
-    Order_Items.update(req.body, {where: {id}})
+    Order_items.update(req.body, {where: {id}})
     .then(order_item => {
         console.log(order_item)
         res.send({message: "order_item updated succesfully"})
