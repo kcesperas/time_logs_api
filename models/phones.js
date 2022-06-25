@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
   class phones extends Model {
     /**
      * Helper method for defining associations.
@@ -14,9 +14,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   phones.init({
-    phone: DataTypes.STRING,
-    label: DataTypes.STRING,
-    notes: DataTypes.STRING
+    phone: Sequelize.STRING,
+    label: Sequelize.STRING,
+    notes: Sequelize.STRING,
+    deletedAt: {
+      allowNull: true,
+      type: Sequelize.DATE}
   }, {
     sequelize,
     modelName: 'phones',

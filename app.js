@@ -25,6 +25,7 @@ require('./src/routes/pricing.route')(app);
 require('./src/routes/order_item.route')(app);
 require('./src/routes/order.route')(app);
 require('./src/routes/customer.route')(app);
+require('./src/routes/phone.route')(app);
 
 
 

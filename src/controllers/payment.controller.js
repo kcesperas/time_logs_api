@@ -12,7 +12,8 @@ var bcrypt = require("bcryptjs");
 
 exports.createRecord = async (req, res) => {
       Payments.create(req.body)
-      .then(payment => {
+      .then
+      (payment => {
       console.log(payment)
       res.send({message : "payment created succesfully"});
       })
@@ -76,7 +77,10 @@ exports.deleteRecordById = async (req, res) => {
       console.log(payment)
       res.send({message: "payment data deleted succesfully"})
     })
-
+    .catch(err => {
+      console.log(err)
+      res.status(500).send({message: err.message})
+  })
     
   }
   
