@@ -40,6 +40,8 @@ module.exports = (sequelize, Sequelize) => {
     users.belongsTo(models.businesses, {
       foreignKey: 'businessId', as: "business"
     });
+
+
   };
 
 

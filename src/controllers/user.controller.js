@@ -1,5 +1,7 @@
 const db = require("../../models");
 const Users = db.users;
+const Businesses = db.businesses;
+const Roles = db.roles;
 
 const Op = db.Sequelize.Op;
 
@@ -51,12 +53,12 @@ exports.updateRecordById = async (req, res) => {
 
 exports.getAllRecords = async (req, res) => {
 
+  console.log('Sulod')
 
     Users.findAll({
-        include: ['business']
+        include: [{model: Businesses, as: 'business'}, {model: Roles}]
     })
     .then(doc => {
-        console.log(doc)
       res.send(doc);
  
     })

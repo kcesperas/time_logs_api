@@ -9,21 +9,16 @@ module.exports = {
           description: "payment 1",
           amount: 25000,
           type: "cash",
-          createdBy: "bugtech1",
           notes: "payment note1"
-
-
         },{
           description: "payment 2",
           amount: 30000,
           type: "cash",
-          createdBy: "bugtech2",
           notes: "payment note2"
       },{
           description: "payment 3",
           amount: 40000,
           type: "cash",
-          createdBy: "bugtech3",
           notes: "payment note3"
     },
 
