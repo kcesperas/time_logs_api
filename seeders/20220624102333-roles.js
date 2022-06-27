@@ -7,7 +7,7 @@ module.exports = {
         queryInterface.bulkInsert('roles',[
           {
             id: 1,
-            name: 'admin',
+            name: 'super',
             note: 'geli'
         },{
           id: 2,
@@ -17,7 +17,12 @@ module.exports = {
         id: 3,
         name: 'user',
         note: 'anonym'
-    }
+    },
+    {
+      id: 4,
+      name: 'admin',
+      note: 'geli'
+  }
       ])
       ])
     })

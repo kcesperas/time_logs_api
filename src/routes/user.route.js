@@ -1,5 +1,7 @@
 // const { verifySignUp, authJwt } = require("../middleware");
 const controller = require("../controllers/user.controller");
+const { authJwt } = require("../middleware");
+const { isAdmin } = require("../middleware/authJwt");
 
 
 module.exports = function(app) {
@@ -24,16 +26,19 @@ module.exports = function(app) {
 
   app.get(
     "/admin/users",
+    // [authJwt.verifyToken],
     controller.getAllRecords
   );
 
   app.get(
     "/admin/users/:id",
+    [authJwt.verifyToken],
     controller.getRecordById
   );
 
   app.delete(
     "/admin/users/:id",
+    [authJwt.verifyToken],
     controller.deleteRecordById
   );
 };
