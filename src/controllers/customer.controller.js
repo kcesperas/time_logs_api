@@ -1,6 +1,6 @@
 const db = require("../../models");
 const Customers = db.customers;
-
+const Tags = db.tags;
 const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
@@ -11,9 +11,17 @@ var bcrypt = require("bcryptjs");
 
 
 exports.createRecord = async (req, res) => {
+  let { tags } = req.body;
+
+
       Customers.create(req.body)
       .then
       (customer => {
+
+        if(tags && tags.length !== 0){
+          customer.setTags(tags);
+        }
+
       console.log(customer)
       res.send({message : "customer created succesfully"});
       })
@@ -40,9 +48,10 @@ exports.updateRecordById = async (req, res) => {
   }
 
 exports.getAllRecords = async (req, res) => {
-      Customers.findAll({ where: {deletedAt: {
-      [Op.is] : null
-  } }})
+      Customers.findAll({ 
+        where: {deletedAt: {[Op.is] : null } }, 
+        include: [{ model: Tags}],  
+      })
       .then(doc => {
       console.log(doc)
       res.send(doc)

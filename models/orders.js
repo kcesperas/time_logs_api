@@ -3,6 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, Sequelize) => {
+
   class orders extends Model {
     /**
      * Helper method for defining associations.
@@ -22,11 +23,20 @@ module.exports = (sequelize, Sequelize) => {
     notes: Sequelize.STRING,
     deletedAt: {
       allowNull: true,
-      type: Sequelize.DATE}
+      type: Sequelize.DATE},
+    
  
   }, {
     sequelize,
     modelName: 'orders',
-  });
+  },)
+
+  orders.associate = function (models) {
+    orders.belongsTo(models.businesses, {
+      foreignKey: 'businessId', as: "business"  
+    });
+  };
+
+
   return orders;
 };

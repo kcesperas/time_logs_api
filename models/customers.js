@@ -22,10 +22,25 @@ module.exports = (sequelize, Sequelize) => {
     limit: Sequelize.INTEGER,
     deletedAt: {
       allowNull: true,
+
       type: Sequelize.DATE}
   }, {
     sequelize,
     modelName: 'customers',
-  });
+  })
+
+  customers.associate = function (models) {
+    customers.belongsTo(models.businesses, {
+      foreignKey: 'businessId', as: "business"  
+    });
+  };
+
+  customers.associate = function (models) {
+    customers.belongsToMany(models.tags, {
+      through: "customer_tags",
+      foreignKey: "customerId",
+      otherKey: "tagId"    
+    });
+  }
   return customers;
 };
