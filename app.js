@@ -23,9 +23,6 @@ app.use(EXPRESS.json())
 app.use(EXPRESS.urlencoded({ extended: true }))
 
 
-
-
-
 // Register all routes
 require('./src/routes/auth.route')(app);
 require('./src/routes/user.route')(app);
