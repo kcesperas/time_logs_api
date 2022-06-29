@@ -36,6 +36,7 @@ require('./src/routes/phone.route')(app);
 require('./src/routes/customer.route')(app);
 
 require('./src/routes/purchases.route')(app);
+require('./src/routes/products.route')(app);
 
 
 // app.use(require('@middlewares/error-handler'))
