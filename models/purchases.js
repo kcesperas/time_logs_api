@@ -14,20 +14,26 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   purchases.init({
-    business_id: DataTypes.STRING,
-    inventory_id: DataTypes.STRING,
-    product_id: DataTypes.STRING,
     quantity: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
     total: DataTypes.INTEGER,
     type: DataTypes.STRING,
     purchasedBy: DataTypes.STRING,
     notes: DataTypes.STRING,
-    deleted_at: DataTypes.Date,
-    created_at: DataTypes.Date,
+    deleted_at: DataTypes.DATE,
+    created_at: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'purchases',
   });
+
+
+  purchases.associate = function (models) {
+    purchases.belongsTo(models.businesses, {
+      foreignKey: 'businessId', as: "business"
+    });
+  };
+
+
   return purchases;
 };

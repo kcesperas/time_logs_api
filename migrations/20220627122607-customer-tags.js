@@ -1,46 +1,50 @@
 'use strict';
+
+
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('customers', {
+    await queryInterface.createTable ('customer_tags', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
+      customerId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'customers'
+        }
       },
-      email_address: {
-        type: Sequelize.STRING
-      },
-      address: {
-        type: Sequelize.TEXT
+      tagId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'tags'
+
+        }
       },
       notes: {
         type: Sequelize.STRING
       },
-      phones: {
-        type: Sequelize.INTEGER
-      },
-      limit: {
-        type: Sequelize.INTEGER
-      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: new Date()
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: new Date()
       },
       deletedAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE
       }
     });
   },
+  
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('customers');
+    await queryInterface.dropTable('customer_tags');
   }
 };

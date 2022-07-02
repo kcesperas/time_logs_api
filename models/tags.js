@@ -22,5 +22,14 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'tags',
   });
+
+  tags.associate = function (models) {
+    tags.belongsToMany(models.customers, {
+      through: "customer_tags",
+      foreignKey: "tagId",
+      otherKey: "customerId"    
+    });
+  }
+
   return tags;
 };

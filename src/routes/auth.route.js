@@ -24,5 +24,10 @@ module.exports = function(app) {
 
     //GET
   app.get("/auth", [authJwt.verifyToken], controller.getAuthUser);
+  app.get("/auth/:userId", [authJwt.verifyToken], controller.getAuthUser);
+
+
+  app.delete("/auth/user/:id", [authJwt.verifyToken], controller.deleteUser);
+
 
 };

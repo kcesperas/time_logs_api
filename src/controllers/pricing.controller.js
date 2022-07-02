@@ -62,7 +62,7 @@ exports.getRecordById = async (req, res) => {
     })
 }
 exports.deleteRecordById = async (req, res) => {
-    let { id } = req.params
+    let { id } = req.params;
     Pricings.update({deletedAt: new Date ()}, {where: {id}}
     )
     .then(pricing => {

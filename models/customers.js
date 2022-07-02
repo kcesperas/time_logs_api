@@ -26,6 +26,20 @@ module.exports = (sequelize, Sequelize) => {
   }, {
     sequelize,
     modelName: 'customers',
-  });
+  })
+
+  customers.associate = function (models) {
+    customers.belongsToMany(models.tags, {
+      through: "customer_tags",
+      foreignKey: "customerId",
+      otherKey: "tagId"    
+    });
+
+    customers.belongsTo(models.businesses, {
+      foreignKey: 'businessId', as: "business"
+    });
+
+  }
+
   return customers;
 };

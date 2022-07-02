@@ -4,19 +4,19 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     return queryInterface.sequelize.transaction(t => {
       return Promise.all([
-        queryInterface.bulkInsert('tags',[
+        queryInterface.bulkInsert('products',[
           {
             id: 1,
-            business_id: '5',
-            price_id: '5',
+            businessId: 1,
+            priceId: '5',
             name: 'product name 1',
             description: 'product name 1',
             type: 'product name 1',
             notes: 'product name 1',
         },{
             id: 2,
-            business_id: '2',
-            price_id: '2',
+            businessId: 1,
+            priceId: '2',
             name: 'product name 2',
             description: 'product name 2',
             type: 'product name 2',

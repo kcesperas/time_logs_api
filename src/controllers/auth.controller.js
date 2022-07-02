@@ -123,8 +123,17 @@ exports.signin = (req, res) => {
 
 
 exports.getAuthUser = (req, res) => {
+  // const { userId } = req.params;
   console.log(req.userId)
-    Users.findByPk(req.userId, { 
+  console.log(req.params)
+  console.log(req.query)
+  // console.log(req.user)
+    Users.findByPk(req.userId,{
+      where: { 
+        deletedAt: {
+          [Op.is]: null
+        }
+        },
       include: [{ model: Roles}, { model: Businesses, as: 'business' }],
       attributes: {exclude: ['password']},
      })
@@ -135,4 +144,31 @@ exports.getAuthUser = (req, res) => {
       console.log(err)
       res.status(400).json({  message: { text: 'Something went wrong!', type: 'error'}});
     })
+};
+
+
+exports.deleteUser = (req, res) => {
+  const { id } = req.params;
+  console.log(req.userId)
+  console.log(req.params)
+  console.log(req.query)
+        res.status(200).json('user deleted successfully!');
+
+  // console.log(req.user)
+    // Users.findByPk(req.userId,{
+    //   where: { 
+    //     deletedAt: {
+    //       [Op.is]: null
+    //     }
+    //     },
+    //   include: [{ model: Roles}, { model: Businesses, as: 'business' }],
+    //   attributes: {exclude: ['password']},
+    //  })
+    // .then(user => {
+    //   res.status(200).json(user);
+    // })
+    // .catch(err => {
+    //   console.log(err)
+    //   res.status(400).json({  message: { text: 'Something went wrong!', type: 'error'}});
+    // })
 };

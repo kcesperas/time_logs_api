@@ -28,6 +28,11 @@ module.exports = (sequelize, Sequelize) => {
     modelName: 'order_items',
   });
 
-
+  order_items.associate = function (models) {
+    order_items.belongsTo(models.orders, {
+      foreignKey: 'orderId', as: "orders"  
+    });
+  };
+  
   return order_items;
 };

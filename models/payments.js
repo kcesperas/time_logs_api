@@ -27,5 +27,13 @@ module.exports = (sequelize, Sequelize) => {
     modelName: 'payments',
   });
 
+
+  payments.associate = function (models) {
+    payments.belongsTo(models.businesses, {
+      foreignKey: 'businessId', as: "business"  
+    });
+  };
+
+
   return payments;
 };

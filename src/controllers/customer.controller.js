@@ -1,6 +1,6 @@
 const db = require("../../models");
 const Customers = db.customers;
-
+const Tags = db.tags;
 const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
@@ -11,9 +11,17 @@ var bcrypt = require("bcryptjs");
 
 
 exports.createRecord = async (req, res) => {
+  let { tags } = req.body;
+
+
       Customers.create(req.body)
       .then
       (customer => {
+
+        if(tags && tags.length !== 0){
+          customer.setTags(tags);
+        }
+
       console.log(customer)
       res.send({message : "customer created succesfully"});
       })
@@ -27,9 +35,20 @@ exports.createRecord = async (req, res) => {
 
 exports.updateRecordById = async (req, res) => {  
       let { id } = req.params;
-      Customers.update(req.body, {where: { id }})
-      .then (customer => {
-      console.log(customer)
+      let { tags } = req.body;
+      console.log(id)
+      let customer = await Customers.findByPk(id);
+
+      Customers.update(req.body, {where: { id: id }})
+      .then (doc => {
+
+        
+
+        if(tags && tags.length !== 0){
+          customer.setTags(tags);
+        }
+
+      console.log(doc)
       res.send({message: "customer updated succesfully"})
       })
 
@@ -40,9 +59,10 @@ exports.updateRecordById = async (req, res) => {
   }
 
 exports.getAllRecords = async (req, res) => {
-      Customers.findAll({ where: {deletedAt: {
-      [Op.is] : null
-  } }})
+      Customers.findAll({ 
+        where: {deletedAt: {[Op.is] : null } }, 
+        include: [{ model: Tags}],  
+      })
       .then(doc => {
       console.log(doc)
       res.send(doc)

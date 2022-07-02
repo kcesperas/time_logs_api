@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     type: DataTypes.STRING,
     notes: DataTypes.STRING,
-    deleted_at: DataTypes.Date,
-    created_at: DataTypes.Date,
+    deleted_at: DataTypes.DATE,
+    created_at: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'products',
