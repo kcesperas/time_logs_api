@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, Sequelize) => {
-  class products extends Model {
+  class variants extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,29 +13,21 @@ module.exports = (sequelize, Sequelize) => {
       // define association here
     }
   }
-  products.init({
+  variants.init({
     name: Sequelize.STRING,
     description: Sequelize.STRING,
-    inStock: Sequelize.INTEGER,
-    price: Sequelize.INTEGER,
-    sale_price: Sequelize.INTEGER,
-    featured_image: Sequelize.STRING
+    type: Sequelize.STRING
   }, {
     sequelize,
-    modelName: 'products',
+    modelName: 'variants',
   });
 
-
-  products.associate = function (models) {
-    products.belongsToMany(models.variants, {
+  variants.associate = function (models) {
+    variants.belongsToMany(models.products, {
       through: 'product_variant_table',
-      foreignKey: 'productId', as: "product"  
+      foreignKey: 'variantId', as: "variant"  
     });
-  products.belongsTo(models.inventory, {
-    foreignKey: 'inventoryId', as: "inventory"
-  });
-
 };
 
-  return products;
+  return variants;
 };

@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
   class purchases extends Model {
     /**
      * Helper method for defining associations.
@@ -14,26 +14,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   purchases.init({
-    quantity: DataTypes.INTEGER,
-    price: DataTypes.INTEGER,
-    total: DataTypes.INTEGER,
-    type: DataTypes.STRING,
-    purchasedBy: DataTypes.STRING,
-    notes: DataTypes.STRING,
-    deleted_at: DataTypes.DATE,
-    created_at: DataTypes.DATE,
+    product_id: Sequelize.INTEGER,
+    inventory_id: Sequelize.INTEGER,
+    quantity: Sequelize.INTEGER,
+    price_unit: Sequelize.INTEGER,
+    purchasedBy: Sequelize.STRING
   }, {
     sequelize,
     modelName: 'purchases',
   });
-
-
-  purchases.associate = function (models) {
-    purchases.belongsTo(models.businesses, {
-      foreignKey: 'businessId', as: "business"
-    });
-  };
-
-
   return purchases;
 };

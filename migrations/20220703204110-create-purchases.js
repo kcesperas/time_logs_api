@@ -8,44 +8,28 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      inventoryId: {
+      product_id: {
         type: Sequelize.INTEGER
       },
-      productId: {
+      inventory_id: {
         type: Sequelize.INTEGER
       },
       quantity: {
         type: Sequelize.INTEGER
       },
-      price: {
+      price_unit: {
         type: Sequelize.INTEGER
-      },
-      total: {
-        type: Sequelize.STRING
-      },
-      type: {
-        type: Sequelize.STRING
       },
       purchasedBy: {
         type: Sequelize.STRING
       },
-      notes: {
-        type: Sequelize.STRING
-      },
-      deleted_at: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      created_at: {
+      updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: new Date()
-      },
-      businessId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'businesses'
-        }
+        type: Sequelize.DATE
       }
     });
   },
