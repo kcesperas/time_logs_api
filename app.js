@@ -7,11 +7,11 @@ const app = new EXPRESS()
 
 const db = require('./models');
 
-// db.sequelize.sync(
+db.sequelize.sync(
     // {force: true}
-    // ).then(() => { 
+    ).then(() => { 
     // initial();
-//   });
+  });
 
 
 
@@ -30,7 +30,7 @@ app.get('/api', (req, res) => {
 
 
 // // Register all routes
-// require('./src/routes/auth.route')(app);
+require('./src/routes/auth.route')(app);
 // require('./src/routes/user.route')(app);
 // require('./src/routes/tags.route')(app);
 // require('./src/routes/payment.route')(app);
@@ -41,8 +41,8 @@ app.get('/api', (req, res) => {
 // require('./src/routes/phone.route')(app);
 // require('./src/routes/customer.route')(app);
 
-// require('./src/routes/purchases.route')(app);
-// require('./src/routes/products.route')(app);
+require('./src/routes/purchases.route')(app);
+require('./src/routes/products.route')(app);
 
 
 // app.use(require('@middlewares/error-handler'))
