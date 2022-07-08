@@ -16,6 +16,8 @@ module.exports = (sequelize, Sequelize) => {
   roles.init({
     name: Sequelize.STRING,
     note: Sequelize.STRING,
+    updatedAt: Sequelize.DATE,
+    createdAt: Sequelize.DATE,
     deletedAt: Sequelize.DATE
   }, {
     sequelize,

@@ -20,6 +20,8 @@ module.exports = function(app) {
     controller.signup
   );
 
+
+    //DONE USER/SIGN-IN BY KURT
   app.post("/auth/signin", controller.signin);
 
     //GET

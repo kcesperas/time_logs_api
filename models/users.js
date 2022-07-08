@@ -23,6 +23,7 @@ module.exports = (sequelize, Sequelize) => {
     suspendedAt: Sequelize.DATE,
     dpUrl: Sequelize.STRING,
     lastLoginAt: Sequelize.DATE,
+    updatedAt: Sequelize.DATE,
     deletedAt: Sequelize.DATE,
     createdAt: Sequelize.DATE
     },
@@ -38,9 +39,9 @@ module.exports = (sequelize, Sequelize) => {
       otherKey: "roleId"    
     });
 
-    // users.belongsTo(models.businesses, {
-    //   foreignKey: 'businessId', as: "business"
-    // });
+    users.belongsTo(models.businesses, {
+      foreignKey: 'businessId', as: "business"
+    });
 
 
   };

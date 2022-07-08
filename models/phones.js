@@ -17,6 +17,8 @@ module.exports = (sequelize, Sequelize) => {
     phone: Sequelize.STRING,
     label: Sequelize.STRING,
     notes: Sequelize.STRING,
+    updatedAt: Sequelize.DATE,
+    createdAt: Sequelize.DATE,
     deletedAt: {
       allowNull: true,
       type: Sequelize.DATE}

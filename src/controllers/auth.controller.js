@@ -26,7 +26,7 @@ exports.signup = async (req, res) => {
 //     areaCode,
 //     level
 //   });
-  
+  console.log("testing")
   Users.create({
     ...req.body,
     password: bcrypt.hashSync(password, 8)
@@ -154,4 +154,10 @@ exports.deleteUser = (req, res) => {
   console.log(req.query)
         res.status(200).json('user deleted successfully!');
 
+};
+
+
+exports.logout = (req,res) => {
+  res.clearCookie('jwt');
+  res.redirect('shop/signin');
 };

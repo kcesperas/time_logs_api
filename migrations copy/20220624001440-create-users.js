@@ -8,20 +8,17 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstName: {
+      name: {
         type: Sequelize.STRING
       },
-      lastName: {
-        type: Sequelize.STRING
-      },
-      username: {
-        type: Sequelize.STRING
-      },
-      email_address: {
+      email: {
         type: Sequelize.STRING
       },
       address: {
         type: Sequelize.TEXT
+      },
+      status: {
+        type: Sequelize.STRING
       },
       password: {
         type: Sequelize.STRING
@@ -42,11 +39,6 @@ module.exports = {
         type: Sequelize.DATE
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: new Date()
-      },
-      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: new Date()

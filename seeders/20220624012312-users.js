@@ -6,20 +6,26 @@ module.exports = {
       return Promise.all([
         queryInterface.bulkInsert('users',[
           {
-            id: 1,
+            id: 3,
             name: 'jb',
             email: "jb@yahoo.com",
-            address: "Tacloban City",
-            businessId: 1,
+            address: "test address",
             password: "$2a$08$NDLw0iM5y7MQVIQpACz7oubxBQFCUXEQ1nDtvWDdqyFtaQRMXZ.LK",
+            businessId: 1
         },{
-          id: 2,
-          firstName: 'kurt',
-          lastName: 'esperas',
-          email: "kurt@yahoo.com",
-          address: "Tacloban City",
-          businessId: 2,
-          password: "$2a$08$NDLw0iM5y7MQVIQpACz7oubxBQFCUXEQ1nDtvWDdqyFtaQRMXZ.LK"
+            id: 1,
+            name: 'esperas',
+            email: "kurt@yahoo.com",
+            address: "test address",
+            password: "$2a$08$whWB3p.pUtyq/mpICtybKu/gMYjBCAk.1mBWlTj6oGRwS3YYlNlJm",
+            businessId: 2
+      }, {
+            id: 2,
+            name: 'esperas',
+            email: "kur1t@yahoo.com",
+            address: "test address",
+            password: "$2a$08$Qxgt/qb.fRZ7QN8qgZmyVOoVncYZMP2yYTBL.dUrpTB0NIlWGVKfm",
+            businessId: 1
       }
       ])
       ])

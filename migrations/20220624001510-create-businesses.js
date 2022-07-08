@@ -11,7 +11,7 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      email_address: {
+      email: {
         type: Sequelize.STRING
       },
 
@@ -21,16 +21,11 @@ module.exports = {
       address: {
         type: Sequelize.TEXT
       },
-      notes: {
-        type: Sequelize.TEXT
-      },
       createdAt: {
-        allowNull: false,
         type: Sequelize.DATE,
         defaultValue: new Date()
       },
       updatedAt: {
-        allowNull: false,
         type: Sequelize.DATE,
         defaultValue: new Date()
       },

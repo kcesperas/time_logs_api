@@ -15,16 +15,18 @@ module.exports = (sequelize, Sequelize) => {
   }
   users.init({
     name: Sequelize.STRING,
-    username: Sequelize.STRING,
     email: Sequelize.STRING,
     address: Sequelize.TEXT,
     password: Sequelize.STRING,
+    status: Sequelize.STRING,
     suspendedBy: Sequelize.STRING,
     suspendedAt: Sequelize.DATE,
     dpUrl: Sequelize.STRING,
     lastLoginAt: Sequelize.DATE,
-    deletedAt: Sequelize.DATE
-    }, {
+    deletedAt: Sequelize.DATE,
+    createdAt: Sequelize.DATE
+    },
+    {
     sequelize,
     modelName: 'users',
   });

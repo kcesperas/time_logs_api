@@ -17,9 +17,9 @@ module.exports = (sequelize, Sequelize) => {
     name: Sequelize.STRING,
     description: Sequelize.STRING,
     address: Sequelize.TEXT,
-      email_address: Sequelize.STRING,
-      description: Sequelize.STRING,
-      notes: Sequelize.TEXT,
+      email: Sequelize.STRING,
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE,
       deletedAt: {
         allowNull: true,
         type: Sequelize.DATE
