@@ -91,7 +91,7 @@ exports.signin = (req, res) => {
       var authorities = [];
 
       user.lastLoginAt = new Date();
-
+      user.status = "active"
 
       user.getRoles().then(roles => {
         for (let i = 0; i < roles.length; i++) {
@@ -123,7 +123,7 @@ exports.signin = (req, res) => {
 
 
 exports.getAuthUser = (req, res) => {
-  // const { userId } = req.params;
+  const { userId } = req.params;
   console.log(req.userId)
   console.log(req.params)
   console.log(req.query)
@@ -148,16 +148,49 @@ exports.getAuthUser = (req, res) => {
 
 
 exports.deleteUser = (req, res) => {
-  const { id } = req.params;
-  console.log(req.userId)
-  console.log(req.params)
-  console.log(req.query)
-        res.status(200).json('user deleted successfully!');
+  const { userIds } = req.body;
+
+       
+  Users.update({deletedAt: new Date, status: "deleted"}, {where: { [Op.or]: userIds.map(a => { return {id: a}}) }})
+  .then (doc => {
+
+    
+  res.send({message: "users deleted succesfully"})
+  })
+
+  .catch(err => {
+  console.log(err)
+  res.status(500).send({message: err.message})
+  })
+
 
 };
 
 
-exports.logout = (req,res) => {
-  res.clearCookie('jwt');
-  res.redirect('shop/signin');
+exports.logout = (req,res) => { 
+  let id  = req.userId;
+ 
+  Users.update({lastLoginAt: new Date, status: "inactive"}, {where: { id: id }})
+  .then (doc => {
+
+    
+  res.send({message: "user logout succesfully"})
+  })
+
+  .catch(err => {
+  console.log(err)
+  res.status(500).send({message: err.message})
+  })
+
 };
+
+
+
+
+ 
+
+  
+  
+  
+    
+
