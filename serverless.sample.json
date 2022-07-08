@@ -1,0 +1,547 @@
+{
+    "service": "aja-pos",
+    "provider": {
+        "name": "aws",
+        "runtime": "nodejs12.x",
+        "versionFunctions": false,
+        "timeout": 30,
+        "stage": "dev",
+        "profile": "default",
+        "region": "ap-southeast-1",
+        "environment": {
+            "NODE_ENV": "development",
+            "API_PORT": 23000,
+            "DB_HOST": "localhost",
+            "DB_NAME": "aja_pos",
+            "DB_USER": "root",
+            "DB_PASSWORD": "",
+            "DB_PORT": 3306
+        }
+    },
+    "functions": {
+        "NOTIFY_INVOICE_DUES": {
+            "handler": "handler.exec_notifyInvoiceDues",
+            "events": [
+                {
+                    "schedule": {
+                        "rate": "cron(31 0 * * ? *)",
+                        "enabled": true
+                    }
+                }
+            ]
+        },
+        "CREATE_RECURRING_INVOICE": {
+            "handler": "handler.exec_createRecurringInvoice",
+            "events": [
+                {
+                    "schedule": {
+                        "rate": "cron(1 0 * * ? *)",
+                        "enabled": true
+                    }
+                }
+            ]
+        },
+        "HTTPSERVICE": {
+            "handler": "handler.httpService",
+            "events": [
+                {
+                    "http": {
+                        "path": "/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "docs/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "docs/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "auth/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "auth/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/users/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/users/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/tags/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/tags/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/payments/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/payments/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/pricings/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/pricings/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/order_items/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/order_items/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/orders/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/orders/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/customers/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/customers/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/phones/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/phones/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                                {
+                    "http": {
+                        "path": "admin/purchases/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/purchases/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                                                {
+                    "http": {
+                        "path": "admin/products/",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "http": {
+                        "path": "admin/products/{proxy+}",
+                        "method": "ANY",
+                        "cors": {
+                            "origin": "*",
+                            "allowCredentials": false,
+                            "headers": [
+                                "Content-Type",
+                                "X-Amz-Date",
+                                "Authorization",
+                                "X-Api-Key",
+                                "X-Amz-Security-Token",
+                                "X-Amz-User-Agent",
+                                "X-APP-KEY"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    "plugins": [
+        "serverless-offline"
+    ]
+}

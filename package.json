@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev1": "serverless offline start",
-    "dev": "nodemon --exec \"serverless offline --httpPort 23000\"",
+    "dev": "nodemon --exec \"serverless offline --httpPort 3001\"",
     "migration": "sequelize-cli db:migrate",
     "create_migration": "sequelize-cli migration:generate --name",
     "undo_migration": "sequelize-cli db:migrate:undo:all",

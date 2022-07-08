@@ -14,10 +14,9 @@ module.exports = (sequelize, Sequelize) => {
     }
   }
   users.init({
-    firstName: Sequelize.STRING,
-    lastName: Sequelize.STRING,
+    name: Sequelize.STRING,
     username: Sequelize.STRING,
-    email_address: Sequelize.STRING,
+    email: Sequelize.STRING,
     address: Sequelize.TEXT,
     password: Sequelize.STRING,
     suspendedBy: Sequelize.STRING,

@@ -23,10 +23,16 @@ app.use(EXPRESS.json())
 app.use(EXPRESS.urlencoded({ extended: true }))
 
 
-// Register all routes
-require('./src/routes/auth.route')(app);
-require('./src/routes/user.route')(app);
-require('./src/routes/tags.route')(app);
+app.get('/api', (req, res) => {
+    res.send("Hello World!")
+});
+
+
+
+// // Register all routes
+// require('./src/routes/auth.route')(app);
+// require('./src/routes/user.route')(app);
+// require('./src/routes/tags.route')(app);
 // require('./src/routes/payment.route')(app);
 // require('./src/routes/pricing.route')(app);
 // require('./src/routes/order_item.route')(app);
@@ -40,6 +46,9 @@ require('./src/routes/tags.route')(app);
 
 
 // app.use(require('@middlewares/error-handler'))
+
+
+
 
 
 module.exports = app
