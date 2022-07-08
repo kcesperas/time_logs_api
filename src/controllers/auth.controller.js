@@ -63,7 +63,7 @@ exports.signin = (req, res) => {
   // if (!valid) return res.status(400).json({ errors, message: { text: 'Something went wrong!', type: 'error'}});
   Users.findOne({
     where: {
-      username: req.body.username
+      email: req.body.email
     }
   })
     .then(user => {
@@ -107,7 +107,7 @@ exports.signin = (req, res) => {
 
         res.status(200).send({
           id: user.id,
-          username: user.username,
+          email: user.email,
           roles: authorities,
           accessToken: token
         });

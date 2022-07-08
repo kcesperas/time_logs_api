@@ -7,11 +7,11 @@ const app = new EXPRESS()
 
 const db = require('./models');
 
-db.sequelize.sync(
-    // {force: true}
-    ).then(() => { 
-    // initial();
-  });
+// db.sequelize.sync(
+//     // {force: true}
+//     ).then(() => { 
+//     // initial();
+//   });
 
 
 
@@ -41,8 +41,8 @@ require('./src/routes/auth.route')(app);
 // require('./src/routes/phone.route')(app);
 // require('./src/routes/customer.route')(app);
 
-require('./src/routes/purchases.route')(app);
-require('./src/routes/products.route')(app);
+// require('./src/routes/purchases.route')(app);
+// require('./src/routes/products.route')(app);
 
 
 // app.use(require('@middlewares/error-handler'))

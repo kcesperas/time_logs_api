@@ -15,18 +15,16 @@ module.exports = (sequelize, Sequelize) => {
   }
   users.init({
     name: Sequelize.STRING,
+    username: Sequelize.STRING,
     email: Sequelize.STRING,
     address: Sequelize.TEXT,
     password: Sequelize.STRING,
-    status: Sequelize.STRING,
     suspendedBy: Sequelize.STRING,
     suspendedAt: Sequelize.DATE,
     dpUrl: Sequelize.STRING,
     lastLoginAt: Sequelize.DATE,
-    deletedAt: Sequelize.DATE,
-    createdAt: Sequelize.DATE
-    },
-    {
+    deletedAt: Sequelize.DATE
+    }, {
     sequelize,
     modelName: 'users',
   });
@@ -38,9 +36,9 @@ module.exports = (sequelize, Sequelize) => {
       otherKey: "roleId"    
     });
 
-    // users.belongsTo(models.businesses, {
-    //   foreignKey: 'businessId', as: "business"
-    // });
+    users.belongsTo(models.businesses, {
+      foreignKey: 'businessId', as: "business"
+    });
 
 
   };

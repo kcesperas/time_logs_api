@@ -10,7 +10,7 @@
         "region": "ap-southeast-1",
         "environment": {
             "NODE_ENV": "development",
-            "API_PORT": 23000,
+            "API_PORT": 3001,
             "DB_HOST": "localhost",
             "DB_NAME": "aja_pos",
             "DB_USER": "root",
