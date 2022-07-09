@@ -14,31 +14,29 @@ module.exports = function(app) {
   });
 
   app.post(
-    "/admin/users",
+    "/users",
     controller.createRecord
   );
 
-  app.put(
-    "/admin/users/:id",
-    controller.updateRecordById
-  );
+  // app.put(
+  //   "/users/:id",
+  //   controller.updateRecordById
+  // );
 
 
   app.get(
-    "/admin/users",
+    "/users",
     // [authJwt.verifyToken],
     controller.getAllRecords
   );
 
   app.get(
-    "/admin/users/:id",
+    "/users/:id",
     [authJwt.verifyToken],
     controller.getRecordById
   );
 
-  app.delete(
-    "/admin/users/:id",
-    [authJwt.verifyToken],
-    controller.deleteRecordById
-  );
+  app.delete("/users", [authJwt.verifyToken, authJwt.isAdmin], controller.deleteUser);
+  app.put("/users/suspend", [authJwt.verifyToken, authJwt.isAdmin], controller.suspendUser);
+  app.put("/users/activate", [authJwt.verifyToken, authJwt.isAdmin], controller.activateUser);
 };

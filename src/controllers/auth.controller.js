@@ -147,24 +147,24 @@ exports.getAuthUser = (req, res) => {
 };
 
 
-exports.deleteUser = (req, res) => {
-  const { userIds } = req.body;
+// exports.deleteUser = (req, res) => {
+//   const { userIds } = req.body;
 
        
-  Users.update({deletedAt: new Date, status: "deleted"}, {where: { [Op.or]: userIds.map(a => { return {id: a}}) }})
-  .then (doc => {
+//   Users.update({deletedAt: new Date, status: "deleted"}, {where: { [Op.or]: userIds.map(a => { return {id: a}}) }})
+//   .then (doc => {
 
     
-  res.send({message: "users deleted succesfully"})
-  })
+//   res.send({message: "users deleted succesfully"})
+//   })
 
-  .catch(err => {
-  console.log(err)
-  res.status(500).send({message: err.message})
-  })
+//   .catch(err => {
+//   console.log(err)
+//   res.status(500).send({message: err.message})
+//   })
 
 
-};
+// };
 
 
 exports.logout = (req,res) => { 
@@ -184,6 +184,36 @@ exports.logout = (req,res) => {
 
 };
 
+
+// exports.suspendUser = (req, res) => {
+//   const { userIds } = req.body;
+
+//   console.log(req.user.name)
+
+//   Users.update({suspendedAt: new Date, status: "suspended", suspendedBy: req.user.name }, {where: { [Op.or]: userIds.map(a => { return {id: a}}) }})
+//   .then (doc => {
+
+    
+//   res.send({message: "users suspended succesfully"})
+//   })
+
+//   .catch(err => {
+//   console.log(err)
+//   res.status(500).send({message: err.message})
+//   })
+
+// }
+
+
+
+
+// exports.activateUser = (req, res) => {
+//   const {userIds} = req.body;
+
+//   console.log(req.user.name)
+
+  
+// }
 
 
 

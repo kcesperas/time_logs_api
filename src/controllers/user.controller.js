@@ -71,16 +71,16 @@ exports.getAllRecords = async (req, res) => {
 
 
 exports.getRecordById = async (req, res) => {
-    const { username, email_address, password } = req.body;
+    const { id } = req.params;
 
 
-    Users.create({
-    ...req.body,
-    password: bcrypt.hashSync(password, 8)
-  })
+    Users.findByPk(id, {where: { deletedAt: {
+      [Op.ne]: null
+    }
+    }})
     .then(user => {
         console.log(user)
-      res.send({ message: "Users was registered successfully!" });
+      res.send(user);
  
     })
     .catch(err => {
@@ -89,21 +89,62 @@ exports.getRecordById = async (req, res) => {
     });
 };
 
-exports.deleteRecordById = async (req, res) => {
-    const { username, email_address, password } = req.body;
 
 
-    Users.create({
-    ...req.body,
-    password: bcrypt.hashSync(password, 8)
+exports.deleteUser = (req, res) => {
+  const { userIds } = req.body;
+
+       
+  Users.update({deletedAt: new Date, status: "deleted"}, {where: { [Op.or]: userIds.map(a => { return {id: a}}) }})
+  .then (doc => {
+
+    
+  res.send({message: "users deleted succesfully"})
   })
-    .then(user => {
-        console.log(user)
-      res.send({ message: "Users was registered successfully!" });
- 
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(500).send({ message: err.message });
-    });
+
+  .catch(err => {
+  console.log(err)
+  res.status(500).send({message: err.message})
+  })
 };
+
+exports.suspendUser = (req, res) => {
+  const { userIds } = req.body;
+
+  console.log(req.user.name)
+
+  Users.update({suspendedAt: new Date, status: "suspended", suspendedBy: req.user.name }, {where: { [Op.or]: userIds.map(a => { return {id: a}}) }})
+  .then (doc => {
+
+    
+  res.send({message: "users suspended succesfully"})
+  })
+
+  .catch(err => {
+  console.log(err)
+  res.status(500).send({message: err.message})
+  })
+
+}
+
+
+
+
+exports.activateUser = (req, res) => {
+  const {userIds} = req.body;
+
+  console.log(req.user.name)
+
+  Users.update({suspendedAt: null, status: "activated", suspendedBy: null }, {where: { [Op.or]: userIds.map(a => { return {id: a}}) }})
+  .then (doc => {
+
+    
+  res.send({message: "users reactivated succesfully"})
+  })
+
+  .catch(err => {
+  console.log(err)
+  res.status(500).send({message: err.message})
+  })
+
+}

@@ -27,10 +27,10 @@ module.exports = function(app) {
     //GET
   app.get("/auth", [authJwt.verifyToken], controller.getAuthUser);
   // app.get("/auth/:userId", [authJwt.verifyToken], controller.getAuthUser);
-  app.get("/auth/logout", [authJwt.verifyToken], controller.logout);
-     
-  app.delete("/auth/users", [authJwt.verifyToken, authJwt.isAdmin], controller.deleteUser);
-
-
+  app.put("/auth/logout", [authJwt.verifyToken], controller.logout);
+  // app.put("/auth/users/suspend", [authJwt.verifyToken, authJwt.isAdmin], controller.suspendUser);
+  // app.put("/auth/users/activate", [authJwt.verifyToken, authJwt.isAdmin], controller.activateUsers);
+  
+  // app.delete("/auth/users", [authJwt.verifyToken, authJwt.isAdmin], controller.deleteUser);
 
 };
