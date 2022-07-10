@@ -26,5 +26,17 @@ module.exports = (sequelize, Sequelize) => {
     sequelize,
     modelName: 'phones',
   });
+
+
+  phones.associate = function (models) {
+    phones.belongsToMany(models.users, {
+      through: "user_phones",
+      foreignKey: "phoneId",
+      otherKey: "userId" 
+    });
+  };
+
+
+
   return phones;
 };

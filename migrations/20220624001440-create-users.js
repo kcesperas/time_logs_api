@@ -18,7 +18,8 @@ module.exports = {
         type: Sequelize.TEXT
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'inactive'
       },
       password: {
         type: Sequelize.STRING
@@ -33,7 +34,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       lastLoginAt: { 
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: new Date()
       },
       deletedAt: { 
         type: Sequelize.DATE

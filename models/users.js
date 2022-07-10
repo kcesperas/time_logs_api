@@ -39,6 +39,13 @@ module.exports = (sequelize, Sequelize) => {
       otherKey: "roleId"    
     });
 
+
+    users.belongsToMany(models.phones, {
+      through: "user_phones",
+      foreignKey: "userId",
+      otherKey: "phoneId"    
+    });
+
     users.belongsTo(models.businesses, {
       foreignKey: 'businessId', as: "business"
     });

@@ -36,7 +36,13 @@ module.exports = function(app) {
     controller.getRecordById
   );
 
-  app.delete("/users", [authJwt.verifyToken, authJwt.isAdmin], controller.deleteUser);
-  app.put("/users/suspend", [authJwt.verifyToken, authJwt.isAdmin], controller.suspendUser);
-  app.put("/users/activate", [authJwt.verifyToken, authJwt.isAdmin], controller.activateUser);
+  app.put("/users/delete",
+  //  [authJwt.verifyToken],
+    controller.deleteUser);
+  app.get("/users/suspend/:id", 
+  // [authJwt.verifyToken], 
+  controller.suspendUser);
+  app.get("/users/activate/:id", 
+  // [authJwt.verifyToken], 
+  controller.activateUser);
 };

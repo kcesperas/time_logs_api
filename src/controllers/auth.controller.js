@@ -3,6 +3,7 @@ const config = require("../../config/auth.config");
 
 const Users = db.users;
 const Roles = db.roles;
+const Phones = db.phones
 const Businesses = db.businesses;
 
 
@@ -17,22 +18,46 @@ var bcrypt = require("bcryptjs");
 
 
 exports.signup = async (req, res) => {
-    const { password, roles } = req.body;
+    const { password, roles, phones } = req.body;
+
   // Save Users to Database
   // const { valid, errors } = validateSignupData(req.body);
-//   if (!valid) return res.status(400).json(errors);
-//   let { email, password, username, areaCode, supporterId, roles, level } = req.body;
-//   let newAccount = await Account.create({
-//     areaCode,
-//     level
-//   });
-  console.log("testing")
+  // if (!valid) return res.status(400).json(errors);
+
+
+
+
+  
+
+
+
+
   Users.create({
     ...req.body,
     password: bcrypt.hashSync(password, 8)
   })
     .then(user => {
 
+      if(phones.length !== 0){
+        const getData = async () => {
+          return Promise.all(phones.map(a => {
+            return Phones.findOrCreate({
+               where: { phone: a.phone, label: a.label },
+               raw: true
+             });
+           }))
+        }
+
+        getData().then(phone => {
+          
+         let myPhones = phone.map(a => {
+            return a[0].id;
+          })
+
+          console.log(myPhones)
+          user.setPhones(myPhones)
+        })
+        }  
       if (roles) {
         Roles.findOne({
           where: {

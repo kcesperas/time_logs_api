@@ -2,7 +2,7 @@ const db = require("../../models");
 const Users = db.users;
 const Businesses = db.businesses;
 const Roles = db.roles;
-
+const Phones = db.phones;
 const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
@@ -56,7 +56,9 @@ exports.getAllRecords = async (req, res) => {
   console.log('Sulod')
 
     Users.findAll({
-        include: [{model: Businesses, as: 'business'}, {model: Roles}]
+        where: { deletedAt: { [Op.is]: null }},
+        include: [{model: Businesses, as: 'business'}, {model: Roles}, {model: Phones }],
+        attributes: { exclude: ['password'] }
     })
     .then(doc => {
       res.send(doc);
@@ -91,14 +93,13 @@ exports.getRecordById = async (req, res) => {
 
 
 
-exports.deleteUser = (req, res) => {
+exports.deleteUser = async (req, res) => {
   const { userIds } = req.body;
-
+  console.log(userIds)
+  console.log(req.body)
        
   Users.update({deletedAt: new Date, status: "deleted"}, {where: { [Op.or]: userIds.map(a => { return {id: a}}) }})
   .then (doc => {
-
-    
   res.send({message: "users deleted succesfully"})
   })
 
@@ -109,14 +110,10 @@ exports.deleteUser = (req, res) => {
 };
 
 exports.suspendUser = (req, res) => {
-  const { userIds } = req.body;
+  const {id} = req.params;
 
-  console.log(req.user.name)
-
-  Users.update({suspendedAt: new Date, status: "suspended", suspendedBy: req.user.name }, {where: { [Op.or]: userIds.map(a => { return {id: a}}) }})
+  Users.update({suspendedAt: new Date, status: "suspended", suspendedBy: req?.user?.name ? req.user.name : 'admin' }, {where: {id}})
   .then (doc => {
-
-    
   res.send({message: "users suspended succesfully"})
   })
 
@@ -131,14 +128,12 @@ exports.suspendUser = (req, res) => {
 
 
 exports.activateUser = (req, res) => {
-  const {userIds} = req.body;
+  const {id} = req.params;
 
-  console.log(req.user.name)
 
-  Users.update({suspendedAt: null, status: "activated", suspendedBy: null }, {where: { [Op.or]: userIds.map(a => { return {id: a}}) }})
+  Users.update({suspendedAt: null, status: "inactive", suspendedBy: null }, {where: { id }})
   .then (doc => {
 
-    
   res.send({message: "users reactivated succesfully"})
   })
 
