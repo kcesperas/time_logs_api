@@ -7,9 +7,9 @@ const app = new EXPRESS()
 
 const db = require('./models');
 
-db.sequelize.sync({
-    force: true
-});
+// db.sequelize.sync({
+//     force: true
+// });
 
 
 moment.tz.setDefault('Asia/Manila')
@@ -24,7 +24,7 @@ app.get('/api', (req, res) => {
 
 // // Register all routes
 require('./src/routes/auth.route')(app);
-// require('./src/routes/user.route')(app);
+require('./src/routes/user.route')(app);
 // require('./src/routes/tags.route')(app);
 // require('./src/routes/payment.route')(app);
 // require('./src/routes/pricing.route')(app);
