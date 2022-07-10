@@ -9,7 +9,7 @@
         "profile": "default",
         "region": "ap-southeast-1",
         "environment": {
-            "NODE_ENV": "development",
+            "NODE_ENV": "test",
             "API_PORT": 3001,
             "DB_HOST": "localhost",
             "DB_NAME": "aja_pos",

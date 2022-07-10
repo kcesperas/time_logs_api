@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev1": "serverless offline start",
     "dev": "nodemon --exec \"serverless offline --httpPort 3001\"",
-    "migration": "sequelize-cli db:migrate",
+    "migration": "sequelize-cli db:migrate --env test",
     "create_migration": "sequelize-cli migration:generate --name",
     "undo_migration": "sequelize-cli db:migrate:undo:all",
     "create_seeder": "sequelize-cli seed:generate --name",
