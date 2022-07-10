@@ -5,14 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev1": "serverless offline start",
+    "offline": "serverless offline start",
     "dev": "nodemon --exec \"serverless offline --httpPort 3001\"",
     "migration": "sequelize-cli db:migrate --env test",
     "create_migration": "sequelize-cli migration:generate --name",
-    "undo_migration": "sequelize-cli db:migrate:undo:all",
+    "undo_migration": "sequelize-cli db:migrate:undo:all --env test",
     "create_seeder": "sequelize-cli seed:generate --name",
-    "seeder": "sequelize-cli db:seed:all",
-    "undo_seeder": "sequelize-cli db:seed:undo",
+    "seeder": "sequelize-cli db:seed:all --env test",
+    "undo_seeder": "sequelize-cli db:seed:undo --env test",
     "create_model": "sequelize model:create --name"
   },
   "repository": {
