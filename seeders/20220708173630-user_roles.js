@@ -8,15 +8,18 @@ module.exports = {
           {
             userId: 1,
             roleId: 4,
-            createdAt: new Date
+            createdAt: new Date,
+            updatedAt: new Date
         },{
             userId: 2,
             roleId: 4,
-            createdAt: new Date
+            createdAt: new Date,
+            updatedAt: new Date
       },{
             userId: 3,
             roleId: 1,
-            createdAt: new Date
+            createdAt: new Date,
+            updatedAt: new Date
     },
       ])
       ])
