@@ -15,18 +15,18 @@ module.exports = (sequelize, Sequelize) => {
   }
   customers.init({
     name: Sequelize.STRING,
-    email_address: Sequelize.STRING,
-    address: Sequelize.TEXT,
-    notes: Sequelize.STRING,
-    phones: Sequelize.INTEGER,
-    limit: Sequelize.INTEGER,
-    deletedAt: {
-      allowNull: true,
-      type: Sequelize.DATE}
+    email: Sequelize.STRING,
+    address: Sequelize.STRING,
+    limit: Sequelize.STRING,
+    isPaid: Sequelize.BOOLEAN,
+    starred: Sequelize.BOOLEAN,
+    deletedAt: Sequelize.DATE
   }, {
     sequelize,
     modelName: 'customers',
-  })
+  });
+
+
 
   customers.associate = function (models) {
     customers.belongsToMany(models.tags, {
@@ -35,11 +35,26 @@ module.exports = (sequelize, Sequelize) => {
       otherKey: "tagId"    
     });
 
+    customers.belongsToMany(models.phones, {
+      through: "customer_phones",
+      foreignKey: "phoneId",
+      otherKey: "customerId"    
+    });
+
+    customers.belongsTo(models.phones, {
+      foreignKey: "customer_phoneId", as: 'customer_phone'  
+    });
+
+
     customers.belongsTo(models.businesses, {
       foreignKey: 'businessId', as: "business"
     });
 
-  }
-
-  return customers;
+  
+  
 };
+
+
+return customers;
+
+}

@@ -38,18 +38,23 @@ exports.updateRecordById = async (req, res) => {
     });
 };
 exports.getAllRecords = async (req, res) => {
-    Phones.findAll({where: { deletedAt: {
-        [Op.is] : null
-    }}})
+    Phones.findAll({ where: { deletedAt: {
+      [Op.is] : null  
+    } },
+    include: [{ model: Phones}, { model: Phones, as: 'customer_phone' }, { model: Businesses,  as: 'business' }],
+  })
     .then(doc => {
         console.log(doc)
-        res.send(doc)
+      res.send(doc);
+ 
     })
     .catch(err => {
-        console.log(err)
-        res.status(500).send({message: err.message})
+      console.log(err)
+      res.status(500).send({ message: err.message });
     });
 };
+
+
 
 
 exports.getRecordById = async (req, res) => {

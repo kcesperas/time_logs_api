@@ -33,14 +33,6 @@ module.exports = (sequelize, Sequelize) => {
       foreignKey: 'businessId'
     });
 
-  customers.belongsToMany(models.tags, {
-      through: "customer_tags",
-      foreignKey: "customerId",
-      otherKey: "tagId"    
-    });
-
-
-
   customers.belongsToMany(models.phones, {
     through: "customer_phones",
     foreignKey: "customerId",
@@ -49,7 +41,7 @@ module.exports = (sequelize, Sequelize) => {
     
 
   customers.belongsTo(models.phones, {
-    foreignKey: 'customer_phoneId',  as: "customer_phone"
+    foreignKey: 'customer_phoneId'  
     });
 
   

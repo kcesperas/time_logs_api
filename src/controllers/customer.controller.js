@@ -1,6 +1,8 @@
 const db = require("../../models");
 const Customers = db.customers;
+const Businesses = db.businesses;
 const Phones = db.phones;
+const Tags  = db.tags;
 const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
@@ -62,7 +64,7 @@ exports.updateRecordById = async (req, res) => {
     Customers.findAll({ where: { deletedAt: {
       [Op.is] : null  
     } },
-    include: [{ model: Phones}, { model: Phones, as: 'customer_phones' }, { model: Businesses,  as: 'business' }],
+    include: [{ model: Phones}, { model: Phones, as: 'customer_phone' }, {model: Tags}, { model: Businesses,  as: 'business' }],
   })
     .then(doc => {
         console.log(doc)
@@ -74,7 +76,6 @@ exports.updateRecordById = async (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
-
 
 exports.getRecordById = async (req, res) => {
       let {id} = req.params;
