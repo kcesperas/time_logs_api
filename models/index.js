@@ -11,7 +11,6 @@ console.log(env)
 const config = require('../config/config.json')[env];
 console.log(env)
 
-
 console.log(config.test)
 const db = {};
 

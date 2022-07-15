@@ -1,5 +1,10 @@
 const db = require("../../models");
 const Products = db.products;
+const Pricings = db.pricings;
+const Tags = db.tags;
+const Businesses = db.businesses;
+
+
 
 const Op = db.Sequelize.Op;
 
@@ -37,7 +42,9 @@ exports.updateRecordById = async (req, res) => {
 exports.getAllRecords = async (req, res) => {
     Products.findAll({ where: { deletedAt: {
       [Op.is] : null  
-    } }})
+    } },
+    include: [{ model: Pricings}, { model: Pricings, as: 'product_price' }, { model: Tags }, { model: Businesses,  as: 'business' }],
+  })
     .then(doc => {
         console.log(doc)
       res.send(doc);

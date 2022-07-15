@@ -4,26 +4,21 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     return queryInterface.sequelize.transaction(t => {
       return Promise.all([
-        queryInterface.bulkInsert('businesses',[
+        queryInterface.bulkInsert('tags',[
           {
             id: 1,
-            name: 'BugTech',
-            description: 'geli',
-            email: "jb@yahoo.com",
-            address: "Tacloban City",
+            name: 'Steels',
+            slug: 'steels'
         },{
           id: 2,
-          name: 'Savorich',
-          description: 'esperas',
-          email: "kurt@yahoo.com",
-          address: "Tacloban City",
+          name: 'Plastics',
+          slug: 'plastics'
       },{
         id: 3,
-        name: 'AJA',
-        description: 'Hardware',
-        email: "aja@yahoo.com",
-        address: "Villaba City",
-    },
+        name: 'Woods',
+        slug: 'woods'
+    }
+   
       ])
       ])
     })
@@ -41,7 +36,7 @@ module.exports = {
   async down (queryInterface, Sequelize) {
     return queryInterface.sequelize.transaction(t => {
       return Promise.all([
-        queryInterface.bulkDelete('businesses', null, {})
+        queryInterface.bulkDelete('tags', null, {})
       ])
     })
     /**

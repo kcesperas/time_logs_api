@@ -111,12 +111,24 @@ exports.deleteUser = async (req, res) => {
 
 exports.suspendUser = (req, res) => {
   const {id} = req.params;
-
-  Users.update({suspendedAt: new Date, status: "suspended", suspendedBy: req?.user?.name ? req.user.name : 'admin' }, {where: {id}})
+console.log('SUlod dd')
+  Users.update(
+    {suspendedAt: new Date, status: "suspended", suspendedBy: req?.user?.name ? req.user.name : 'admin' },
+   {where: {id}
+  //  plain: true
+   })
   .then (doc => {
-  res.send({message: "users suspended succesfully"})
+    console.log(doc)
+  Users.findByPk(id)
+  .then(doc1 => {
+      console.log(doc1)
+  res.status(200).json(doc1)
   })
-
+  .catch(err => {
+    console.log(err)
+    res.status(500).send({message: err.message})
+    })
+  })
   .catch(err => {
   console.log(err)
   res.status(500).send({message: err.message})
@@ -129,12 +141,21 @@ exports.suspendUser = (req, res) => {
 
 exports.activateUser = (req, res) => {
   const {id} = req.params;
+  console.log('SUlod dd activated')
 
 
   Users.update({suspendedAt: null, status: "inactive", suspendedBy: null }, {where: { id }})
   .then (doc => {
-
-  res.send({message: "users reactivated succesfully"})
+    console.log(doc)
+    Users.findByPk(id)
+    .then(doc1 => {
+        console.log(doc1)
+    res.status(200).json(doc1)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send({message: err.message})
+      })
   })
 
   .catch(err => {
