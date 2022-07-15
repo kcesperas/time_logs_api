@@ -34,6 +34,12 @@ module.exports = (sequelize, Sequelize) => {
       foreignKey: "phoneId",
       otherKey: "userId" 
     });
+    phones.belongsToMany(models.customers, {
+      through: "customer_phones",
+      foreignKey: "phoneId",
+      otherKey: "customerId" 
+    });
+
   };
 
 

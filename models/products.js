@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
   class products extends Model {
     /**
      * Helper method for defining associations.
@@ -14,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   products.init({
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    logo: DataTypes.STRING,
-    deletedAt: DataTypes.DATE
+    name: Sequelize.STRING,
+    description: Sequelize.STRING,
+    logo: Sequelize.STRING,
+    deletedAt: Sequelize.DATE
 
 
   }, {
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     products.belongsTo(models.pricings, {
-      as: 'product_price'  
+      foreignKey: "product_priceId", as: 'product_price'  
     });
 
 

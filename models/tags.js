@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
   class tags extends Model {
     /**
      * Helper method for defining associations.
@@ -14,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   tags.init({
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    slug: DataTypes.STRING,
-    deletedAt: DataTypes.DATE
+    name: Sequelize.STRING,
+    description: Sequelize.STRING,
+    slug: Sequelize.STRING,
+    deletedAt: Sequelize.DATE
 
   }, {
     sequelize,

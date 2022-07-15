@@ -7,14 +7,14 @@ module.exports = {
         queryInterface.bulkInsert('customers',[
           {
           name: "customers 1",
-          email_address: "cs1@email.com",
+          email: "cs1@email.com",
           address: "sample address 1",
           limit: "1000",
           notes: "customer notes 1",
           businessId: 1
         },{
           name: "customers 2",
-          email_address: "cs2@email.com",
+          email: "cs2@email.com",
           address: "sample address 2",
           limit: "2000",
           notes: "customer notes 2",
@@ -22,7 +22,7 @@ module.exports = {
 
         },{
           name: "customers 3",
-          email_address: "cs3@email.com",
+          email: "cs3@email.com",
           address: "sample address 3",
           limit: "3000",
           notes: "customer notes 3",

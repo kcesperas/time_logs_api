@@ -9,16 +9,12 @@ module.exports = {
             pricingId: 1,
             productId: 1
         },{
-          pricingId: 2,
-          productId: 1
+          pricingId: 3,
+          productId: 2
       },{
-        pricingId: 3,
-        productId: 2
-    },{
-      pricingId: 4,
-      productId: 3
-  }
-   
+        pricingId: 4,
+        productId: 3
+    }
       ])
       ])
     })
