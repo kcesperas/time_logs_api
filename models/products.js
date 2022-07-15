@@ -17,7 +17,18 @@ module.exports = (sequelize, Sequelize) => {
     name: Sequelize.STRING,
     description: Sequelize.STRING,
     logo: Sequelize.STRING,
-    deletedAt: Sequelize.DATE
+    price: Sequelize.STRING,
+    deletedAt: { 
+      type: Sequelize.DATE
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      defaultValue: new Date()
+    },
+    createdAt: {
+      type: Sequelize.DATE,
+      defaultValue: new Date()
+    }
 
 
   }, {
@@ -33,17 +44,6 @@ module.exports = (sequelize, Sequelize) => {
       foreignKey: "productId",
       otherKey: "tagId"    
     });
-
-    products.belongsToMany(models.pricings, {
-      through: "product_pricings",
-      foreignKey: "productId",
-      otherKey: "pricingId"    
-    });
-
-    products.belongsTo(models.pricings, {
-      foreignKey: "product_priceId", as: 'product_price'  
-    });
-
 
     products.belongsTo(models.businesses, {
       foreignKey: 'businessId', as: "business"

@@ -23,9 +23,17 @@ module.exports = (sequelize, Sequelize) => {
     suspendedAt: Sequelize.DATE,
     dpUrl: Sequelize.STRING,
     lastLoginAt: Sequelize.DATE,
-    updatedAt: Sequelize.DATE,
-    deletedAt: Sequelize.DATE,
-    createdAt: Sequelize.DATE
+    deletedAt: { 
+      type: Sequelize.DATE
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      defaultValue: new Date()
+    },
+    createdAt: {
+      type: Sequelize.DATE,
+      defaultValue: new Date()
+    }
     },
     {
     sequelize,

@@ -18,6 +18,14 @@ module.exports = (sequelize, Sequelize) => {
     description: Sequelize.STRING,
     price: Sequelize.INTEGER,
     discount_price: Sequelize.INTEGER,
+    createdAt: {
+      type: Sequelize.DATE,
+      defaultValue: new Date 
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      defaultValue: new Date 
+    },
     deletedAt: Sequelize.DATE
   }, {
     sequelize,
