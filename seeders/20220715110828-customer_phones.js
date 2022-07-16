@@ -7,13 +7,24 @@ module.exports = {
         queryInterface.bulkInsert('customer_phones',[
           {
             phoneId: 1,
-            customerId: 1
+            customerId: 1,
+            createdAt: new Date,
+            updatedAt: new Date
         },{
           phoneId: 3,
-          customerId: 2
+          customerId: 2,
+          createdAt: new Date,
+          updatedAt: new Date
       },{
-        phoneId: 4,
-        customerId: 3
+        phoneId: 3,
+        customerId: 3,
+        createdAt: new Date,
+        updatedAt: new Date
+    },{
+      phoneId: 4,
+      customerId: 1,
+      createdAt: new Date,
+      updatedAt: new Date
     }
       ])
       ])

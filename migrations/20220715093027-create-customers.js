@@ -11,12 +11,33 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      email: {
+        type: Sequelize.STRING
+      },
+      address: {
+        type: Sequelize.STRING
+      },
+      limit: {
+        type: Sequelize.STRING
+      },
+      isPaid: {
+        type: Sequelize.BOOLEAN
+      },
+      Starred: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: new Date()
       },
       updatedAt: {
         allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: new Date()
+      },
+      deletedAt: {
+        allowNull: true,
         type: Sequelize.DATE
       }
     });

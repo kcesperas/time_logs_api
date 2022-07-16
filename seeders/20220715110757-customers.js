@@ -12,7 +12,7 @@ module.exports = {
           address: "sample address 1",
           limit: "1000",
           businessId: 3,
-          customer_phoneId: 1
+
         },{
           id: 2,
           name: "Marty Gee",
@@ -20,7 +20,6 @@ module.exports = {
           address: "sample address 2",
           limit: "2000",
           businessId: 2,
-          customer_phoneId: 2
 
         },{
           id: 3,
@@ -29,9 +28,14 @@ module.exports = {
           address: "sample address 3",
           limit: "3000",
           businessId: 1,
-          customer_phoneId: 3
-    }
-
+        },{
+          id: 3,
+          name: "Jkiel",
+          email: "cs4@email.com",
+          address: "sample address 4",
+          limit: "3000",
+          businessId: 1,
+        }
       ])
       ])
     })

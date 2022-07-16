@@ -20,7 +20,20 @@ module.exports = (sequelize, Sequelize) => {
     limit: Sequelize.STRING,
     isPaid: Sequelize.BOOLEAN,
     starred: Sequelize.BOOLEAN,
-    deletedAt: Sequelize.DATE
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATE,
+      defaultValue: new Date()
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE,
+      defaultValue: new Date()
+    },
+    deletedAt: {
+      allowNull: true,
+      type: Sequelize.DATE
+    }
   }, {
     sequelize,
     modelName: 'customers',
