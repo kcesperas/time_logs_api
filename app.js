@@ -1,5 +1,6 @@
 require('dotenv').config();
-const EXPRESS = require('express')
+const EXPRESS = require('express');
+const path = require('path');
 const cors = require('cors')
 const moment = require('moment-timezone')
 
@@ -12,9 +13,20 @@ db.sequelize.sync();
 
 moment.tz.setDefault('Asia/Manila')
 
-app.use(cors())
-app.use(EXPRESS.json())
-app.use(EXPRESS.urlencoded({ extended: true }))
+
+
+
+app.use(cors({
+    origin: '*'
+}))
+
+
+app.use('/api/static', EXPRESS.static(path.join(__dirname, 'uploads')));
+
+
+app.use(EXPRESS.json({limit: '100mb'}))
+
+app.use(EXPRESS.urlencoded({ extended: false, limit: '100mb' }))
 
 app.get('/api', (req, res) => {
     res.send("Hello World!")
@@ -38,7 +50,7 @@ require('./src/routes/products.route')(app);
 
 // app.use(require('@middlewares/error-handler'))
 
+let port = process.env.PORT || 3001
+app.listen(port, () => console.log(`server is running on port ${port}`))
 
-
-
-module.exports = app
+// module.exports = app

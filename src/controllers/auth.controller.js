@@ -88,14 +88,22 @@ exports.signin = (req, res) => {
   // if (!valid) return res.status(400).json({ errors, message: { text: 'Something went wrong!', type: 'error'}});
   Users.findOne({
     where: {
-      email: req.body.email
+      email: req.body.email,
+      deletedAt: null
     }
   })
     .then(user => {
       console.log(user)
       if (!user) { 
-        return res.status(404).send({ message: { text: "Users Not found.", type: "error"} });
+        return res.status(404).send({ message: { text: "User Not found.", type: "error"} });
       }
+
+
+      if (user.suspendedAt) { 
+        return res.status(400).send({ message: { text: "User suspended", type: "error"} });
+      }
+
+
 
 
 
@@ -197,8 +205,6 @@ exports.logout = (req,res) => {
  
   Users.update({lastLoginAt: new Date, status: "inactive"}, {where: { id: id }})
   .then (doc => {
-
-    
   res.send({message: "user logout succesfully"})
   })
 

@@ -12,7 +12,7 @@ module.exports = function(app) {
   });
 
   app.post(
-    "/auth/signup",
+    "/api/auth/signup",
     [
       verifySignUp.checkDuplicateEmail,
       verifySignUp.checkRolesExisted
@@ -22,12 +22,12 @@ module.exports = function(app) {
 
 
     //DONE USER/SIGN-IN BY KURT
-  app.post("/auth/signin", controller.signin);
+  app.post("/api/auth/signin", controller.signin);
 
     //GET
-  app.get("/auth", [authJwt.verifyToken], controller.getAuthUser);
+  app.get("/api/auth", [authJwt.verifyToken], controller.getAuthUser);
   // app.get("/auth/:userId", [authJwt.verifyToken], controller.getAuthUser);
-  app.put("/auth/logout", [authJwt.verifyToken], controller.logout);
+  app.get("/api/auth/logout", [authJwt.verifyToken], controller.logout);
   // app.put("/auth/users/suspend", [authJwt.verifyToken, authJwt.isAdmin], controller.suspendUser);
   // app.put("/auth/users/activate", [authJwt.verifyToken, authJwt.isAdmin], controller.activateUsers);
   

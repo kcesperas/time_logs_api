@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     slug: DataTypes.STRING,
+    color: DataTypes.STRING,
+    type: DataTypes.STRING, 
     deletedAt: DataTypes.DATE
 
   }, {
@@ -28,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
   tags.associate = function (models) {
     tags.belongsToMany(models.products, {
       through: "product_tags",
+      as: "labels",
       foreignKey: "tagId",
       otherKey: "productId"    
     });

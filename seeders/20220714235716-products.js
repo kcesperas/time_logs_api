@@ -9,20 +9,33 @@ module.exports = {
             id: 1,
             name: 'Hammer',
             description: "Mikata Hammer yellow",
-            productPriceId: 1,
-            businessId: 3
+            price: 100,
+            discount_price: 90,
+            stocks: 100,
+            limit: 50,
+            businessId: 3,
+            starred: true
         },{
           id: 2,
           name: 'Basic Nail - 14"',
           description: "Basic Nail 14 inch",
-          productPriceId: 3,
-          businessId: 3
+          businessId: 3,
+          price: 200,
+          discount_price: 180,
+          stocks: 50,
+          limit: 10,
+          starred: false
       },{
         id: 3,
         name: 'Concrete Nail',
         description: "Concrete nail",
-        productPriceId: 4,
-        businessId: 3
+        businessId: 3,
+        price: 150,
+        discount_price: 140,
+        stocks: 190,
+        limit: 30,
+        starred: false
+
     }
       ])
       ])

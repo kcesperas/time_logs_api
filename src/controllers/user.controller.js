@@ -1,3 +1,4 @@
+require('dotenv');
 const db = require("../../models");
 const Users = db.users;
 const Businesses = db.businesses;
@@ -164,3 +165,13 @@ exports.activateUser = (req, res) => {
   })
 
 }
+
+
+
+exports.uploadFile =  async (req, res) => {
+  const { file } = req;
+  
+
+  res.status(200).json({message: 'File Uploaded Successfully', data: { ...file, url: process.env.FILE_URL + file.filename }})
+}
+

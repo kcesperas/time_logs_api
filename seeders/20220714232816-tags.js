@@ -8,15 +8,21 @@ module.exports = {
           {
             id: 1,
             name: 'Steels',
-            slug: 'steels'
+            slug: 'steels',
+            color: "#FF8C00",
+            type: "products"
         },{
           id: 2,
           name: 'Plastics',
-          slug: 'plastics'
+          slug: 'plastics',
+          color: "#00C4B4",
+          type: "products"
       },{
         id: 3,
         name: 'Woods',
-        slug: 'woods'
+        slug: 'woods',
+        color: "#00C400",
+        type: "products"
     }
    
       ])

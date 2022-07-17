@@ -6,6 +6,7 @@ node_modules
 serverless.yml
 serverless.json
 testDump
+uploads/*
 
 .vscode/launch.json
 .vscode/extensions.json

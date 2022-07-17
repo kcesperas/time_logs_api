@@ -16,10 +16,28 @@ module.exports = (sequelize, DataTypes) => {
   products.init({
     name: DataTypes.STRING,
     description: DataTypes.STRING,
-    logo: DataTypes.STRING,
+    price:  { 
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    discount_price:  { 
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    limit:  { 
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    stocks: { 
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    cover: DataTypes.STRING,
+    starred: { 
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     deletedAt: DataTypes.DATE
-
-
   }, {
     sequelize,
     modelName: 'products',
@@ -30,19 +48,11 @@ module.exports = (sequelize, DataTypes) => {
   products.associate = function (models) {
     products.belongsToMany(models.tags, {
       through: "product_tags",
+      as: "labels",
       foreignKey: "productId",
       otherKey: "tagId"    
     });
 
-    products.belongsToMany(models.pricings, {
-      through: "product_pricings",
-      foreignKey: "productId",
-      otherKey: "pricingId"    
-    });
-
-    products.belongsTo(models.pricings, {
-      as: 'product_price'  
-    });
 
 
     products.belongsTo(models.businesses, {
