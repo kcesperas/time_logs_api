@@ -12,28 +12,28 @@ module.exports = function(app) {
   });
 
   app.post(
-    "/admin/tags",
+    "/tags",
     controller.createRecord
   );
 
   app.put(
-    "/admin/tags/:id",
+    "/tags/:id",
     controller.updateRecordById
   );
 
 
   app.get(
-    "/admin/tags",
+    "/tags",
     controller.getAllRecords
   );
 
   app.get(
-    "/admin/tags/:id",
+    "/tags/:id",
     controller.getRecordById
   );
 
   app.delete(
-    "/admin/tags/:id",
+    "/tags/:id",
     controller.deleteRecordById
   );
 };

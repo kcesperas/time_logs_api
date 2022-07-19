@@ -14,6 +14,9 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
+      price: {
+        type: Sequelize.STRING
+      },
       logo:  {
         type: Sequelize.STRING
       },
@@ -30,7 +33,7 @@ module.exports = {
       deletedAt: {
         allowNull: true,
         type: Sequelize.DATE
-      }
+      },
     });
   },
   async down(queryInterface, Sequelize) {

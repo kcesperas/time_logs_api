@@ -29,25 +29,19 @@ module.exports = (sequelize, Sequelize) => {
 
 
   customers.associate = function (models) {
-    customers.belongsToMany(models.tags, {
-      through: "customer_tags",
-      foreignKey: "customerId",
-      otherKey: "tagId"    
-    });
-
-    customers.belongsToMany(models.phones, {
-      through: "customer_phones",
-      foreignKey: "phoneId",
-      otherKey: "customerId"    
-    });
-
-    customers.belongsTo(models.phones, {
-      foreignKey: "customer_phoneId", as: 'customer_phone'  
-    });
-
-
     customers.belongsTo(models.businesses, {
-      foreignKey: 'businessId', as: "business"
+      foreignKey: 'businessId'
+    });
+
+  customers.belongsToMany(models.phones, {
+    through: "customer_phones",
+    foreignKey: "customerId",
+    otherKey: "phoneId"    
+    });
+    
+
+  customers.belongsTo(models.phones, {
+    foreignKey: 'customer_phoneId'  
     });
 
   

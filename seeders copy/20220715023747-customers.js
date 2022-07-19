@@ -6,27 +6,30 @@ module.exports = {
       return Promise.all([
         queryInterface.bulkInsert('customers',[
           {
-          name: "customers 1",
+          id: 1,
+          name: "Mark Steven",
           email: "cs1@email.com",
           address: "sample address 1",
           limit: "1000",
-          notes: "customer notes 1",
-          businessId: 1
+          // businessId: 3,
+          // customer_phoneId: 1
         },{
-          name: "customers 2",
+          id: 2,
+          name: "Marty Gee",
           email: "cs2@email.com",
           address: "sample address 2",
           limit: "2000",
-          notes: "customer notes 2",
-          businessId: 1
+          businessId: 2,
+          // customer_phoneId: 2
 
         },{
-          name: "customers 3",
+          id: 3,
+          name: "Brix D",
           email: "cs3@email.com",
           address: "sample address 3",
           limit: "3000",
-          notes: "customer notes 3",
-          businessId: 2
+          businessId: 1,
+          // customer_phoneId: 3
     }
 
       ])

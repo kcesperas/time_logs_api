@@ -15,12 +15,20 @@ module.exports = (sequelize, Sequelize) => {
   }
   businesses.init({
     name: Sequelize.STRING,
+    email: Sequelize.STRING,
     description: Sequelize.STRING,
     address: Sequelize.TEXT,
-      email: Sequelize.STRING,
-      createdAt: Sequelize.DATE,
-      updatedAt: Sequelize.DATE,
-      deletedAt: {
+    createdAt: { 
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaulValue: new Date(),
+      },
+    updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+       defaulValue: new Date(),
+      },
+    deletedAt: {
         allowNull: true,
         type: Sequelize.DATE
       }

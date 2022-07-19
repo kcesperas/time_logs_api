@@ -116,15 +116,13 @@ exports.updateLabelsRecordById = async (req, res) => {
 exports.getAllRecords = async (req, res) => {
   console.log(req.query)
   console.log('getting products')
+  const { selectedLabel, searchText } = req.query;
   let options = {};
 
+       options['deletedAt'] = null
 
   Object.entries(req.query).forEach(([key, value]) => {
-    if(key === 'selectedLabel' && value){
-      options['$labels.id$'] = value;
-      options['deletedAt'] = null
 
-    }
 
     if(key === 'selectedFolder' && value){
       if(value === 'trash'){
@@ -132,7 +130,6 @@ exports.getAllRecords = async (req, res) => {
       }
       if(value === 'available'){
         options['stocks'] = { [Op.gt]: 0 }
-        options['deletedAt'] = null
 
       }
 
@@ -158,13 +155,33 @@ exports.getAllRecords = async (req, res) => {
   })
 
   try {
-    let products = await parseProducts(await Products.findAll({where: options, include: [{ model: Tags, as: 'labels' }] }));
-  
-  
-  
 
 
-        res.status(200).json(products);
+
+    let products = await Products.findAll({where: options, include: [{ model: Tags, as: 'labels' }] })
+
+
+
+  let labeled =  await Promise.all(products.map(async (a) => {
+    let obj = {};
+    
+    await a.getLabels();
+    obj = a
+    obj.hasLabel = selectedLabel ? await a.hasLabel(Number(selectedLabel)) : true 
+    return obj
+  }));
+
+
+  let parsed = await parseProducts( labeled.filter(a => a.hasLabel && String(a.id).toLowerCase().includes(searchText.toLowerCase()) ||
+  a.name.toLowerCase().includes(searchText.toLowerCase()) ||
+  a.description.toLowerCase().includes(searchText.toLowerCase()) ||
+  String(a.price).toLowerCase().includes(searchText.toLowerCase())));
+
+      
+
+
+
+        res.status(200).json(parsed);
   } catch(err) {
     console.log(err)
     res.status(500).send({ message: err.message });

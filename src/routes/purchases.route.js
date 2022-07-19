@@ -12,29 +12,29 @@ module.exports = function(app) {
   });
 
   app.post(
-    "/admin/purchases",
+    "/purchases",
     controller.createRecord
   );
 
   app.put(
-    "/admin/purchases/:id",
+    "/purchases/:id",
     controller.updateRecordById
   );
 
 
 
   app.get(
-    "/admin/purchases",
+    "/purchases",
     controller.getAllRecords
   );
 
   app.get(
-    "/admin/purchases/:id",
+    "/purchases/:id",
     controller.getRecordById
   );
 
   app.delete(
-    "/admin/purchases/:id",
+    "/purchases/:id",
     controller.deleteRecordById
   );
 };

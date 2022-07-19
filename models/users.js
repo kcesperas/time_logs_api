@@ -18,14 +18,28 @@ module.exports = (sequelize, Sequelize) => {
     email: Sequelize.STRING,
     address: Sequelize.TEXT,
     password: Sequelize.STRING,
-    status: Sequelize.STRING,
+    status:{
+      type: Sequelize.STRING,
+      defaultValue: 'inactive'
+    },
     suspendedBy: Sequelize.STRING,
     suspendedAt: Sequelize.DATE,
     dpUrl: Sequelize.STRING,
-    lastLoginAt: Sequelize.DATE,
-    updatedAt: Sequelize.DATE,
-    deletedAt: Sequelize.DATE,
-    createdAt: Sequelize.DATE
+    lastLoginAt: { 
+      type: Sequelize.DATE,
+      defaultValue: new Date()
+    },
+    deletedAt: { 
+      type: Sequelize.DATE
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      defaultValue: new Date()
+    },
+    createdAt: {
+      type: Sequelize.DATE,
+      defaultValue: new Date()
+    }
     },
     {
     sequelize,

@@ -18,17 +18,17 @@ exports.parseObject = (data) => {
 
 }
 
-
+ 
 exports.parseProducts = (data) => {
     let newProducts = [];
     let products = JSON.parse(JSON.stringify(data, getCircularReplacer()));
     products.forEach(a => {
-        const obj = {
+       const obj = {
           ...a,
           labels: a.labels.map(ab => { return ab.id }),
           folder: a.deletedAt ? 'trash' : 'products'
         }
-          newProducts.push(obj);
+            newProducts.push(obj);
         });
         return newProducts;
  }
