@@ -64,6 +64,23 @@ exports.updateRecordById = async (req, res) => {
 
 
 
+exports.updateStarredProducts = async (req, res) => {
+  let { ids, status } = req.body;
+
+
+  Products.update({starred: status}, { where: { id: { [Op.or]: ids }} })
+    .then(product => {
+      res.send({ message: `${ids.length > 1 ? 'Products' : 'Product'} starred status was updated successfully!` });
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send({ message: err.message });
+    });
+};
+
+
+
+
 exports.updateProductLabels = async (req, res) => {
   let { id } = req.params;
   let { label } = req.body;
@@ -116,50 +133,47 @@ exports.updateLabelsRecordById = async (req, res) => {
 exports.getAllRecords = async (req, res) => {
   console.log(req.query)
   console.log('getting products')
-  const { selectedLabel, searchText } = req.query;
+  const { selectedLabel, searchText, selectedFolder } = req.query;
   let options = {};
 
-       options['deletedAt'] = null
+  options['deletedAt'] = null
 
   Object.entries(req.query).forEach(([key, value]) => {
 
 
     if(key === 'selectedFolder' && value){
       if(value === 'trash'){
-        options['deletedAt'] = null
-      }
+        options['deletedAt'] = { [Op.not]: null }
+      } 
+
       if(value === 'available'){
         options['stocks'] = { [Op.gt]: 0 }
-
       }
 
       if(value === 'unavailable'){
         options['stocks'] = { [Op.lte]: 0 }
         options['deletedAt'] = null
-
       }
 
 
       if(value === 'starred'){
         options['starred'] = true
         options['deletedAt'] = null
-
       }
 
       if(value === 'products'){
         options['deletedAt'] = null
       }
-
     }
-
   })
 
   try {
-
-
+    
+    if(selectedFolder === 'trash'){
+      options['deletedAt'] = { [Op.not]: null }
+    } 
 
     let products = await Products.findAll({where: options, include: [{ model: Tags, as: 'labels' }] })
-
 
 
   let labeled =  await Promise.all(products.map(async (a) => {
@@ -172,16 +186,21 @@ exports.getAllRecords = async (req, res) => {
   }));
 
 
-  let parsed = await parseProducts( labeled.filter(a => a.hasLabel && String(a.id).toLowerCase().includes(searchText.toLowerCase()) ||
-  a.name.toLowerCase().includes(searchText.toLowerCase()) ||
-  a.description.toLowerCase().includes(searchText.toLowerCase()) ||
-  String(a.price).toLowerCase().includes(searchText.toLowerCase())));
+  let parsed = await parseProducts( labeled.filter(a => a.hasLabel));
+  console.log(parsed)
+      if(searchText){
+      parsed = parsed.filter(a => String(a.id).toLowerCase().includes(searchText.toLowerCase()) ||
+      a.name.toLowerCase().includes(searchText.toLowerCase()) ||
+      a.description.toLowerCase().includes(searchText.toLowerCase()) ||
+      String(a.price).toLowerCase().includes(searchText.toLowerCase()));
+      return res.status(200).json(parsed);
+      }  else {
+        return res.status(200).json(parsed);
+      }
 
-      
 
 
-
-        res.status(200).json(parsed);
+     
   } catch(err) {
     console.log(err)
     res.status(500).send({ message: err.message });
@@ -218,15 +237,13 @@ exports.getRecordById = async (req, res) => {
     });
 };
 
-exports.deleteRecordById = async (req, res) => {
-  let { id } = req.params;
-
-
-    Products.update({deletedAt: new Date()}, { where: { id } })
+exports.deleteRecordByIds = async (req, res) => {
+  const { ids } = req.body;
+    Products.update({deletedAt: new Date()}, { where: { id: {
+      [Op.or]: ids
+    } } })
     .then(product => {
-        console.log(product)
-      res.send({ message: "Product was deleted successfully!" });
- 
+      res.send({ message: `${ids.length > 1 ? 'Products' : 'Product'} was deleted successfully!` });
     })
     .catch(err => {
       console.log(err)
@@ -251,11 +268,6 @@ exports.deleteLabelsRecord = async (req, res) => {
 
 
 exports.getProductsCount = async (req, res) => {
-
-
-
-  
-
   try {
 
     let productsList = await parseProducts(await Products.findAll({ include: [{ model: Tags, as: 'labels' }] }));
@@ -266,12 +278,15 @@ exports.getProductsCount = async (req, res) => {
   
     const counter = { folders: {}, labels: {} };
     foldersList.map(item => {
+      console.log(item)
       if (item.slug === 'starred') {
         counter.folders[item.id] = productsList.filter(product => product.starred && !product.deletedAt).length;
       } else if (item.slug === 'available') {
         counter.folders[item.id] = productsList.filter(product => product.stocks >= 1 && !product.deletedAt).length;
       } else if (item.slug === 'unavailable') {
         counter.folders[item.id] = productsList.filter(product => product.stocks == 0 && !product.deletedAt).length;
+      } else if (item.slug === 'trash') {
+        counter.folders[item.id] = productsList.filter(product => product.deletedAt).length;
       } else {
         counter.folders[item.id] = productsList.filter(product => product.folder === item.slug).length;
       }

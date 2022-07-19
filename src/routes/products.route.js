@@ -22,15 +22,6 @@ module.exports = function(app) {
     controller.createLabelRecord
   );
 
-
-
-
-
-  app.put(
-    "/api/products/:id",
-    controller.updateRecordById
-  );
-
   app.put(
     "/api/products/labels/:id",
     controller.updateLabelsRecordById
@@ -41,6 +32,14 @@ module.exports = function(app) {
     "/api/products/update-labels/:id",
     controller.updateProductLabels
   );
+
+  app.put(
+    "/api/products/update-starred",
+    controller.updateStarredProducts
+  );
+
+
+
 
 
   app.get(
@@ -58,19 +57,27 @@ module.exports = function(app) {
     controller.getProductsCount
   );
 
-  app.get(
-    "/api/products/:id",
-    controller.getRecordById
-  );
 
-  app.delete(
+
+  app.patch(
     "/api/products",
-    controller.deleteRecordById
+    controller.deleteRecordByIds
   );
 
   app.delete(
     "/api/products/labels/:id",
     controller.deleteLabelsRecord
   );
+
+  app.put(
+    "/api/products/:id",
+    controller.updateRecordById
+  );
+
+  app.get(
+    "/api/products/:id",
+    controller.getRecordById
+  );
+
 
 };
