@@ -6,9 +6,9 @@ const moment = require('moment-timezone')
 
 const app = new EXPRESS()
 
-const db = require('/models');
+const db = require("./models");
 
-db.sequelize.sync();
+// db.sequelize.sync();
 
 
 moment.tz.setDefault('Asia/Manila')

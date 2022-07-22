@@ -104,7 +104,7 @@ isModeratorOrAdmin = (req, res, next) => {
 const authJwt = {
   verifyToken: verifyToken,
   isAdmin: isAdmin,
-  isFinance: isFinance
+  isFinanc: isFinance
   // isModeratorOrAdmin: isModeratorOrAdmin
 };
 module.exports = authJwt;

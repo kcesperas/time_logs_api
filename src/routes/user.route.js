@@ -1,7 +1,7 @@
 // const { verifySignUp, authJwt } = require("../middleware");
 const controller = require("../controllers/user.controller");
-const { authJwt, upload } = require("../middleware");
-const { isAdmin } = require("../middleware/authJwt");
+const { authJwt } = require("../middleware");
+// const { isAdmin } = require("../middleware/authJwt");
 
 
 module.exports = function(app) {
@@ -17,17 +17,10 @@ module.exports = function(app) {
     "/api/users",
     controller.createRecord
   );
-
-
-  app.post("/api/upload", [upload.single('file')], controller.uploadFile);
-
-
   // app.put(
   //   "/api/users/:id",
   //   controller.updateRecordById
   // );
-
-
   app.get(
     "/api/users",
     // [authJwt.verifyToken],
@@ -40,13 +33,14 @@ module.exports = function(app) {
     controller.getRecordById
   );
 
-  app.put("/api/users/delete",
-  //  [authJwt.verifyToken],
-    controller.deleteUser);
-  app.get("/api/users/suspend/:id", 
-  // [authJwt.verifyToken], 
-  controller.suspendUser);
-  app.get("/api/users/activate/:id", 
-  // [authJwt.verifyToken], 
-  controller.activateUser);
+  // app.put("/api/users/delete",
+  // //  [authJwt.verifyToken],
+
+  //   controller.deleteUser);
+  // app.get("/api/users/suspend/:id", 
+  // // [authJwt.verifyToken], 
+  // controller.suspendUser);
+  // app.get("/api/users/activate/:id", 
+  // // [authJwt.verifyToken], 
+  // controller.activateUser);
 };
