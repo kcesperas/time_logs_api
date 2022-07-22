@@ -1,9 +1,7 @@
 require('dotenv');
 const db = require("../../models");
 const Users = db.users;
-const Businesses = db.businesses;
 const Roles = db.roles;
-const Phones = db.phones;
 const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
@@ -14,7 +12,7 @@ var bcrypt = require("bcryptjs");
 
 
 exports.createRecord = async (req, res) => {
-    const { username, email_address, password } = req.body;
+    const { emailAddress, password } = req.body;
 
 
     Users.create({
@@ -33,7 +31,7 @@ exports.createRecord = async (req, res) => {
 };
 
 exports.updateRecordById = async (req, res) => {
-    const { username, email_address, password } = req.body;
+    const { emailAddress, password } = req.body;
 
 
     Users.create({
@@ -58,7 +56,7 @@ exports.getAllRecords = async (req, res) => {
 
     Users.findAll({
         where: { deletedAt: { [Op.is]: null }},
-        include: [{model: Businesses, as: 'business'}, {model: Roles}, {model: Phones }],
+        include: [{model: Roles}, {model: Phones }],
         attributes: { exclude: ['password'] }
     })
     .then(doc => {
@@ -168,10 +166,4 @@ exports.activateUser = (req, res) => {
 
 
 
-exports.uploadFile =  async (req, res) => {
-  const { file } = req;
-  
-
-  res.status(200).json({message: 'File Uploaded Successfully', data: { ...file, url: process.env.FILE_URL + file.filename }})
-}
 

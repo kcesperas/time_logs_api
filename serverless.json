@@ -1,7 +1,7 @@
 {
-    "service": "aja-pos",
+    "service": "time_logs",
     "provider": {
-        "name": "aws",
+        "name": "time_logs",
         "runtime": "nodejs12.x",
         "versionFunctions": false,
         "timeout": 30,
@@ -10,7 +10,7 @@
         "region": "ap-southeast-1",
         "environment": {
             "NODE_ENV": "development",
-            "API_PORT": 3001,
+            "API_PORT": 4230,
             "DB_HOST": "localhost",
             "DB_NAME": "aja_pos",
             "DB_USER": "root",

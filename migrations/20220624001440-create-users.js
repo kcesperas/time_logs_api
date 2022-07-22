@@ -8,43 +8,40 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      fullName: {
         type: Sequelize.STRING
       },
-      email: {
+      emailAdress: {
         type: Sequelize.STRING
       },
-      address: {
+      contactNumber: {
         type: Sequelize.TEXT
       },
-      status: {
+      birthDate: {
         type: Sequelize.STRING,
       },
       password: {
         type: Sequelize.STRING
       },
-      suspendedBy: { 
+      gender: { 
         type: Sequelize.STRING
       },
-      suspendedAt: { 
+      address: { 
         type: Sequelize.DATE
-      },
-      dpUrl: { 
-        type: Sequelize.STRING
-      },
-      lastLoginAt: { 
-        type: Sequelize.DATE
-      },
-      deletedAt: { 
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        defaultValue: new Date()
       },
       createdAt: {
+        allowNull: false,
         type: Sequelize.DATE,
         defaultValue: new Date()
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: new Date()
+      },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE
       }
     });
   },

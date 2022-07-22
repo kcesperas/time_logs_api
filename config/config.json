@@ -2,14 +2,14 @@
   "development": {
     "username": "root",
     "password": null,
-    "database": "aja_pos",
+    "database": "time_logs",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
     "password": "Password@420230",
-    "database": "aja_pos",
+    "database": "time_logs",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

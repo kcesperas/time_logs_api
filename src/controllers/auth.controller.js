@@ -3,8 +3,7 @@ const config = require("../../config/auth.config");
 
 const Users = db.users;
 const Roles = db.roles;
-const Phones = db.phones
-const Businesses = db.businesses;
+
 
 
 
@@ -18,7 +17,7 @@ var bcrypt = require("bcryptjs");
 
 
 exports.signup = async (req, res) => {
-    const { password, roles, phones } = req.body;
+    const { password, roles } = req.body;
 
   // Save Users to Database
   // const { valid, errors } = validateSignupData(req.body);
@@ -38,26 +37,6 @@ exports.signup = async (req, res) => {
   })
     .then(user => {
 
-      if(phones.length !== 0){
-        const getData = async () => {
-          return Promise.all(phones.map(a => {
-            return Phones.findOrCreate({
-               where: { phone: a.phone, label: a.label },
-               raw: true
-             });
-           }))
-        }
-
-        getData().then(phone => {
-          
-         let myPhones = phone.map(a => {
-            return a[0].id;
-          })
-
-          console.log(myPhones)
-          user.setPhones(myPhones)
-        })
-        }  
       if (roles) {
         Roles.findOne({
           where: {
@@ -123,8 +102,8 @@ exports.signin = (req, res) => {
 
       var authorities = [];
 
-      user.lastLoginAt = new Date();
-      user.status = "active"
+      // user.lastLoginAt = new Date();
+      // user.status = "active"
 
       user.getRoles().then(roles => {
         for (let i = 0; i < roles.length; i++) {
@@ -167,7 +146,7 @@ exports.getAuthUser = (req, res) => {
           [Op.is]: null
         }
         },
-      include: [{ model: Roles}, { model: Businesses, as: 'business' }],
+      include: [{ model: Roles}],
       attributes: {exclude: ['password']},
      })
     .then(user => {
@@ -215,43 +194,4 @@ exports.logout = (req,res) => {
 
 };
 
-
-// exports.suspendUser = (req, res) => {
-//   const { userIds } = req.body;
-
-//   console.log(req.user.name)
-
-//   Users.update({suspendedAt: new Date, status: "suspended", suspendedBy: req.user.name }, {where: { [Op.or]: userIds.map(a => { return {id: a}}) }})
-//   .then (doc => {
-
-    
-//   res.send({message: "users suspended succesfully"})
-//   })
-
-//   .catch(err => {
-//   console.log(err)
-//   res.status(500).send({message: err.message})
-//   })
-
-// }
-
-
-
-
-// exports.activateUser = (req, res) => {
-//   const {userIds} = req.body;
-
-//   console.log(req.user.name)
-
-  
-// }
-
-
-
- 
-
-  
-  
-  
-    
 

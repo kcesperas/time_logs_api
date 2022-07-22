@@ -35,19 +35,12 @@ app.get('/api', (req, res) => {
 // // Register all routes
 require('./src/routes/auth.route')(app);
 require('./src/routes/user.route')(app);
-require('./src/routes/products.route')(app);
-require('./src/routes/tags.route')(app);
-// require('./src/routes/payment.route')(app);
-// require('./src/routes/pricing.route')(app);
-// require('./src/routes/order_item.route')(app);
-// require('./src/routes/order.route')(app);
-require('./src/routes/customer.route')(app);
-require('./src/routes/phone.route')(app);
+
 
 
 // app.use(require('@middlewares/error-handler'))
 
-let port = process.env.PORT || 3001
+let port = process.env.PORT || 4230
 app.listen(port, () => console.log(`server is running on port ${port}`))
 
 // module.exports = app

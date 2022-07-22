@@ -52,21 +52,21 @@ isAdmin = (req, res, next) => {
   });
 };
 
-isCashier = (req, res, next) => {
+isFinance = (req, res, next) => {
 
   try{
 
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "cashier") {
+        if (roles[i].name === "Finance") {
           next();
           return;
         }
       }
 
       res.status(403).send({
-        message: "Require Cashier Role!"
+        message: "Require Finance Role!"
       });
     });
   });
@@ -104,7 +104,7 @@ isModeratorOrAdmin = (req, res, next) => {
 const authJwt = {
   verifyToken: verifyToken,
   isAdmin: isAdmin,
-  isCashier: isCashier
+  isFinance: isFinance
   // isModeratorOrAdmin: isModeratorOrAdmin
 };
 module.exports = authJwt;

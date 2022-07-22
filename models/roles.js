@@ -16,9 +16,20 @@ module.exports = (sequelize, Sequelize) => {
   roles.init({
     name: Sequelize.STRING,
     note: Sequelize.STRING,
-    updatedAt: Sequelize.DATE,
-    createdAt: Sequelize.DATE,
-    deletedAt: Sequelize.DATE
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATE,
+      defaultValue: new Date()
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE,
+      defaultValue: new Date()
+    },
+    deletedAt: {
+      allowNull: true,
+      type: Sequelize.DATE
+    }
   }, {
     sequelize,
     modelName: 'roles',
