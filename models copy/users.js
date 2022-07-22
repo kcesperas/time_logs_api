@@ -14,31 +14,37 @@ module.exports = (sequelize, Sequelize) => {
     }
   }
   users.init({
-    fullName: Sequelize.STRING,
+    name: Sequelize.STRING,
     emailAddress: Sequelize.STRING,
-    address: Sequelize.STRING,
+    address: Sequelize.TEXT,
     password: Sequelize.STRING,
-    birthDate: Sequelize.STRING,
-    gender: Sequelize.STRING,
-    createdAt: {
-      allowNull: false,
+    status:{
+      type: Sequelize.STRING,
+      defaultValue: 'inactive'
+    },
+    suspendedBy: Sequelize.STRING,
+    suspendedAt: Sequelize.DATE,
+    dpUrl: Sequelize.STRING,
+    lastLoginAt: { 
       type: Sequelize.DATE,
       defaultValue: new Date()
+    },
+    deletedAt: { 
+      type: Sequelize.DATE
     },
     updatedAt: {
-      allowNull: false,
       type: Sequelize.DATE,
       defaultValue: new Date()
     },
-    deletedAt: {
-      allowNull: true,
-      type: Sequelize.DATE
+    createdAt: {
+      type: Sequelize.DATE,
+      defaultValue: new Date()
     }
-  }, {
+    },
+    {
     sequelize,
     modelName: 'users',
   });
-
 
   users.associate = function (models) {
     users.belongsToMany(models.roles, {
@@ -48,6 +54,7 @@ module.exports = (sequelize, Sequelize) => {
     });
 
   };
+
 
   return users;
 };
