@@ -62,12 +62,12 @@ exports.signup = async (req, res) => {
 
 
 
-exports.signin = (req, res) => {
+exports.login = (req, res) => {
   // const { valid, errors } = validateLoginData(req.body);
   // if (!valid) return res.status(400).json({ errors, message: { text: 'Something went wrong!', type: 'error'}});
   Users.findOne({
     where: {
-      email: req.body.email,
+      emailAddress: req.body.emailAddress,
       deletedAt: null
     }
   })
@@ -119,7 +119,7 @@ exports.signin = (req, res) => {
 
         res.status(200).send({
           id: user.id,
-          email: user.email,
+          emailAddress: user.emailAddress,
           roles: authorities,
           accessToken: token
         });

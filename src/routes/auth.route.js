@@ -22,7 +22,7 @@ module.exports = function(app) {
 
 
     //DONE USER/SIGN-IN BY KURT
-  app.post("/api/auth/signin", controller.signin);
+  app.post("/api/auth/login", controller.login);
 
     //GET
   app.get("/api/auth", [authJwt.verifyToken], controller.getAuthUser);

@@ -8,7 +8,7 @@ const app = new EXPRESS()
 
 const db = require("./models");
 
-// db.sequelize.sync();
+db.sequelize.sync();
 
 
 moment.tz.setDefault('Asia/Manila')
@@ -29,7 +29,7 @@ app.use(EXPRESS.json({limit: '100mb'}))
 app.use(EXPRESS.urlencoded({ extended: false, limit: '100mb' }))
 
 app.get('/api', (req, res) => {
-    res.send("Hello World!")
+    res.send("Test Succesful")
 });
 
 // // Register all routes
