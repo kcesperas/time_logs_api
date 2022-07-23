@@ -15,7 +15,6 @@ module.exports = (sequelize, Sequelize) => {
   }
   roles.init({
     name: Sequelize.STRING,
-    note: Sequelize.STRING,
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
@@ -39,7 +38,8 @@ module.exports = (sequelize, Sequelize) => {
   roles.associate = function (models) {
     roles.belongsToMany(models.users, {
       through: "user_roles",
-      foreignKey: "roleId"
+      foreignKey: "roleId", as: "role",
+      otherKey: "userId" 
     });
   };
 

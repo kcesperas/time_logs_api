@@ -17,7 +17,7 @@ exports.createRecord = async (req, res) => {
 
     Users.create({
     ...req.body,
-    password: bcrypt.hashSync(password, 8)
+    password: bcrypt.hashSync(emailAddress, password)
   })
     .then(user => {
         console.log(user)
@@ -36,7 +36,7 @@ exports.updateRecordById = async (req, res) => {
 
     Users.create({
     ...req.body,
-    password: bcrypt.hashSync(password, 8)
+    password: bcrypt.hashSync(emailAddress, password)
   })
     .then(user => {
         console.log(user)
@@ -56,7 +56,7 @@ exports.getAllRecords = async (req, res) => {
 
     Users.findAll({
         where: { deletedAt: { [Op.is]: null }},
-        include: [{model: Roles}, {model: Phones }],
+        include: [{model: Roles, as: 'role'}],
         attributes: { exclude: ['password'] }
     })
     .then(doc => {
