@@ -33,10 +33,9 @@ module.exports = function(app) {
     controller.getRecordById
   );
 
-  // app.put("/api/users/delete",
-  // //  [authJwt.verifyToken],
-
-  //   controller.deleteUser);
+  app.put("/api/users/forgotpassword",
+  //  [authJwt.verifyToken],
+    controller.forgotPassword);
   // app.get("/api/users/suspend/:id", 
   // // [authJwt.verifyToken], 
   // controller.suspendUser);

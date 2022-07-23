@@ -44,7 +44,7 @@ module.exports = (sequelize, Sequelize) => {
     users.belongsToMany(models.roles, {
       through: "user_roles",
       foreignKey: "userId",
-      otherKey: "roleId", as: "role"   
+      otherKey: "roleId"   
     });
 
   };

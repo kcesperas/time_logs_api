@@ -30,7 +30,7 @@ exports.createRecord = async (req, res) => {
     });
 };
 
-exports.updateRecordById = async (req, res) => {
+exports.forgotPassword = async (req, res) => {
     const { emailAddress, password } = req.body;
 
 
@@ -40,13 +40,27 @@ exports.updateRecordById = async (req, res) => {
   })
     .then(user => {
         console.log(user)
-      res.send({ message: "Users was registered successfully!" });
+      res.send({ message: "Password updated succesfully" });
  
     })
     .catch(err => {
       console.log(err)
       res.status(500).send({ message: err.message });
     });
+
+
+
+    var emailAddressIsValid = bcrypt.compareSync(
+      req.body.emailAddress,
+      user.emailAddress
+    );
+
+    if (!emailAddressIsValid) {
+      return res.status(401).send({
+        accessToken: null,
+        message: { text: "Invalid emailAddress!", type: "error"}
+      });
+    }
 };
 
 
@@ -56,7 +70,7 @@ exports.getAllRecords = async (req, res) => {
 
     Users.findAll({
         where: { deletedAt: { [Op.is]: null }},
-        include: [{model: Roles, as: 'role'}],
+        include: [{model: Roles}],
         attributes: { exclude: ['password'] }
     })
     .then(doc => {
